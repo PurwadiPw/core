@@ -1,7 +1,7 @@
 {
     "name": "pw/core",
     "description": "Core pembantu untuk mempercepat dan mempermudah development aplikasi.",
-    "keywords": ["laravel", "core", "generator", "modular", "crud", "rbac"]
+    "keywords": ["laravel", "core", "generator", "modular", "crud", "rbac"],
     "license": "MIT",
     "authors": [
         {
