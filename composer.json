@@ -21,6 +21,5 @@
         "psr-4": {
             "Pw\\Core\\": "src/"
         }
-    },
-    "require": {}
+    }
 }
