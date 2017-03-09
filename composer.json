@@ -23,5 +23,5 @@
             "Pw\\Core\\": "src/"
         }
     },
-    "minimum-stability": "dev-master"
+    "minimum-stability": "stable"
 }
