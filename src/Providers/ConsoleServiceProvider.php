@@ -30,6 +30,10 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerInstallCommand();
+        $this->registerCrudCommand();
+        $this->registerMigrationCommand();
+        $this->registerPackagingCommand();
         $this->registerDisableCommand();
         $this->registerEnableCommand();
         $this->registerListCommand();
@@ -39,6 +43,54 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->registerMigrateRollbackCommand();
         $this->registerOptimizeCommand();
         $this->registerSeedCommand();
+    }
+
+    /**
+     * Register the core:install command.
+     */
+    protected function registerInstallCommand()
+    {
+        $this->app->singleton('command.core.install', function () {
+            return new \Pw\Core\Console\Commands\CoreInstallCommand();
+        });
+
+        $this->commands('command.core.install');
+    }
+
+    /**
+     * Register the core:crud command.
+     */
+    protected function registerCrudCommand()
+    {
+        $this->app->singleton('command.core.crud', function () {
+            return new \Pw\Core\Console\Commands\CoreCrudCommand();
+        });
+
+        $this->commands('command.core.crud');
+    }
+
+    /**
+     * Register the core:migration command.
+     */
+    protected function registerMigrationCommand()
+    {
+        $this->app->singleton('command.core.migration', function () {
+            return new \Pw\Core\Console\Commands\CoreMigrationCommand();
+        });
+
+        $this->commands('command.core.migration');
+    }
+
+    /**
+     * Register the core:packaging command.
+     */
+    protected function registerPackagingCommand()
+    {
+        $this->app->singleton('command.core.packaging', function () {
+            return new \Pw\Core\Console\Commands\CorePackagingCommand();
+        });
+
+        $this->commands('command.core.packaging');
     }
 
     /**

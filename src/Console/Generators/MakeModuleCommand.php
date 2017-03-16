@@ -17,7 +17,7 @@ class MakeModuleCommand extends Command
 {
     protected $signature = 'make:module
         {slug : Slug module}
-        {--Q|quick : Cara cepat tanpa harus mengikuti langkah-langkah dari make:module}';
+        {--Q|quick : Cara cepat tanpa harus mengikuti langkah-langkah dari make:module dan menggunakan default value}';
 
     protected $description = 'Membuat Module baru';
 
@@ -43,7 +43,7 @@ class MakeModuleCommand extends Command
         $this->container['description'] = 'Ini adalah deskripsi dari module ' . $this->container['name'];
 
         if ($this->option('quick')) {
-            $this->container['basename']  = studly_case($this->container('slug'));
+            $this->container['basename']  = studly_case($this->container['slug']);
             $this->container['namespace'] = config('modules.namespace') . $this->container['basename'];
             return $this->generate();
         }

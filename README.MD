@@ -5,7 +5,7 @@ Ini adalah package core pembantu untuk mempercepat dan mempermudah development a
 
 Installation
 ------------------
-Mulailah dengan menginstal paket melalui Composer.
+Mulailah dengan menginstal package melalui Composer.
 
 ```
 composer require pw/core
