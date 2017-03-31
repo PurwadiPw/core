@@ -30,11 +30,11 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($role, ['route' => [config('core.adminRoute') . '.roles.update', $role->id ], 'method'=>'PUT', 'id' => 'role-edit-form']) !!}
-					@core_input($module, 'name', null, null, "form-control text-uppercase", ["placeholder" => "Role Name in CAPITAL LETTERS with '_' to JOIN e.g. 'SUPER_ADMIN'"])
-					@core_input($module, 'display_name')
-					@core_input($module, 'description')
-					@core_input($module, 'parent')
-					@core_input($module, 'dept')
+					@core_input($crud, 'name', null, null, "form-control text-uppercase", ["placeholder" => "Role Name in CAPITAL LETTERS with '_' to JOIN e.g. 'SUPER_ADMIN'"])
+					@core_input($crud, 'display_name')
+					@core_input($crud, 'description')
+					@core_input($crud, 'parent')
+					@core_input($crud, 'dept')
 					<br>
 					<div class="form-group">
 						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('core.adminRoute') . '/roles') }}">Cancel</a></button>

@@ -14,6 +14,8 @@ use Pw\Core\Models\Crud;
 use Pw\Core\Models\CrudFieldTypes;
 use Pw\Core\Helpers\CoreHelper;
 use Pw\Core\Models\Menu;
+use Pw\Core\Facades\Module;
+use Pw\Core\Facades\Theme;
 
 class CodeGenerator
 {
@@ -42,13 +44,17 @@ class CodeGenerator
         }
         $listing_cols = trim($listing_cols, ", ");
 
+        // Module
+        $module = Module::where('slug', $config->crud->module);
+
         $md = str_replace("__listing_cols__", $listing_cols, $md);
-        $md = str_replace("__view_folder__", $config->dbTableName, $md);
-        $md = str_replace("__route_resource__", $config->dbTableName, $md);
+        $md = str_replace("__view_folder__", snake_case($config->crudName), $md);
+        $md = str_replace("__route_resource__", snake_case($config->crudName), $md);
         $md = str_replace("__db_table_name__", $config->dbTableName, $md);
         $md = str_replace("__singular_var__", $config->singularVar, $md);
+        $md = str_replace("__module__", $module['name'], $md);
 
-        file_put_contents(base_path('app/Http/Controllers/Core/'.$config->controllerName.".php"), $md);
+        file_put_contents(base_path('app/Modules/'.$module['name'].'/Http/Controllers/'.$config->controllerName.".php"), $md);
     }
 
     public static function createModel($config, $comm = null) {
@@ -58,10 +64,14 @@ class CodeGenerator
         CoreHelper::log("info", "Creating model...", $comm);
         $md = file_get_contents($templateDirectory."/model.stub");
 
+        // Module
+        $module = Module::where('slug', $config->crud->module);
+
         $md = str_replace("__model_class_name__", $config->modelName, $md);
         $md = str_replace("__db_table_name__", $config->dbTableName, $md);
+        $md = str_replace("__module__", $module['name'], $md);
 
-        file_put_contents(base_path('app/Models/'.$config->modelName.".php"), $md);
+        file_put_contents(base_path('app/Modules/'.$module['name'].'/Models/'.$config->modelName.".php"), $md);
     }
 
     public static function createViews($config, $comm = null) {
@@ -69,8 +79,9 @@ class CodeGenerator
         $templateDirectory = __DIR__.'/stubs';
 
         CoreHelper::log("info", "Creating views...", $comm);
+
         // Create Folder
-        @mkdir(base_path("resources/views/core/".$config->dbTableName), 0777, true);
+        @mkdir(base_path("public/themes/".Theme::getActive()."/views/core/".$config->singularVar), 0777, true);
 
         // ============================ Listing / Index ============================
         $md = file_get_contents($templateDirectory."/views/index.blade.stub");
@@ -90,7 +101,7 @@ class CodeGenerator
         $inputFields = trim($inputFields);
         $md = str_replace("__input_fields__", $inputFields, $md);
 
-        file_put_contents(base_path('resources/views/core/'.$config->dbTableName.'/index.blade.php'), $md);
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/index.blade.php'), $md);
 
         // ============================ Edit ============================
         $md = file_get_contents($templateDirectory."/views/edit.blade.stub");
@@ -110,7 +121,7 @@ class CodeGenerator
         $inputFields = trim($inputFields);
         $md = str_replace("__input_fields__", $inputFields, $md);
 
-        file_put_contents(base_path('resources/views/core/'.$config->dbTableName.'/edit.blade.php'), $md);
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/edit.blade.php'), $md);
 
         // ============================ Show ============================
         $md = file_get_contents($templateDirectory."/views/show.blade.stub");
@@ -129,16 +140,19 @@ class CodeGenerator
         $displayFields = trim($displayFields);
         $md = str_replace("__display_fields__", $displayFields, $md);
 
-        file_put_contents(base_path('resources/views/core/'.$config->dbTableName.'/show.blade.php'), $md);
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/show.blade.php'), $md);
     }
 
     public static function appendRoutes($config, $comm = null) {
 
         $templateDirectory = __DIR__.'/stubs';
 
+        // Module
+        $module = Module::where('slug', $config->crud->module);
+
         CoreHelper::log("info", "Appending routes...", $comm);
         if(\Pw\Core\Helpers\CoreHelper::laravel_ver() == 5.4) {
-            $routesFile = base_path('routes/admin_routes.php');
+            $routesFile = app_path('Modules/'.$module['name'].'/Routes/web.php');
         } else {
             $routesFile = app_path('Http/admin_routes.php');
         }
@@ -154,30 +168,31 @@ class CodeGenerator
         $md = str_replace("__db_table_name__", $config->dbTableName, $md);
         $md = str_replace("__singular_var__", $config->singularVar, $md);
         $md = str_replace("__singular_cap_var__", $config->singularCapitalVar, $md);
+        $md = str_replace("__module__", $module['name'], $md);
 
         file_put_contents($routesFile, $md, FILE_APPEND);
     }
 
     public static function addMenu($config, $comm = null) {
 
-        // $templateDirectory = __DIR__.'/stubs';
-
         CoreHelper::log("info", "Appending Menu...", $comm);
-        if(Menu::where("url", $config->dbTableName)->count() == 0) {
+        if(Menu::where("url", $config->singularVar)->count() == 0) {
+            $module = Module::where('slug', $config->crud->module);
+            $moduleMenu = Menu::where('name', title_case(str_replace('_', ' ', snake_case($module['name']))))->first();
+            if ($moduleMenu) {
+                $id = $moduleMenu->id;
+            }else{
+                $id = 0;
+            }
             Menu::create([
-                "name" => $config->crudName,
-                "url" => $config->dbTableName,
+                "name" => title_case(str_replace('_', ' ', snake_case($config->crudName))),
+                "url" => $config->singularVar,
                 "icon" => "fa ".$config->fa_icon,
                 "type" => 'crud',
-                "parent" => 0
+                "parent" => $id
             ]);
         }
 
-        // Old Method to add Menu
-        // $menu = '<li><a href="{{ url(config("core.adminRoute") . '."'".'/'.$config->dbTableName."'".') }}"><i class="fa fa-cube"></i> <span>'.$config->crudName.'</span></a></li>'."\n".'            <!-- LAMenus -->';
-        // $md = file_get_contents(base_path('resources/views/core/layouts/partials/sidebar.blade.php'));
-        // $md = str_replace("<!-- LAMenus -->", $menu, $md);
-        // file_put_contents(base_path('resources/views/core/layouts/partials/sidebar.blade.php'), $md);
     }
 
     /**
@@ -186,7 +201,7 @@ class CodeGenerator
      * $comm is command Object from Migration command
      * CodeGenerator::generateMigration($table, $generateFromTable);
      **/
-    public static function generateMigration($table, $generate = false, $comm = null)
+    public static function generateMigration($table, $generate = false, $crudName = null, $module = null, $comm = null)
     {
         $filesystem = new Filesystem();
 
@@ -195,17 +210,16 @@ class CodeGenerator
             $table = str_replace("_table", "",$tname);
         }
 
-        $modelName = ucfirst(str_singular($table));
-        $tableP = str_plural(strtolower($table));
+        $modelName = studly_case($table);
+        $tableP = $table;
         $tableS = str_singular(strtolower($table));
         $migrationName = 'create_'.$tableP.'_table';
         $migrationFileName = date("Y_m_d_His_").$migrationName.".php";
-        $migrationClassName = ucfirst(camel_case($migrationName));
+        $migrationClassName = studly_case($migrationName);
         $dbTableName = $tableP;
-        $crudName = ucfirst(str_plural($table));
 
         CoreHelper::log("info", "Model:\t   ".$modelName, $comm);
-        CoreHelper::log("info", "Crud:\t   ".$crudName, $comm);
+        CoreHelper::log("info", "Crud:\t\t   ".$crudName, $comm);
         CoreHelper::log("info", "Table:\t   ".$dbTableName, $comm);
         CoreHelper::log("info", "Migration: ".$migrationName."\n", $comm);
 
@@ -216,9 +230,15 @@ class CodeGenerator
         // fa_icon
         $faIcon = "fa-cube";
 
+        // If crud is modular
+        if ($module != null) {
+            $moduleDir = Module::where('slug', $module->crud->module);
+        }
+
         if($generate) {
             // check if table, crud and crud fields exists
             $crud = Crud::get($crudName);
+
             if(isset($crud)) {
                 CoreHelper::log("info", "Crud exists :\t   ".$crudName, $comm);
 
@@ -261,7 +281,12 @@ class CodeGenerator
                 $generateData = trim($generateData);
 
                 // Find existing migration file
-                $mfiles = scandir(base_path('database/migrations/'));
+                if ($module != null) {
+                    $mfiles = scandir(app_path('Modules/'.$moduleDir['name'].'/Database/Migrations/'));
+                }else{
+                    $mfiles = scandir(base_path('database/migrations/'));
+                }
+
                 // print_r($mfiles);
                 $fileExists = false;
                 $fileExistName = "";
@@ -284,6 +309,8 @@ class CodeGenerator
 
         try {
             CoreHelper::log("line", "Creating migration...", $comm);
+
+            $crud = Crud::get($crudName);
             $migrationData = file_get_contents($templateDirectory."/migration.stub");
 
             $migrationData = str_replace("__migration_class_name__", $migrationClassName, $migrationData);
@@ -294,7 +321,13 @@ class CodeGenerator
             $migrationData = str_replace("__fa_icon__", $faIcon, $migrationData);
             $migrationData = str_replace("__generated__", $generateData, $migrationData);
 
-            file_put_contents(base_path('database/migrations/'.$migrationFileName), $migrationData);
+            if ($module != null) {
+                $migrationData = str_replace("__module_name__", $moduleDir['slug'], $migrationData);
+                file_put_contents(app_path('Modules/'.$moduleDir['name'].'/Database/Migrations/'.$migrationFileName), $migrationData);
+            }else{
+                $migrationData = str_replace("'__module_name__', ", '', $migrationData);
+                file_put_contents(base_path('database/migrations/'.$migrationFileName), $migrationData);
+            }
 
         } catch (Exception $e) {
             throw new Exception("Unable to generate migration for ".$table." : ".$e->getMessage(), 1);
@@ -313,16 +346,18 @@ class CodeGenerator
             $crud = str_replace("_table", "",$tname);
         }
 
-        $config->modelName = ucfirst(str_singular($crud));
-        $tableP = str_plural(strtolower($crud));
-        $tableS = str_singular(strtolower($crud));
+        $crud = Crud::get($crud);
+
+        $config->modelName = $crud->model;
+        $tableP = $crud->name_db;
+        $tableS = str_singular(strtolower($crud->name_db));
         $config->dbTableName = $tableP;
         $config->fa_icon = $icon;
-        $config->crudName = ucfirst(str_plural($crud));
-        $config->crudName2 = str_replace('_', ' ', ucfirst(str_plural($crud)));
-        $config->controllerName = ucfirst(str_plural($crud))."Controller";
-        $config->singularVar = strtolower(str_singular($crud));
-        $config->singularCapitalVar = str_replace('_', ' ', ucfirst(str_singular($crud)));
+        $config->crudName = $crud->name;
+        $config->crudName2 = str_replace('_', ' ', title_case(snake_case($crud->name)));
+        $config->controllerName = $crud->name."Controller";
+        $config->singularVar = snake_case($crud->name);
+        $config->singularCapitalVar = str_replace('_', '', title_case(snake_case($crud->name)));
 
         $crud = Crud::get($config->crudName);
         if(!isset($crud->id)) {

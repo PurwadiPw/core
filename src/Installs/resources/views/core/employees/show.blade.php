@@ -74,20 +74,20 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@core_display($module, 'name')
-						@core_display($module, 'designation')
-						@core_display($module, 'gender')
-						@core_display($module, 'mobile')
-						@core_display($module, 'mobile2')
-						@core_display($module, 'email')
-						@core_display($module, 'dept')
-						@core_display($module, 'city')
-						@core_display($module, 'address')
-						@core_display($module, 'about')
-						@core_display($module, 'date_birth')
-						@core_display($module, 'date_hire')
-						@core_display($module, 'date_left')
-						@core_display($module, 'salary_cur')
+						@core_display($crud, 'name')
+						@core_display($crud, 'designation')
+						@core_display($crud, 'gender')
+						@core_display($crud, 'mobile')
+						@core_display($crud, 'mobile2')
+						@core_display($crud, 'email')
+						@core_display($crud, 'dept')
+						@core_display($crud, 'city')
+						@core_display($crud, 'address')
+						@core_display($crud, 'about')
+						@core_display($crud, 'date_birth')
+						@core_display($crud, 'date_hire')
+						@core_display($crud, 'date_left')
+						@core_display($crud, 'salary_cur')
 					</div>
 				</div>
 			</div>

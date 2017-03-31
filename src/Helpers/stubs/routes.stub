@@ -1,0 +1,6 @@
+	});
+
+	/* ================== __crud_name__ ================== */
+	Route::resource('/__singular_var__', '__controller_class_name__');
+	Route::get('/__singular_var___dt_ajax', '__controller_class_name__@dtajax');
+});

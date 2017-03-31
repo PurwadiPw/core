@@ -40,12 +40,12 @@
             $menuItems = Pw\Core\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
             ?>
             @foreach ($menuItems as $menu)
-                @if($menu->type == "module")
+                @if($menu->type == "crud")
                     <?php
-                    $temp_module_obj = Crud::get($menu->name);
+                    $temp_crud_obj = Crud::get($menu->name);
                     ?>
-                    @core_access($temp_module_obj->id)
-						@if(isset($module->id) && $module->name == $menu->name)
+                    @core_access($temp_crud_obj->id)
+						@if(isset($crud->id) && $crud->name == $menu->name)
                         	<?php echo CoreHelper::print_menu($menu ,true); ?>
 						@else
 							<?php echo CoreHelper::print_menu($menu); ?>

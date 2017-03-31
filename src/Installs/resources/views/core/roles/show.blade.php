@@ -12,7 +12,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<!--<img class="profile-image" src="{{ asset('core-assets/img/avatar5.png') }}" alt="">-->
-					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
+					<div class="profile-icon text-primary"><i class="fa {{ $crud->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
 					<h4 class="name">{{ $role->$view_col }}</h4>
@@ -109,11 +109,11 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@core_display($module, 'name')
-						@core_display($module, 'display_name')
-						@core_display($module, 'description')
-						@core_display($module, 'parent')
-						@core_display($module, 'dept')
+						@core_display($crud, 'name')
+						@core_display($crud, 'display_name')
+						@core_display($crud, 'description')
+						@core_display($crud, 'parent')
+						@core_display($crud, 'dept')
 					</div>
 				</div>
 			</div>
@@ -124,13 +124,13 @@
 				<span class="pull-left">Crud Accesses for {{ $role->display_name }} Role</span>
 				<i class="fa fa-circle gray"></i> Invisible <i class="fa fa-circle orange"></i> Read-Only <i class="fa fa-circle green"></i> Write
 			</div>
-			<form action="{{ url(config('core.adminRoute') . '/save_module_role_permissions/'.$role->id) }}" method="post">
+			<form action="{{ url(config('core.adminRoute') . '/save_crud_role_permissions/'.$role->id) }}" method="post">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<table class="table table-bordered dataTable no-footer table-access">
 					<thead>
 						<tr class="blockHeader">
 							<th width="30%">
-								<input class="alignTop" type="checkbox" id="module_select_all" id="module_select_all" checked="checked">&nbsp; Crud
+								<input class="alignTop" type="checkbox" id="crud_select_all" id="crud_select_all" checked="checked">&nbsp; Crud
 							</th>
 							<th width="14%">
 								<input type="checkbox" id="view_all" checked="checked">&nbsp; View
@@ -147,24 +147,24 @@
 							<th width="14%">Field Privileges</th>
 						</tr>
 					</thead>
-					@foreach($modules_access as $module)
+					@foreach($cruds_access as $crud)
 						<tr>
-							<td><input module_id="{{ $module->id }}" class="module_checkb" type="checkbox" name="module_{{$module->id}}" id="module_{{$module->id}}" checked="checked">&nbsp; {{ $module->name }}</td>
-							<td><input module_id="{{ $module->id }}" class="view_checkb" type="checkbox" name="module_view_{{$module->id}}" id="module_view_{{$module->id}}" <?php if($module->accesses->view == 1) { echo 'checked="checked"'; } ?> ></td>
-							<td><input module_id="{{ $module->id }}" class="create_checkb" type="checkbox" name="module_create_{{$module->id}}" id="module_create_{{$module->id}}" <?php if($module->accesses->create == 1) { echo 'checked="checked"'; } ?> ></td>
-							<td><input module_id="{{ $module->id }}" class="edit_checkb" type="checkbox" name="module_edit_{{$module->id}}" id="module_edit_{{$module->id}}" <?php if($module->accesses->edit == 1) { echo 'checked="checked"'; } ?> ></td>
-							<td><input module_id="{{ $module->id }}" class="delete_checkb" type="checkbox" name="module_delete_{{$module->id}}" id="module_delete_{{$module->id}}" <?php if($module->accesses->delete == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input crud_id="{{ $crud->id }}" class="crud_checkb" type="checkbox" name="crud_{{$crud->id}}" id="crud_{{$crud->id}}" checked="checked">&nbsp; {{ $crud->name }}</td>
+							<td><input crud_id="{{ $crud->id }}" class="view_checkb" type="checkbox" name="crud_view_{{$crud->id}}" id="crud_view_{{$crud->id}}" <?php if($crud->accesses->view == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input crud_id="{{ $crud->id }}" class="create_checkb" type="checkbox" name="crud_create_{{$crud->id}}" id="crud_create_{{$crud->id}}" <?php if($crud->accesses->create == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input crud_id="{{ $crud->id }}" class="edit_checkb" type="checkbox" name="crud_edit_{{$crud->id}}" id="crud_edit_{{$crud->id}}" <?php if($crud->accesses->edit == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input crud_id="{{ $crud->id }}" class="delete_checkb" type="checkbox" name="crud_delete_{{$crud->id}}" id="crud_delete_{{$crud->id}}" <?php if($crud->accesses->delete == 1) { echo 'checked="checked"'; } ?> ></td>
 							<td>
-								<a module_id="{{ $module->id }}" class="toggle-adv-access btn btn-default btn-sm hide_row"><i class="fa fa-chevron-down"></i></a>
+								<a crud_id="{{ $crud->id }}" class="toggle-adv-access btn btn-default btn-sm hide_row"><i class="fa fa-chevron-down"></i></a>
 							</td>
 						</tr>
-						<tr class="tr-access-adv module_fields_{{ $module->id }} hide" module_id="{{ $module->id }}" >
+						<tr class="tr-access-adv crud_fields_{{ $crud->id }} hide" crud_id="{{ $crud->id }}" >
 							<td colspan=6>
 								<table class="table table-bordered">
-								@foreach (array_chunk($module->accesses->fields, 3, true) as $fields)
+								@foreach (array_chunk($crud->accesses->fields, 3, true) as $fields)
 									<tr>
 										@foreach ($fields as $field)
-											<td><div class="col-md-3"><input type="text" name="{{ $field['colname'] }}_{{ $module->id }}_{{ $role->id }}" value="{{ $field['access'] }}" data-slider-value="{{ $field['access'] }}" class="slider form-control" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-orientation="horizontal"  data-slider-id="{{ $field['colname'] }}_{{ $module->id }}_{{ $role->id }}"></div> {{ $field['label'] }} </td>
+											<td><div class="col-md-3"><input type="text" name="{{ $field['colname'] }}_{{ $crud->id }}_{{ $role->id }}" value="{{ $field['access'] }}" data-slider-value="{{ $field['access'] }}" class="slider form-control" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-orientation="horizontal"  data-slider-id="{{ $field['colname'] }}_{{ $crud->id }}_{{ $role->id }}"></div> {{ $field['label'] }} </td>
 										@endforeach
 									</tr>
 								@endforeach
@@ -269,45 +269,45 @@ $(function () {
 		}
 	});	
 	
-	$("#module_select_all,  #view_all").on("change", function() {
-		$(".module_checkb").prop('checked', this.checked);
+	$("#crud_select_all,  #view_all").on("change", function() {
+		$(".crud_checkb").prop('checked', this.checked);
 		$(".view_checkb").prop('checked', this.checked);
 		$(".edit_checkb").prop('checked', this.checked)
 		$(".create_checkb").prop('checked', this.checked);
 		$(".delete_checkb").prop('checked', this.checked);
-		$("#module_select_all").prop('checked', this.checked);
+		$("#crud_select_all").prop('checked', this.checked);
 		$("#view_all").prop('checked', this.checked);
 		$("#create_all").prop('checked', this.checked);
 		$("#edit_all").prop('checked', this.checked);
 		$("#delete_all").prop('checked', this.checked);		
 	});
 	
-	$(".module_checkb,  .view_checkb").on("change", function() {
-		var val = $(this).attr( "module_id" );
-		$("#module_"+val).prop('checked', this.checked)
-		$("#module_view_"+val).prop('checked', this.checked);
-		$("#module_create_"+val).prop('checked', this.checked)
-		$("#module_edit_"+val).prop('checked', this.checked);
-		$("#module_delete_"+val).prop('checked', this.checked);
+	$(".crud_checkb,  .view_checkb").on("change", function() {
+		var val = $(this).attr( "crud_id" );
+		$("#crud_"+val).prop('checked', this.checked)
+		$("#crud_view_"+val).prop('checked', this.checked);
+		$("#crud_create_"+val).prop('checked', this.checked)
+		$("#crud_edit_"+val).prop('checked', this.checked);
+		$("#crud_delete_"+val).prop('checked', this.checked);
 	});
 	
 	$(".create_checkb,  .edit_checkb, .delete_checkb").on("change", function() {
-		var val = $(this).attr( "module_id" );
+		var val = $(this).attr( "crud_id" );
 		$(this).prop('checked', this.checked);
-		if(!$("#module_"+val).is(':checked')){
-			$("#module_"+val).prop('checked', this.checked);
+		if(!$("#crud_"+val).is(':checked')){
+			$("#crud_"+val).prop('checked', this.checked);
 		}
-		if(!$("#module_view_"+val).is(':checked')){
-			$("#module_view_"+val).prop('checked', this.checked);
+		if(!$("#crud_view_"+val).is(':checked')){
+			$("#crud_view_"+val).prop('checked', this.checked);
 		}		
 	});
 	
 	$("#create_all").on("change", function() {
 		$(".create_checkb").prop('checked', this.checked);
 		if($('#create_all').is(':checked')){
-			$(".module_checkb").prop('checked', this.checked);
+			$(".crud_checkb").prop('checked', this.checked);
 			$(".view_checkb").prop('checked', this.checked);
-			$("#module_select_all").prop('checked', this.checked);
+			$("#crud_select_all").prop('checked', this.checked);
 			$("#view_all").prop('checked', this.checked);
 		}
 	});
@@ -315,9 +315,9 @@ $(function () {
 	$("#edit_all").on("change", function() {
 		$(".edit_checkb").prop('checked', this.checked);
 		if($('#edit_all').is(':checked')){
-			$(".module_checkb").prop('checked', this.checked);
+			$(".crud_checkb").prop('checked', this.checked);
 			$(".view_checkb").prop('checked', this.checked);
-			$("#module_select_all").prop('checked', this.checked);
+			$("#crud_select_all").prop('checked', this.checked);
 			$("#view_all").prop('checked', this.checked);
 		}
 	});
@@ -325,22 +325,22 @@ $(function () {
 	$("#delete_all").on("change", function() {
 		$(".delete_checkb").prop('checked', this.checked);
 		if($('#delete_all').is(':checked')){
-			$(".module_checkb").prop('checked', this.checked);
+			$(".crud_checkb").prop('checked', this.checked);
 			$(".view_checkb").prop('checked', this.checked);
-			$("#module_select_all").prop('checked', this.checked);
+			$("#crud_select_all").prop('checked', this.checked);
 			$("#view_all").prop('checked', this.checked);
 		}
 	});
 	
 	$(".hide_row").on("click", function() { 
-		var val = $(this).attr( "module_id" );
-		var $icon = $(".hide_row[module_id="+val+"] > i");
-		if($('.module_fields_'+val).hasClass('hide')) {
-			$('.module_fields_'+val).removeClass('hide');
+		var val = $(this).attr( "crud_id" );
+		var $icon = $(".hide_row[crud_id="+val+"] > i");
+		if($('.crud_fields_'+val).hasClass('hide')) {
+			$('.crud_fields_'+val).removeClass('hide');
 			$icon.removeClass('fa-chevron-down');
 			$icon.addClass('fa-chevron-up');
 		} else {
-			$('.module_fields_'+val).addClass('hide');
+			$('.crud_fields_'+val).addClass('hide');
 			$icon.removeClass('fa-chevron-up');
 			$icon.addClass('fa-chevron-down');
 		}

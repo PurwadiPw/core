@@ -1,14 +1,14 @@
 @extends("core.layouts.app")
 
-@section("contentheader_title", "Organizations")
-@section("contentheader_description", "organizations listing")
-@section("section", "Organizations")
+@section("contentheader_title", "__crud_name_2__")
+@section("contentheader_description", "__crud_name_2__ listing")
+@section("section", "__crud_name_2__")
 @section("sub_section", "Listing")
-@section("htmlheader_title", "Organizations Listing")
+@section("htmlheader_title", "__crud_name_2__ Listing")
 
 @section("headerElems")
-@core_access("Organizations", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Organization</button>
+@core_access("__crud_name__", "create")
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add __singular_cap_var__</button>
 @endcore_access
 @endsection
 
@@ -45,31 +45,21 @@
 	</div>
 </div>
 
-@core_access("Organizations", "create")
+@core_access("__crud_name__", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add Organization</h4>
+				<h4 class="modal-title" id="myModalLabel">Add __singular_cap_var__</h4>
 			</div>
-			{!! Form::open(['action' => 'Core\OrganizationsController@store', 'id' => 'organization-add-form']) !!}
+			{!! Form::open(['action' => '__controller_class_name__@store', 'id' => '__singular_var__-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
                     @core_form($crud)
 					
 					{{--
-					@core_input($crud, 'name')
-					@core_input($crud, 'email')
-					@core_input($crud, 'phone')
-					@core_input($crud, 'website')
-					@core_input($crud, 'assigned_to')
-					@core_input($crud, 'connect_since')
-					@core_input($crud, 'address')
-					@core_input($crud, 'city')
-					@core_input($crud, 'description')
-					@core_input($crud, 'profile_image')
-					@core_input($crud, 'profile')
+					__input_fields__
 					--}}
 				</div>
 			</div>
@@ -86,17 +76,17 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" type="text/css" href="{{ asset('core-assets/plugins/datatables/datatables.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('core/plugins/datatables/datatables.min.css') }}"/>
 @endpush
 
 @push('scripts')
-<script src="{{ asset('core-assets/plugins/datatables/datatables.min.js') }}"></script>
+<script src="{{ asset('core/plugins/datatables/datatables.min.js') }}"></script>
 <script>
 $(function () {
 	$("#example1").DataTable({
 		processing: true,
         serverSide: true,
-        ajax: "{{ url(config('core.adminRoute') . '/organization_dt_ajax') }}",
+        ajax: "{{ url(config('core.adminRoute') . '/__singular_var___dt_ajax') }}",
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
@@ -106,7 +96,7 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
-	$("#organization-add-form").validate({
+	$("#__singular_var__-add-form").validate({
 		
 	});
 });

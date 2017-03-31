@@ -30,12 +30,12 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($permission, ['route' => [config('core.adminRoute') . '.permissions.update', $permission->id ], 'method'=>'PUT', 'id' => 'permission-edit-form']) !!}
-					@core_form($module)
+					@core_form($crud)
 					
 					{{--
-					@core_input($module, 'name')
-					@core_input($module, 'display_name')
-					@core_input($module, 'description')
+					@core_input($crud, 'name')
+					@core_input($crud, 'display_name')
+					@core_input($crud, 'description')
 					--}}
                     <br>
 					<div class="form-group">

@@ -1,7 +1,7 @@
 @extends('core.layouts.app')
 
 @section('htmlheader_title')
-	Organization View
+	__singular_cap_var__ View
 @endsection
 
 
@@ -11,11 +11,11 @@
 		<div class="col-md-4">
 			<div class="row">
 				<div class="col-md-3">
-					<!--<img class="profile-image" src="{{ asset('core-assets/img/avatar5.png') }}" alt="">-->
+					<!--<img class="profile-image" src="{{ asset('core/img/avatar5.png') }}" alt="">-->
 					<div class="profile-icon text-primary"><i class="fa {{ $crud->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $organization->$view_col }}</h4>
+					<h4 class="name">{{ $__singular_var__->$view_col }}</h4>
 					<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
@@ -33,17 +33,17 @@
 		<div class="col-md-4">
 			<!--
 			<div class="teamview">
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user2-160x160.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user3-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user4-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user5-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user6-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user7-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user8-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user5-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user6-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core-assets/img/user7-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user2-160x160.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user3-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user4-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user5-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user6-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user7-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user8-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user5-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user6-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('core/img/user7-128x128.jpg') }}" alt=""></a>
 			</div>
 			-->
 			<div class="dats1 pb">
@@ -81,12 +81,12 @@
 			</div>
 		</div>
 		<div class="col-md-1 actions">
-			@core_access("Organizations", "edit")
-				<a href="{{ url(config('core.adminRoute') . '/organizations/'.$organization->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+			@core_access("__crud_name__", "edit")
+				<a href="{{ url(config('core.adminRoute') . '/__singular_var__/'.$__singular_var__->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endcore_access
 			
-			@core_access("Organizations", "delete")
-				{{ Form::open(['route' => [config('core.adminRoute') . '.organizations.destroy', $organization->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+			@core_access("__crud_name__", "delete")
+				{{ Form::open(['route' => [config('core.adminRoute') . '.__singular_var__.destroy', $__singular_var__->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
 			@endcore_access
@@ -94,7 +94,7 @@
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="{{ url(config('core.adminRoute') . '/organizations') }}" data-toggle="tooltip" data-placement="right" title="Back to Organizations"><i class="fa fa-chevron-left"></i></a></li>
+		<li class=""><a href="{{ url(config('core.adminRoute') . '/__singular_var__') }}" data-toggle="tooltip" data-placement="right" title="Back to __crud_name_2__"><i class="fa fa-chevron-left"></i></a></li>
 		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
 		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>
 	</ul>
@@ -107,17 +107,7 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@core_display($crud, 'name')
-						@core_display($crud, 'email')
-						@core_display($crud, 'phone')
-						@core_display($crud, 'website')
-						@core_display($crud, 'assigned_to')
-						@core_display($crud, 'connect_since')
-						@core_display($crud, 'address')
-						@core_display($crud, 'city')
-						@core_display($crud, 'description')
-						@core_display($crud, 'profile_image')
-						@core_display($crud, 'profile')
+						__display_fields__
 					</div>
 				</div>
 			</div>

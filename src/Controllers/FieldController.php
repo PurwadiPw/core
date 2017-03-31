@@ -63,8 +63,12 @@ class FieldController extends Controller
         // Give Default Full Access to Super Admin
         $role = \App\Models\Role::where("name", "SUPER_ADMIN")->first();
         Crud::setDefaultFieldRoleAccess($field_id, $role->id, "full");
+        return response()->json([
+            'ok' => true,
+            'messages' => 'Berhasil'
+        ]);
 
-        return redirect()->route(config('core.adminRoute') . '.cruds.show', [$crud_id]);
+        // return redirect()->route(config('core.adminRoute') . '.cruds.show', [$crud_id]);
     }
 
     /**

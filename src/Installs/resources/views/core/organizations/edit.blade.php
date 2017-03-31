@@ -30,20 +30,20 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($organization, ['route' => [config('core.adminRoute') . '.organizations.update', $organization->id ], 'method'=>'PUT', 'id' => 'organization-edit-form']) !!}
-					@core_form($module)
+					@core_form($crud)
 					
 					{{--
-					@core_input($module, 'name')
-					@core_input($module, 'email')
-					@core_input($module, 'phone')
-					@core_input($module, 'website')
-					@core_input($module, 'assigned_to')
-					@core_input($module, 'connect_since')
-					@core_input($module, 'address')
-					@core_input($module, 'city')
-					@core_input($module, 'description')
-					@core_input($module, 'profile_image')
-					@core_input($module, 'profile')
+					@core_input($crud, 'name')
+					@core_input($crud, 'email')
+					@core_input($crud, 'phone')
+					@core_input($crud, 'website')
+					@core_input($crud, 'assigned_to')
+					@core_input($crud, 'connect_since')
+					@core_input($crud, 'address')
+					@core_input($crud, 'city')
+					@core_input($crud, 'description')
+					@core_input($crud, 'profile_image')
+					@core_input($crud, 'profile')
 					--}}
                     <br>
 					<div class="form-group">

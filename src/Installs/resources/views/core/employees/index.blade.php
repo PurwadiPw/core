@@ -31,7 +31,7 @@
 		<thead>
 		<tr class="success">
 			@foreach( $listing_cols as $col )
-			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
+			<th>{{ $crud->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
 			<th>Actions</th>
@@ -56,23 +56,23 @@
 			{!! Form::open(['action' => 'Core\EmployeesController@store', 'id' => 'employee-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @core_form($module)
+                    @core_form($crud)
 					
 					{{--
-					@core_input($module, 'name')
-					@core_input($module, 'designation')
-					@core_input($module, 'gender')
-					@core_input($module, 'mobile')
-					@core_input($module, 'mobile2')
-					@core_input($module, 'email')
-					@core_input($module, 'dept')
-					@core_input($module, 'city')
-					@core_input($module, 'address')
-					@core_input($module, 'about')
-					@core_input($module, 'date_birth')
-					@core_input($module, 'date_hire')
-					@core_input($module, 'date_left')
-					@core_input($module, 'salary_cur')
+					@core_input($crud, 'name')
+					@core_input($crud, 'designation')
+					@core_input($crud, 'gender')
+					@core_input($crud, 'mobile')
+					@core_input($crud, 'mobile2')
+					@core_input($crud, 'email')
+					@core_input($crud, 'dept')
+					@core_input($crud, 'city')
+					@core_input($crud, 'address')
+					@core_input($crud, 'about')
+					@core_input($crud, 'date_birth')
+					@core_input($crud, 'date_hire')
+					@core_input($crud, 'date_left')
+					@core_input($crud, 'salary_cur')
 					--}}
 					<div class="form-group">
 						<label for="role">Role* :</label>

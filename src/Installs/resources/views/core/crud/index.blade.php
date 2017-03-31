@@ -5,7 +5,7 @@ use Pw\Core\Models\Crud;
 ?>
 
 @section("contentheader_title", "Crud")
-@section("contentheader_description", "modules listing")
+@section("contentheader_description", "cruds listing")
 @section("section", "Crud")
 @section("sub_section", "Listing")
 @section("htmlheader_title", "Crud Listing")
@@ -19,7 +19,7 @@ use Pw\Core\Models\Crud;
 <div class="box box-success">
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
-		<table id="dt_modules" class="table table-bordered">
+		<table id="dt_cruds" class="table table-bordered">
 		<thead>
 		<tr class="success">
 			<th>ID</th>
@@ -31,17 +31,17 @@ use Pw\Core\Models\Crud;
 		</thead>
 		<tbody>
 			
-			@foreach ($modules as $module)
+			@foreach ($cruds as $crud)
 				<tr>
-					<td>{{ $module->id }}</td>
-					<td><a href="{{ url(config('core.adminRoute') . '/crud/'.$module->id) }}">{{ $module->name }}</a></td>
-					<td>{{ $module->name_db }}</td>
-					<td>{{ Crud::itemCount($module->name) }}</td>
+					<td>{{ $crud->id }}</td>
+					<td><a href="{{ url(config('core.adminRoute') . '/crud/'.$crud->id) }}">{{ $crud->name }}</a></td>
+					<td>{{ $crud->name_db }}</td>
+					<td>{{ Crud::itemCount($crud->name) }}</td>
 					<td>
-						<a href="{{ url(config('core.adminRoute') . '/crud/'.$module->id)}}#fields" class="btn btn-primary btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>
-						<a href="{{ url(config('core.adminRoute') . '/crud/'.$module->id)}}#access" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-key"></i></a>
-						<a href="{{ url(config('core.adminRoute') . '/crud/'.$module->id)}}#sort" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-sort"></i></a>
-						<a module_name="{{ $module->name }}" module_id="{{ $module->id }}" class="btn btn-danger btn-xs delete_module" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>
+						<a href="{{ url(config('core.adminRoute') . '/crud/'.$crud->id)}}#fields" class="btn btn-primary btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>
+						<a href="{{ url(config('core.adminRoute') . '/crud/'.$crud->id)}}#access" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-key"></i></a>
+						<a href="{{ url(config('core.adminRoute') . '/crud/'.$crud->id)}}#sort" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-sort"></i></a>
+						<a crud_name="{{ $crud->name }}" crud_id="{{ $crud->id }}" class="btn btn-danger btn-xs delete_crud" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>
 					</td>
 				</tr>
 			@endforeach
@@ -57,7 +57,7 @@ use Pw\Core\Models\Crud;
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Add Crud</h4>
 			</div>
-			{!! Form::open(['route' => config('core.adminRoute') . '.crud.store', 'id' => 'module-add-form']) !!}
+			{!! Form::open(['route' => config('core.adminRoute') . '.crud.store', 'id' => 'crud-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
 					<div class="form-group">
@@ -82,8 +82,8 @@ use Pw\Core\Models\Crud;
 	</div>
 </div>
 
-<!-- module deletion confirmation  -->
-<div class="modal" id="module_delete_confirm">
+<!-- crud deletion confirmation  -->
+<div class="modal" id="crud_delete_confirm">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -93,13 +93,13 @@ use Pw\Core\Models\Crud;
 				<h4 class="modal-title">Crud Delete</h4>
 			</div>
 			<div class="modal-body">
-				<p>Do you really want to delete module <b id="moduleNameStr" class="text-danger"></b> ?</p>
+				<p>Do you really want to delete crud <b id="crudNameStr" class="text-danger"></b> ?</p>
 				<p>Following files will be deleted:</p>
-				<div id="moduleDeleteFiles"></div>
+				<div id="crudDeleteFiles"></div>
 				<p class="text-danger">Note: Migration file will not be deleted but modified.</p>
 			</div>
 			<div class="modal-footer">
-				{{ Form::open(['route' => [config('core.adminRoute') . '.crud.destroy', 0], 'id' => 'module_del_form', 'method' => 'delete', 'style'=>'display:inline']) }}
+				{{ Form::open(['route' => [config('core.adminRoute') . '.crud.destroy', 0], 'id' => 'crud_del_form', 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-danger btn-delete pull-left" type="submit">Yes</button>
 				{{ Form::close() }}
 				<a data-dismiss="modal" class="btn btn-default pull-right" >No</a>				
@@ -120,18 +120,18 @@ use Pw\Core\Models\Crud;
 <script src="{{ asset('core-assets/plugins/iconpicker/fontawesome-iconpicker.js') }}"></script>
 <script>
 $(function () {
-	$('.delete_module').on("click", function () {
-    	var module_id = $(this).attr('module_id');
-		var module_name = $(this).attr('module_name');
-		$("#moduleNameStr").html(module_name);
-		$url = $("#module_del_form").attr("action");
-		$("#module_del_form").attr("action", $url.replace("/0", "/"+module_id));
-		$("#module_delete_confirm").modal('show');
+	$('.delete_crud').on("click", function () {
+    	var crud_id = $(this).attr('crud_id');
+		var crud_name = $(this).attr('crud_name');
+		$("#crudNameStr").html(crud_name);
+		$url = $("#crud_del_form").attr("action");
+		$("#crud_del_form").attr("action", $url.replace("/0", "/"+crud_id));
+		$("#crud_delete_confirm").modal('show');
 		$.ajax({
-			url: "{{ url(config('core.adminRoute') . '/get_module_files/') }}/" + module_id,
+			url: "{{ url(config('core.adminRoute') . '/get_crud_files/') }}/" + crud_id,
 			type:"POST",
 			beforeSend: function() {
-				$("#moduleDeleteFiles").html('<center><i class="fa fa-refresh fa-spin"></i></center>');
+				$("#crudDeleteFiles").html('<center><i class="fa fa-refresh fa-spin"></i></center>');
 			},
 			headers: {
 		    	'X-CSRF-Token': '{{ csrf_token() }}'
@@ -143,16 +143,16 @@ $(function () {
 					filesList += "<li>" + files[$i] + "</li>";
 				}
 				filesList += "</ul>";
-				$("#moduleDeleteFiles").html(filesList);
+				$("#crudDeleteFiles").html(filesList);
 			}
 		});
 	});
 	
 	$('input[name=icon]').iconpicker();
-	$("#dt_modules").DataTable({
+	$("#dt_cruds").DataTable({
 		
 	});
-	$("#module-add-form").validate({
+	$("#crud-add-form").validate({
 		
 	});
 });

@@ -23,14 +23,14 @@ use Pw\Core\Models\Crud;
 			<div class="col-md-4 col-lg-4">
 				<div class="nav-tabs-custom">
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#tab-modules" data-toggle="tab">Crud</a></li>
+						<li class="active"><a href="#tab-cruds" data-toggle="tab">Crud</a></li>
 						<li><a href="#tab-custom-link" data-toggle="tab">Custom Links</a></li>
 					</ul>
 					<div class="tab-content">
-						<div class="tab-pane active" id="tab-modules">
+						<div class="tab-pane active" id="tab-cruds">
 							<ul>
-							@foreach ($modules as $module)
-								<li><i class="fa {{ $module->fa_icon }}"></i> {{ $module->name }} <a module_id="{{ $module->id }}" class="addCrudMenu pull-right"><i class="fa fa-plus"></i></a></li>
+							@foreach ($cruds as $crud)
+								<li><i class="fa {{ $crud->fa_icon }}"></i> {{ $crud->name }} <a crud_id="{{ $crud->id }}" class="addCrudMenu pull-right"><i class="fa fa-plus"></i></a></li>
 							@endforeach
 							</ul>
 						</div>
@@ -159,14 +159,14 @@ $(function () {
 		
 	});
 	
-	$("#tab-modules .addCrudMenu").on("click", function() {
-		var module_id = $(this).attr("module_id");
+	$("#tab-cruds .addCrudMenu").on("click", function() {
+		var crud_id = $(this).attr("crud_id");
 		$.ajax({
 			url: "{{ url(config('core.adminRoute') . '/core_menus') }}",
 			method: 'POST',
 			data: {
-				type: 'module',
-				module_id: module_id,
+				type: 'crud',
+				crud_id: crud_id,
 				"_token": '{{ csrf_token() }}'
 			},
 			success: function( data ) {

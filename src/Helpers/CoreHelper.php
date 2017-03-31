@@ -16,15 +16,16 @@ use Pw\Core\Models\Crud;
 class CoreHelper
 {
     // $names = CoreHelper::generateCrudNames($crud_name);
-    public static function generateCrudNames($crud_name, $icon) {
+    public static function generateCrudNames($module, $crud_name, $table, $icon) {
         $array = array();
         $crud_name = trim($crud_name);
         $crud_name = str_replace(" ", "_", $crud_name);
 
-        $array['crud'] = ucfirst(str_plural($crud_name));
-        $array['label'] = ucfirst(str_plural($crud_name));
-        $array['table'] = strtolower(str_plural($crud_name));
-        $array['model'] = ucfirst(str_singular($crud_name));
+        $array['module'] = $module;
+        $array['crud'] = studly_case($crud_name);
+        $array['label'] = studly_case($crud_name);
+        $array['table'] = $table; //strtolower($crud_name, 1);
+        $array['model'] = studly_case($crud_name);
         $array['fa_icon'] = $icon;
         $array['controller'] = $array['crud']."Controller";
         $array['singular_l'] = strtolower(str_singular($crud_name));

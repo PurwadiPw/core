@@ -14,7 +14,7 @@ class CreateOrganizationsTable extends Migration
      */
     public function up()
     {
-        Crud::generate("Organizations", 'organizations', 'name', 'fa-university', [
+        Crud::generate("authorization", "Organizations", 'organizations', 'name', 'fa-university', [
             ["name", "Name", "Name", true, "", 5, 250, true],
             ["email", "Email", "Email", true, "", 0, 250, false],
             ["phone", "Phone", "Mobile", false, "", 0, 20, false],

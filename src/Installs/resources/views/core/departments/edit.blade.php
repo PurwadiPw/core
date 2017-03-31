@@ -30,12 +30,12 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($department, ['route' => [config('core.adminRoute') . '.departments.update', $department->id ], 'method'=>'PUT', 'id' => 'department-edit-form']) !!}
-					@core_form($module)
+					@core_form($crud)
 					
 					{{--
-					@core_input($module, 'name')
-					@core_input($module, 'tags')
-					@core_input($module, 'color')
+					@core_input($crud, 'name')
+					@core_input($crud, 'tags')
+					@core_input($crud, 'color')
 					--}}
                     <br>
 					<div class="form-group">

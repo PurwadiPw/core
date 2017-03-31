@@ -12,7 +12,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<!--<img class="profile-image" src="{{ asset('core-assets/img/avatar5.png') }}" alt="">-->
-					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
+					<div class="profile-icon text-primary"><i class="fa {{ $crud->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
 					<h4 class="name">{{ $permission->$view_col }}</h4>
@@ -109,9 +109,9 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@core_display($module, 'name')
-						@core_display($module, 'display_name')
-						@core_display($module, 'description')
+						@core_display($crud, 'name')
+						@core_display($crud, 'display_name')
+						@core_display($crud, 'description')
 					</div>
 				</div>
 			</div>

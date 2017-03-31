@@ -253,7 +253,7 @@ class CoreInstallCommand extends Command
                 $this->copyFolder($from."/tests", $to."/tests");
                 if(CoreHelper::laravel_ver() == 5.4) {
                     unlink($to.'/tests/TestCase.php');
-                    rename($to.'/tests/TestCase5.4.php', $to.'/tests/TestCase.php');
+                    //rename($to.'/tests/TestCase5.4.php', $to.'/tests/TestCase.php');
                 } else {
                     unlink($to.'/tests/TestCase5.4.php');
                 }

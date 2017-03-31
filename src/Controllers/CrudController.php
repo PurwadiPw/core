@@ -12,14 +12,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
+use Pw\Core\Facades\Theme;
+use Pw\Core\Facades\Module;
 use Pw\Core\Helpers\CoreHelper;
 use Pw\Core\Models\Crud;
 use Pw\Core\Models\CrudFields;
 use Pw\Core\Models\CrudFieldTypes;
-use Pw\Core\CodeGenerator;
+use Pw\Core\Helpers\CodeGenerator;
 use App\Models\Role;
 use Schema;
 use Pw\Core\Models\Menu;
+
+use Yajra\Datatables\Datatables;
 
 class CrudController extends Controller
 {
@@ -34,12 +38,36 @@ class CrudController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
         $cruds = Crud::all();
-
-        return View('core.crud.index', [
-            'cruds' => $cruds
+        $modules = Module::all();
+        if ($req->ajax()){
+            return Datatables::of($cruds)
+                ->addColumn('name', function ($crud){
+                    return '<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'">'.$crud->name.'</a>';
+                })
+                ->addColumn('module', function($crud){
+                    $module = Module::where('slug', $crud->module);
+                    $moduleName = $module != '[]' ? $module['name'] : 'Crud ini tidak berada dalam module';
+                    return $moduleName;
+                })
+                ->addColumn('items', function($crud){
+                    return Crud::itemCount($crud->name);
+                })
+                ->addColumn('action', function($crud){
+                    return '
+						<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'#fields" class="btn btn-primary btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>
+						<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'#access" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-key"></i></a>
+						<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'#sort" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-sort"></i></a>
+						<a class="btn btn-danger btn-xs" onClick="actCrud('.kutip().$crud->id.kutip().', '.kutip().$crud->name.kutip().')" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>
+                    ';
+                })
+                ->make(true);
+        }
+        return Theme::view('default::core.cruds.index', [
+            'cruds' => $cruds,
+            'modules' => $modules
         ]);
     }
 
@@ -61,9 +89,12 @@ class CrudController extends Controller
      */
     public function store(Request $request)
     {
-        $crud_id = Crud::generateBase($request->name, $request->icon);
-
-        return redirect()->route(config('core.adminRoute') . '.crud.show', [$crud_id]);
+        $crud_id = Crud::generateBase($request->module, $request->name, $request->table, $request->icon);
+        return response()->json([
+            'ok' => true,
+            'data' => $crud_id
+        ]);
+        // return redirect()->route(config('core.adminRoute') . '.crud.show', [$crud_id]);
     }
 
     /**
@@ -84,7 +115,7 @@ class CrudController extends Controller
         // Get Crud Access for all roles
         $roles = Crud::getRoleAccess($id);
 
-        return view('core.crud.show', [
+        return view('default::core.cruds.show', [
             'no_header' => true,
             'no_padding' => "no-padding",
             'ftypes' => $ftypes,
@@ -247,11 +278,12 @@ class CrudController extends Controller
         $crud = Crud::find($crud_id);
         $crud = Crud::get($crud->name);
 
-        // Generate Migration
-        CodeGenerator::generateMigration($crud->name_db, true);
-
         // Create Config for Code Generation
-        $config = CodeGenerator::generateConfig($crud->name,$crud->fa_icon);
+        $config = CodeGenerator::generateConfig($crud->name, $crud->fa_icon);
+        // CoreHelper::log("info", "Migration: ".json_encode($config, JSON_PRETTY_PRINT)."\n", null);
+
+        // Generate Migration
+        CodeGenerator::generateMigration($crud->name_db, true, $config->crudName, $config);
 
         // Generate CRUD
         CodeGenerator::createController($config);
@@ -281,10 +313,10 @@ class CrudController extends Controller
         $crud = Crud::get($crud->name);
 
         // Generate Migration
-        CodeGenerator::generateMigration($crud->name_db, true);
+        CodeGenerator::generateMigration($crud->name_db, true, $config->crudName, $config);
 
         // Create Config for Code Generation
-        $config = CodeGenerator::generateConfig($crud->name,$crud->fa_icon);
+        $config = CodeGenerator::generateConfig($crud->name, $crud->fa_icon);
 
         // Generate CRUD
         CodeGenerator::createController($config);
@@ -383,7 +415,7 @@ class CrudController extends Controller
                 }
             }
         }
-        return redirect(config('core.adminRoute') . '/cruds/'.$id."#access");
+        return redirect(config('core.adminRoute') . '/crud/'.$id."#access");
     }
 
     public function save_crud_field_sort(Request $request, $id)

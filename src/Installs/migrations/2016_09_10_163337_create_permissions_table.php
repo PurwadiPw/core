@@ -14,7 +14,7 @@ class CreatePermissionsTable extends Migration
      */
     public function up()
     {
-        Crud::generate("Permissions", 'permissions', 'name', 'fa-magic', [
+        Crud::generate("authorization", "Permissions", 'permissions', 'name', 'fa-magic', [
             ["name", "Name", "Name", true, "", 1, 250, true],
             ["display_name", "Display Name", "String", false, "", 0, 250, true],
             ["description", "Description", "Textarea", false, "", 0, 1000, false],

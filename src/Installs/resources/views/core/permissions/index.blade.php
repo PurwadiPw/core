@@ -31,7 +31,7 @@
 		<thead>
 		<tr class="success">
 			@foreach( $listing_cols as $col )
-			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
+			<th>{{ $crud->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
 			<th>Actions</th>
@@ -56,12 +56,12 @@
 			{!! Form::open(['action' => 'Core\PermissionsController@store', 'id' => 'permission-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @core_form($module)
+                    @core_form($crud)
 					
 					{{--
-					@core_input($module, 'name')
-					@core_input($module, 'display_name')
-					@core_input($module, 'description')
+					@core_input($crud, 'name')
+					@core_input($crud, 'display_name')
+					@core_input($crud, 'description')
 					--}}
 				</div>
 			</div>

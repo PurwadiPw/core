@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Crud::generate("Users", 'users', 'name', 'fa-group', [
+        Crud::generate("authorization", "Users", 'users', 'name', 'fa-group', [
             ["name", "Name", "Name", false, "", 5, 250, true],
             ["context_id", "Context", "Integer", false, "0", 0, 0, false],
             ["email", "Email", "Email", true, "", 0, 250, false],

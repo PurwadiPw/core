@@ -31,7 +31,7 @@
 		<thead>
 		<tr class="success">
 			@foreach( $listing_cols as $col )
-			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
+			<th>{{ $crud->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
 			<th>Actions</th>
@@ -56,11 +56,11 @@
 			{!! Form::open(['action' => 'Core\RolesController@store', 'id' => 'role-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @core_input($module, 'name', null, null, "form-control text-uppercase", ["placeholder" => "Role Name in CAPITAL LETTERS with '_' to JOIN e.g. 'SUPER_ADMIN'"])
-					@core_input($module, 'display_name')
-					@core_input($module, 'description')
-					@core_input($module, 'parent')
-					@core_input($module, 'dept')
+                    @core_input($crud, 'name', null, null, "form-control text-uppercase", ["placeholder" => "Role Name in CAPITAL LETTERS with '_' to JOIN e.g. 'SUPER_ADMIN'"])
+					@core_input($crud, 'display_name')
+					@core_input($crud, 'description')
+					@core_input($crud, 'parent')
+					@core_input($crud, 'dept')
 				</div>
 			</div>
 			<div class="modal-footer">

@@ -14,7 +14,7 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Crud::generate("Roles", 'roles', 'name', 'fa-user-plus', [
+        Crud::generate("authorization", "Roles", 'roles', 'name', 'fa-user-plus', [
             ["name", "Name", "Name", true, "", 1, 250, true],
             ["display_name", "Display Name", "String", false, "", 0, 250, true],
             ["description", "Description", "Textarea", false, "", 0, 1000, false],

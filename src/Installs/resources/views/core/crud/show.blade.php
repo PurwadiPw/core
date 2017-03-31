@@ -8,7 +8,7 @@ use Pw\Core\Models\Crud;
 
 @section('main-content')
 <div id="page-content" class="profile2">
-	@if(isset($module->is_gen) && $module->is_gen)
+	@if(isset($crud->is_gen) && $crud->is_gen)
 	<div class="bg-success clearfix">
 	@else
 	<div class="bg-danger clearfix">
@@ -17,23 +17,23 @@ use Pw\Core\Models\Crud;
 			<div class="row">
 				<div class="col-md-3">
 					<!--<img class="profile-image" src="{{ asset('/img/avatar5.png') }}" alt="">-->
-					<div class="profile-icon text-primary"><i class="fa {{$module->fa_icon}}"></i></div>
+					<div class="profile-icon text-primary"><i class="fa {{$crud->fa_icon}}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<a class="text-white" href="{{ url(config('core.adminRoute') . '/'.$module->name_db) }}"><h4 data-toggle="tooltip" data-placement="left" title="Open {{ $module->model }} Crud" class="name">{{ $module->label }}</h4></a>
+					<a class="text-white" href="{{ url(config('core.adminRoute') . '/'.$crud->name_db) }}"><h4 data-toggle="tooltip" data-placement="left" title="Open {{ $crud->model }} Crud" class="name">{{ $crud->label }}</h4></a>
 					<div class="row stats">
-						<div class="col-md-12">{{ Crud::itemCount($module->name) }} Items</div>
+						<div class="col-md-12">{{ Crud::itemCount($crud->name) }} Items</div>
 					</div>
-					<p class="desc">@if(isset($module->is_gen) && $module->is_gen) <div class="label2 success">Crud Generated</div> @else <div class="label2 danger" style="border:solid 1px #FFF;">Crud not Generated</div> @endif</p>
+					<p class="desc">@if(isset($crud->is_gen) && $crud->is_gen) <div class="label2 success">Crud Generated</div> @else <div class="label2 danger" style="border:solid 1px #FFF;">Crud not Generated</div> @endif</p>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
-			<div class="dats1" data-toggle="tooltip" data-placement="left" title="Controller"><i class="fa fa-anchor"></i> {{ $module->controller }}</div>
-			<div class="dats1" data-toggle="tooltip" data-placement="left" title="Model"><i class="fa fa-database"></i> {{ $module->model }}</div>
+			<div class="dats1" data-toggle="tooltip" data-placement="left" title="Controller"><i class="fa fa-anchor"></i> {{ $crud->controller }}</div>
+			<div class="dats1" data-toggle="tooltip" data-placement="left" title="Model"><i class="fa fa-database"></i> {{ $crud->model }}</div>
 			<div class="dats1" data-toggle="tooltip" data-placement="left" title="View Column Name"><i class="fa fa-eye"></i>
-				@if($module->view_col!="")
-					{{$module->view_col}}
+				@if($crud->view_col!="")
+					{{$crud->view_col}}
 				@else
 					Not Set
 				@endif
@@ -41,8 +41,8 @@ use Pw\Core\Models\Crud;
 		</div>
 		
 		<div class="col-md-4">
-			@if($module->view_col != "")
-				@if(isset($module->is_gen) && $module->is_gen)
+			@if($crud->view_col != "")
+				@if(isset($crud->is_gen) && $crud->is_gen)
 					<div class="dats1 text-center"><a data-toggle="tooltip" data-placement="left" title="Update Crud" class="btn btn-sm btn-success" style="border-color:#FFF;" id="generate_update" href="#"><i class="fa fa-refresh"></i> Update Crud</a></div>
 					<div class="dats1 text-center"><a data-toggle="tooltip" data-placement="left" title="Update Migration File" class="btn btn-sm btn-success" style="border-color:#FFF;" id="update_migr" href="#"><i class="fa fa-database"></i> Update Migration</a></div>
 				@else
@@ -56,12 +56,12 @@ use Pw\Core\Models\Crud;
 		</div>
 		
 		<div class="col-md-1 actions">
-			<button module_name="{{ $module->name }}" module_id="{{ $module->id }}" class="btn btn-default btn-delete btn-xs delete_module"><i class="fa fa-times"></i></button>
+			<button crud_name="{{ $crud->name }}" crud_id="{{ $crud->id }}" class="btn btn-default btn-delete btn-xs delete_crud"><i class="fa fa-times"></i></button>
 		</div>
 	</div>
 
-	<ul id="module-tabs" data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="{{ url(config('core.adminRoute') . '/modules') }}" data-toggle="tooltip" data-placement="right" title="Back to Crud"> <i class="fa fa-chevron-left"></i>&nbsp;</a></li>
+	<ul id="crud-tabs" data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
+		<li class=""><a href="{{ url(config('core.adminRoute') . '/cruds') }}" data-toggle="tooltip" data-placement="right" title="Back to Crud"> <i class="fa fa-chevron-left"></i>&nbsp;</a></li>
 		
 		<li class="tab-pane" id="fields">
 			<a id="tab_fields" role="tab" data-toggle="tab" class="tab_info" href="#fields" data-target="#tab-info"><i class="fa fa-bars"></i> Crud Fields</a>
@@ -86,7 +86,7 @@ use Pw\Core\Models\Crud;
 						<h4>Crud Fields</h4>
 					</div>-->
 					<div class="panel-body">
-						<table id="dt_module_fields" class="table table-bordered" style="width:100% !important;">
+						<table id="dt_crud_fields" class="table table-bordered" style="width:100% !important;">
 						<thead>
 						<tr class="success">
 							<th style="display:none;"></th>
@@ -104,7 +104,7 @@ use Pw\Core\Models\Crud;
 						</tr>
 						</thead>
 						<tbody>														
-							@foreach ($module->fields as $field)
+							@foreach ($crud->fields as $field)
 								<tr>
 									<td style="display:none;">{{ $field['sort'] }}</td>
 									<td>{{ $field['id'] }}</td>
@@ -118,10 +118,10 @@ use Pw\Core\Models\Crud;
 									<td>@if($field['required']) <span class="text-danger">True</span>@endif </td>
 									<td><?php echo CoreHelper::parseValues($field['popup_vals']) ?></td>
 									<td>
-										<a href="{{ url(config('core.adminRoute') . '/module_fields/'.$field['id'].'/edit') }}" class="btn btn-edit-field btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="edit_{{ $field['colname'] }}"><i class="fa fa-edit"></i></a>
-										<a href="{{ url(config('core.adminRoute') . '/module_fields/'.$field['id'].'/delete') }}" class="btn btn-edit-field btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="delete_{{ $field['colname'] }}"><i class="fa fa-trash"></i></a>
-										@if($field['colname'] != $module->view_col)
-											<a href="{{ url(config('core.adminRoute') . '/crud/'.$module->id.'/set_view_col/'.$field['colname']) }}" class="btn btn-edit-field btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="view_col_{{ $field['colname'] }}"><i class="fa fa-eye"></i></a>
+										<a href="{{ url(config('core.adminRoute') . '/crud_fields/'.$field['id'].'/edit') }}" class="btn btn-edit-field btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="edit_{{ $field['colname'] }}"><i class="fa fa-edit"></i></a>
+										<a href="{{ url(config('core.adminRoute') . '/crud_fields/'.$field['id'].'/delete') }}" class="btn btn-edit-field btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="delete_{{ $field['colname'] }}"><i class="fa fa-trash"></i></a>
+										@if($field['colname'] != $crud->view_col)
+											<a href="{{ url(config('core.adminRoute') . '/crud/'.$crud->id.'/set_view_col/'.$field['colname']) }}" class="btn btn-edit-field btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="view_col_{{ $field['colname'] }}"><i class="fa fa-eye"></i></a>
 										@endif
 									</td>
 								</tr>
@@ -137,7 +137,7 @@ use Pw\Core\Models\Crud;
 				<span class="pull-left">Crud Access for Roles</span>
 				<i class="fa fa-circle gray"></i> Invisible <i class="fa fa-circle orange"></i> Read-Only <i class="fa fa-circle green"></i> Write
 			</div>
-			<form action="{{ url(config('core.adminRoute') . '/save_role_module_permissions/'.$module->id) }}" method="post">
+			<form action="{{ url(config('core.adminRoute') . '/save_role_crud_permissions/'.$crud->id) }}" method="post">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<table class="table table-bordered dataTable no-footer table-access">
 					<thead>
@@ -162,20 +162,20 @@ use Pw\Core\Models\Crud;
 					</thead>
 					@foreach($roles as $role)
 						<tr class="tr-access-basic" role_id="{{ $role->id }}">
-							<td><input class="role_checkb" type="checkbox" name="module_{{ $role->id }}" id="module_{{ $role->id }}" checked="checked"> {{ $role->name }}</td>
+							<td><input class="role_checkb" type="checkbox" name="crud_{{ $role->id }}" id="crud_{{ $role->id }}" checked="checked"> {{ $role->name }}</td>
 							
-							<td><input class="view_checkb" type="checkbox" name="module_view_{{$role->id}}" id="module_view_{{$role->id}}" <?php if($role->view == 1) { echo 'checked="checked"'; } ?> ></td>
-							<td><input class="create_checkb" type="checkbox" name="module_create_{{$role->id}}" id="module_create_{{$role->id}}" <?php if($role->create == 1) { echo 'checked="checked"'; } ?> ></td>
-							<td><input class="edit_checkb" type="checkbox" name="module_edit_{{$role->id}}" id="module_edit_{{$role->id}}" <?php if($role->edit == 1) { echo 'checked="checked"'; } ?> ></td>
-							<td><input class="delete_checkb" type="checkbox" name="module_delete_{{$role->id}}" id="module_delete_{{$role->id}}" <?php if($role->delete == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input class="view_checkb" type="checkbox" name="crud_view_{{$role->id}}" id="crud_view_{{$role->id}}" <?php if($role->view == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input class="create_checkb" type="checkbox" name="crud_create_{{$role->id}}" id="crud_create_{{$role->id}}" <?php if($role->create == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input class="edit_checkb" type="checkbox" name="crud_edit_{{$role->id}}" id="crud_edit_{{$role->id}}" <?php if($role->edit == 1) { echo 'checked="checked"'; } ?> ></td>
+							<td><input class="delete_checkb" type="checkbox" name="crud_delete_{{$role->id}}" id="crud_delete_{{$role->id}}" <?php if($role->delete == 1) { echo 'checked="checked"'; } ?> ></td>
 							<td>
 								<a role_id="{{ $role->id }}" class="toggle-adv-access btn btn-default btn-sm hide_row"><i class="fa fa-chevron-down"></i></a>
 							</td>
 						</tr>
-						<tr class="tr-access-adv module_fields_{{ $role->id }} hide" role_id="{{ $role->id }}" >
+						<tr class="tr-access-adv crud_fields_{{ $role->id }} hide" role_id="{{ $role->id }}" >
 							<td colspan=6>
 								<table class="table table-bordered">
-								@foreach (array_chunk($module->fields, 3, true) as $fields)
+								@foreach (array_chunk($crud->fields, 3, true) as $fields)
 									<tr>
 										@foreach ($fields as $field)
 											<td><div class="col-md-3"><input type="text" name="{{ $field['colname'] }}_{{ $role->id }}" value="{{ $role->fields[$field['id']]['access'] }}" data-slider-value="{{ $role->fields[$field['id']]['access'] }}" class="slider form-control" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-orientation="horizontal"  data-slider-id="{{ $field['colname'] }}_{{ $role->id }}"></div> {{ $field['label'] }} </td>
@@ -194,10 +194,10 @@ use Pw\Core\Models\Crud;
 		<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-sort">
 			<div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-3">
-					<ul id="sortable_module_fields">
-						@foreach ($module->fields as $field)
+					<ul id="sortable_crud_fields">
+						@foreach ($crud->fields as $field)
 							<li class="ui-field" field_id="{{ $field['id'] }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ $field['label'] }}
-								@if($field['colname'] == $module->view_col)
+								@if($field['colname'] == $crud->view_col)
 									<i class="fa fa-eye pull-right" style="margin-top:3px;"></i>
 								@endif
 							</li>
@@ -211,8 +211,8 @@ use Pw\Core\Models\Crud;
 	</div>
 </div>
 
-<!-- module deletion confirmation  -->
-<div class="modal" id="module_delete_confirm">
+<!-- crud deletion confirmation  -->
+<div class="modal" id="crud_delete_confirm">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -222,13 +222,13 @@ use Pw\Core\Models\Crud;
 				<h4 class="modal-title">Crud Delete</h4>
 			</div>
 			<div class="modal-body">
-				<p>Do you really want to delete module <b id="moduleNameStr" class="text-danger"></b> ?</p>
+				<p>Do you really want to delete crud <b id="crudNameStr" class="text-danger"></b> ?</p>
 				<p>Following files will be deleted:</p>
-				<div id="moduleDeleteFiles"></div>
+				<div id="crudDeleteFiles"></div>
 				<p class="text-danger">Note: Migration file will not be deleted but modified.</p>
 			</div>
 			<div class="modal-footer">
-				{{ Form::open(['route' => [config('core.adminRoute') . '.crud.destroy', 0], 'id' => 'module_del_form', 'method' => 'delete', 'style'=>'display:inline']) }}
+				{{ Form::open(['route' => [config('core.adminRoute') . '.crud.destroy', 0], 'id' => 'crud_del_form', 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-danger btn-delete pull-left" type="submit">Yes</button>
 				{{ Form::close() }}
 				<a data-dismiss="modal" class="btn btn-default pull-right" >No</a>				
@@ -244,10 +244,10 @@ use Pw\Core\Models\Crud;
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add {{ $module->model }} Field</h4>
+				<h4 class="modal-title" id="myModalLabel">Add {{ $crud->model }} Field</h4>
 			</div>
-			{!! Form::open(['route' => config('core.adminRoute') . '.module_fields.store', 'id' => 'field-form']) !!}
-			{{ Form::hidden("module_id", $module->id) }}
+			{!! Form::open(['route' => config('core.adminRoute') . '.crud_fields.store', 'id' => 'field-form']) !!}
+			{{ Form::hidden("crud_id", $crud->id) }}
 			<div class="modal-body">
 				<div class="box-body">
 					<div class="form-group">
@@ -382,18 +382,18 @@ $(function () {
 	$("select.popup_vals_list").next().show();
 	$("select[name='popup_vals']").hide();
 
-	$('.delete_module').on("click", function () {
-    	var module_id = $(this).attr('module_id');
-		var module_name = $(this).attr('module_name');
-		$("#moduleNameStr").html(module_name);
-		$url = $("#module_del_form").attr("action");
-		$("#module_del_form").attr("action", $url.replace("/0", "/"+module_id));
-		$("#module_delete_confirm").modal('show');
+	$('.delete_crud').on("click", function () {
+    	var crud_id = $(this).attr('crud_id');
+		var crud_name = $(this).attr('crud_name');
+		$("#crudNameStr").html(crud_name);
+		$url = $("#crud_del_form").attr("action");
+		$("#crud_del_form").attr("action", $url.replace("/0", "/"+crud_id));
+		$("#crud_delete_confirm").modal('show');
 		$.ajax({
-			url: "{{ url(config('core.adminRoute') . '/get_module_files/') }}/" + module_id,
+			url: "{{ url(config('core.adminRoute') . '/get_crud_files/') }}/" + crud_id,
 			type:"POST",
 			beforeSend: function() {
-				$("#moduleDeleteFiles").html('<center><i class="fa fa-refresh fa-spin"></i></center>');
+				$("#crudDeleteFiles").html('<center><i class="fa fa-refresh fa-spin"></i></center>');
 			},
 			headers: {
 		    	'X-CSRF-Token': '{{ csrf_token() }}'
@@ -405,7 +405,7 @@ $(function () {
 					filesList += "<li>" + files[$i] + "</li>";
 				}
 				filesList += "</ul>";
-				$("#moduleDeleteFiles").html(filesList);
+				$("#crudDeleteFiles").html(filesList);
 			}
 		});
 	});
@@ -457,11 +457,11 @@ $(function () {
 	});
 	showValuesTypes();
 
-	$("#sortable_module_fields").sortable({
+	$("#sortable_crud_fields").sortable({
 		update: function(event, ui) {
             // var index = ui.placeholder.index();
             var array = [];
-			$("#sortable_module_fields li").each(function(index) {
+			$("#sortable_crud_fields li").each(function(index) {
 				var field_id = $(this).attr("field_id");
 				if(typeof field_id != "undefined") {
 					array.push(field_id);
@@ -469,7 +469,7 @@ $(function () {
 			});
 			
 			$.ajax({
-				url: "{{ url(config('core.adminRoute') . '/save_module_field_sort') }}/"+{{ $module->id }},
+				url: "{{ url(config('core.adminRoute') . '/save_crud_field_sort') }}/"+{{ $crud->id }},
 				data : {'sort_array': array},
 				method: 'GET',
 				success: function( data ) {
@@ -478,7 +478,7 @@ $(function () {
 			});
         },
 	});
-    $("#sortable_module_fields").disableSelection();	
+    $("#sortable_crud_fields").disableSelection();
 	
 	$("#generate_migr").on("click", function() {
 		var $fa = $(this).find("i");
@@ -486,7 +486,7 @@ $(function () {
 		$fa.addClass("fa-refresh");
 		$fa.addClass("fa-spin");
 		$.ajax({
-			url: "{{ url(config('core.adminRoute') . '/module_generate_migr') }}/"+{{ $module->id }},
+			url: "{{ url(config('core.adminRoute') . '/crud_generate_migr') }}/"+{{ $crud->id }},
 			method: 'GET',
 			success: function( data ) {
 				$fa.removeClass("fa-refresh");
@@ -503,7 +503,7 @@ $(function () {
 		$fa.addClass("fa-refresh");
 		$fa.addClass("fa-spin");
 		$.ajax({
-			url: "{{ url(config('core.adminRoute') . '/module_generate_migr') }}/"+{{ $module->id }},
+			url: "{{ url(config('core.adminRoute') . '/crud_generate_migr') }}/"+{{ $crud->id }},
 			method: 'GET',
 			success: function( data ) {
 				$fa.removeClass("fa-refresh");
@@ -520,7 +520,7 @@ $(function () {
 		$fa.addClass("fa-refresh");
 		$fa.addClass("fa-spin");
 		$.ajax({
-			url: "{{ url(config('core.adminRoute') . '/module_generate_update') }}/"+{{ $module->id }},
+			url: "{{ url(config('core.adminRoute') . '/crud_generate_update') }}/"+{{ $crud->id }},
 			method: 'GET',
 			success: function( data ) {
 				$fa.removeClass("fa-refresh");
@@ -538,7 +538,7 @@ $(function () {
 		$fa.addClass("fa-refresh");
 		$fa.addClass("fa-spin");
 		$.ajax({
-			url: "{{ url(config('core.adminRoute') . '/module_generate_migr_crud') }}/"+{{ $module->id }},
+			url: "{{ url(config('core.adminRoute') . '/crud_generate_migr_crud') }}/"+{{ $crud->id }},
 			method: 'GET',
 			success: function( data ) {
 				$fa.removeClass("fa-refresh");
@@ -549,7 +549,7 @@ $(function () {
 			}
 		});
 	});
-	$("#dt_module_fields").DataTable({
+	$("#dt_crud_fields").DataTable({
 		"initComplete": function(settings, json) {
 			console.log( 'DataTables has finished its initialisation.' );
 			console.log("Win: "+$(window).height()+" header: "+$(".main-header").height());
@@ -569,15 +569,15 @@ $(function () {
 		
 	/* ================== Tab Selection ================== */
 	
-	var $tabs = $('#module-tabs').tabs();
+	var $tabs = $('#crud-tabs').tabs();
 	
 	var url = window.location.href;
 	var activeTab = url.substring(url.indexOf("#") + 1);
 	
 	if(!activeTab.includes("http") && activeTab.length > 1) {
-		$('#module-tabs #'+activeTab+' a').tab('show');
+		$('#crud-tabs #'+activeTab+' a').tab('show');
 	} else {
-		$('#module-tabs #fields a').tab('show');
+		$('#crud-tabs #fields a').tab('show');
 	}
 	
 	/* ================== Access Control ================== */
@@ -674,12 +674,12 @@ $(function () {
 	$(".hide_row").on("click", function() { 
 		var val = $(this).attr( "role_id" );
 		var $icon = $(".hide_row[role_id="+val+"] > i");
-		if($('.module_fields_'+val).hasClass('hide')) {
-			$('.module_fields_'+val).removeClass('hide');
+		if($('.crud_fields_'+val).hasClass('hide')) {
+			$('.crud_fields_'+val).removeClass('hide');
 			$icon.removeClass('fa-chevron-down');
 			$icon.addClass('fa-chevron-up');
 		} else {
-			$('.module_fields_'+val).addClass('hide');
+			$('.crud_fields_'+val).addClass('hide');
 			$icon.removeClass('fa-chevron-up');
 			$icon.addClass('fa-chevron-down');
 		}

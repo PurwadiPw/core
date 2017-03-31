@@ -61,3 +61,10 @@ if (!function_exists('module_class')) {
         return "{$namespace}\\{$class}";
     }
 }
+
+if (!function_exists('kutip')) {
+    function kutip()
+    {
+        return "'";
+    }
+}

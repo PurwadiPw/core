@@ -1,9 +1,9 @@
 @extends("core.layouts.app")
 
 @section("contentheader_title", "Edit Field: ".$field->label)
-@section("contentheader_description", "from ".$module->model." module")
-@section("section", "Crud ".$module->name)
-@section("section_url", url(config('core.adminRoute') . '/crud/'.$module->id))
+@section("contentheader_description", "from ".$crud->model." crud")
+@section("section", "Crud ".$crud->name)
+@section("section_url", url(config('core.adminRoute') . '/crud/'.$crud->id))
 @section("sub_section", "Edit Field")
 
 @section("htmlheader_title", "Field Edit : ".$field->label)
@@ -16,8 +16,8 @@
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				{!! Form::model($field, ['route' => [config('core.adminRoute') . '.module_fields.update', $field->id ], 'method'=>'PUT', 'id' => 'field-edit-form']) !!}
-					{{ Form::hidden("module_id", $module->id) }}
+				{!! Form::model($field, ['route' => [config('core.adminRoute') . '.crud_fields.update', $field->id ], 'method'=>'PUT', 'id' => 'field-edit-form']) !!}
+					{{ Form::hidden("crud_id", $crud->id) }}
 					
 					<div class="form-group">
 						<label for="label">Field Label :</label>
@@ -100,7 +100,7 @@
 					
                     <br>
 					<div class="form-group">
-						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('core.adminRoute') . '/crud/'.$module->id) }}">Cancel</a></button>
+						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('core.adminRoute') . '/crud/'.$crud->id) }}">Cancel</a></button>
 					</div>
 				{!! Form::close() !!}
 				

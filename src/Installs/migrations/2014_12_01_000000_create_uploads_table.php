@@ -14,7 +14,7 @@ class CreateUploadsTable extends Migration
      */
     public function up()
     {
-        Crud::generate("Uploads", 'uploads', 'name', 'fa-files-o', [
+        Crud::generate("authorization", "Uploads", 'uploads', 'name', 'fa-files-o', [
             ["name", "Name", "Name", false, "", 5, 250, true],
             ["path", "Path", "String", false, "", 0, 250, false],
             ["extension", "Extension", "String", false, "", 0, 20, false],
