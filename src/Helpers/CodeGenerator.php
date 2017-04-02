@@ -81,9 +81,9 @@ class CodeGenerator
         CoreHelper::log("info", "Creating views...", $comm);
 
         // Create Folder
-        @mkdir(base_path("public/themes/".Theme::getActive()."/views/core/".$config->singularVar), 0777, true);
+        @mkdir(base_path("public/themes/".Theme::getActive()."/views/core/".$config->singularVar."/opr"), 0777, true);
 
-        // ============================ Listing / Index ============================
+        // ============================ Index ============================
         $md = file_get_contents($templateDirectory."/views/index.blade.stub");
 
         $md = str_replace("__crud_name__", $config->crudName, $md);
@@ -96,15 +96,15 @@ class CodeGenerator
         // Listing columns
         $inputFields = "";
         foreach ($config->crud->fields as $field) {
-            $inputFields .= "\t\t\t\t\t@core_input($"."crud, '".$field['colname']."')\n";
+            $inputFields .= "\t\t\t@core_input($"."crud, '".$field['colname']."')\n";
         }
         $inputFields = trim($inputFields);
         $md = str_replace("__input_fields__", $inputFields, $md);
 
         file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/index.blade.php'), $md);
 
-        // ============================ Edit ============================
-        $md = file_get_contents($templateDirectory."/views/edit.blade.stub");
+        // ============================ List ============================
+        $md = file_get_contents($templateDirectory."/views/opr/list.blade.stub");
 
         $md = str_replace("__crud_name__", $config->crudName, $md);
         $md = str_replace("__db_table_name__", $config->dbTableName, $md);
@@ -116,15 +116,35 @@ class CodeGenerator
         // Listing columns
         $inputFields = "";
         foreach ($config->crud->fields as $field) {
-            $inputFields .= "\t\t\t\t\t@core_input($"."crud, '".$field['colname']."')\n";
+            $inputFields .= "\t\t\t@core_input($"."crud, '".$field['colname']."')\n";
         }
         $inputFields = trim($inputFields);
         $md = str_replace("__input_fields__", $inputFields, $md);
 
-        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/edit.blade.php'), $md);
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/opr/list.blade.php'), $md);
 
-        // ============================ Show ============================
-        $md = file_get_contents($templateDirectory."/views/show.blade.stub");
+        // ============================ Create ============================
+        $md = file_get_contents($templateDirectory."/views/opr/create.blade.stub");
+
+        $md = str_replace("__crud_name__", $config->crudName, $md);
+        $md = str_replace("__db_table_name__", $config->dbTableName, $md);
+        $md = str_replace("__controller_class_name__", $config->controllerName, $md);
+        $md = str_replace("__singular_var__", $config->singularVar, $md);
+        $md = str_replace("__singular_cap_var__", $config->singularCapitalVar, $md);
+        $md = str_replace("__crud_name_2__", $config->crudName2, $md);
+
+        // Listing columns
+        $inputFields = "";
+        foreach ($config->crud->fields as $field) {
+            $inputFields .= "\t\t\t@core_input($"."crud, '".$field['colname']."')\n";
+        }
+        $inputFields = trim($inputFields);
+        $md = str_replace("__input_fields__", $inputFields, $md);
+
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/opr/create.blade.php'), $md);
+
+        // ============================ Read ============================
+        $md = file_get_contents($templateDirectory."/views/opr/read.blade.stub");
 
         $md = str_replace("__crud_name__", $config->crudName, $md);
         $md = str_replace("__db_table_name__", $config->dbTableName, $md);
@@ -135,12 +155,51 @@ class CodeGenerator
         // Listing columns
         $displayFields = "";
         foreach ($config->crud->fields as $field) {
-            $displayFields .= "\t\t\t\t\t\t@core_display($"."crud, '".$field['colname']."')\n";
+            $displayFields .= "\t\t@core_display($"."crud, '".$field['colname']."')\n";
         }
         $displayFields = trim($displayFields);
         $md = str_replace("__display_fields__", $displayFields, $md);
 
-        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/show.blade.php'), $md);
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/opr/read.blade.php'), $md);
+
+        // ============================ Update ============================
+        $md = file_get_contents($templateDirectory."/views/opr/update.blade.stub");
+
+        $md = str_replace("__crud_name__", $config->crudName, $md);
+        $md = str_replace("__db_table_name__", $config->dbTableName, $md);
+        $md = str_replace("__controller_class_name__", $config->controllerName, $md);
+        $md = str_replace("__singular_var__", $config->singularVar, $md);
+        $md = str_replace("__singular_cap_var__", $config->singularCapitalVar, $md);
+        $md = str_replace("__crud_name_2__", $config->crudName2, $md);
+
+        // Listing columns
+        $inputFields = "";
+        foreach ($config->crud->fields as $field) {
+            $inputFields .= "\t\t\t@core_input($"."crud, '".$field['colname']."')\n";
+        }
+        $inputFields = trim($inputFields);
+        $md = str_replace("__input_fields__", $inputFields, $md);
+
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/opr/update.blade.php'), $md);
+
+        // ============================ Delete ============================
+        $md = file_get_contents($templateDirectory."/views/opr/delete.blade.stub");
+
+        $md = str_replace("__crud_name__", $config->crudName, $md);
+        $md = str_replace("__db_table_name__", $config->dbTableName, $md);
+        $md = str_replace("__singular_var__", $config->singularVar, $md);
+        $md = str_replace("__singular_cap_var__", $config->singularCapitalVar, $md);
+        $md = str_replace("__crud_name_2__", $config->crudName2, $md);
+
+        // Listing columns
+        $displayFields = "";
+        foreach ($config->crud->fields as $field) {
+            $displayFields .= "\t\t@core_display($"."crud, '".$field['colname']."')\n";
+        }
+        $displayFields = trim($displayFields);
+        $md = str_replace("__display_fields__", $displayFields, $md);
+
+        file_put_contents(base_path('public/themes/'.Theme::getActive().'/views/core/'.$config->singularVar.'/opr/delete.blade.php'), $md);
     }
 
     public static function appendRoutes($config, $comm = null) {
@@ -231,7 +290,7 @@ class CodeGenerator
         $faIcon = "fa-cube";
 
         // If crud is modular
-        if ($module != null) {
+        if ($module != null && ($module->crud->module != null)) {
             $moduleDir = Module::where('slug', $module->crud->module);
         }
 
@@ -281,7 +340,7 @@ class CodeGenerator
                 $generateData = trim($generateData);
 
                 // Find existing migration file
-                if ($module != null) {
+                if ($module != null && ($module->crud->module != null)) {
                     $mfiles = scandir(app_path('Modules/'.$moduleDir['name'].'/Database/Migrations/'));
                 }else{
                     $mfiles = scandir(base_path('database/migrations/'));

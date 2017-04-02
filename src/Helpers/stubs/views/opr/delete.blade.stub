@@ -1,0 +1,16 @@
+
+<div class="alert alert-warning fade in">
+	{{ Form::open(['route' => ['__singular_var__.destroy', $__singular_var__->id], 'method' => 'delete', 'class' => 'pull-right', 'id' => '__singular_var__-delete-form', 'style'=>'display:inline']) }}
+		@if(Crud::hasAccess("__crud_name__", "delete"))
+			<button class="btn btn-danger btn-xs" id="btn-delete" type="submit">YA</button>
+		@endif
+	{{ Form::close() }}
+	<i class="fa-fw fa fa-warning"></i>
+	<strong>Hapus Data.</strong> Apakah anda yakin akan menghapus data ini?
+</div>
+
+<div class="panel infolist">
+	<div class="panel-body">
+		__display_fields__
+	</div>
+</div>

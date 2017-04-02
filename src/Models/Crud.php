@@ -911,12 +911,14 @@ class Crud extends Model
     public static function updateRow($crud_name, $request, $id)
     {
         $crud = Crud::get($crud_name);
+        $module = Module::where('slug', $crud->module);
+
         if (isset($crud)) {
             $model_name = ucfirst(str_singular($crud_name));
             if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission") {
-                $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
+                $model = "App\\Modules\\".$module['name']."\\Models\\" . $crud_name;
             } else {
-                $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
+                $model = "App\\Modules\\".$module['name']."\\Models\\" . $crud_name;
             }
             //$row = new $crud_path;
             $row = $model::find($id);

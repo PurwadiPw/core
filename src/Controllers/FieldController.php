@@ -65,7 +65,7 @@ class FieldController extends Controller
         Crud::setDefaultFieldRoleAccess($field_id, $role->id, "full");
         return response()->json([
             'ok' => true,
-            'messages' => 'Berhasil'
+            'msg' => 'Berhasil'
         ]);
 
         // return redirect()->route(config('core.adminRoute') . '.cruds.show', [$crud_id]);

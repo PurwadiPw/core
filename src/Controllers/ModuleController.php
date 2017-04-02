@@ -76,7 +76,7 @@ class ModuleController extends Controller
         }
         return response()->json([
             'ok' => $ok,
-            'messages' => $messages
+            'msg' => $messages
         ]);
     }
 
@@ -90,7 +90,7 @@ class ModuleController extends Controller
         }
         return response()->json([
             'ok' => true,
-            'messages' => $status
+            'msg' => $status
         ]);
     }
 }
