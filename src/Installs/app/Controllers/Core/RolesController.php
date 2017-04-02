@@ -17,6 +17,8 @@ use Zizaco\Entrust\EntrustFacade as Entrust;
 use App\Models\Role;
 use App\Models\Permission;
 
+use Theme;
+
 class RolesController extends Controller
 {
 	public $show_action = true;
@@ -45,7 +47,7 @@ class RolesController extends Controller
 		$crud = Crud::get('Roles');
 		
 		if(Crud::hasAccess($crud->id)) {
-			return View('core.roles.index', [
+			return Theme::view('default::core.roles.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => $this->listing_cols,
 				'crud' => $crud
@@ -80,7 +82,8 @@ class RolesController extends Controller
 			$validator = Validator::make($request->all(), $rules);
 			
 			if ($validator->fails()) {
-				return redirect()->back()->withErrors($validator)->withInput();
+            	$ok = false;
+            	$messages = $validator->messages();
 			}
 			
 			$request->name = str_replace(" ", "_", strtoupper(trim($request->name)));
@@ -96,11 +99,17 @@ class RolesController extends Controller
 			$perm = Permission::where("name", "ADMIN_PANEL")->first();
 			$role->attachPermission($perm);
 			
-			return redirect()->route(config('core.adminRoute') . '.roles.index');
+            $ok = true;
+            $messages = 'Berhasil';
 			
 		} else {
-			return redirect(config('core.adminRoute')."/");
+            $ok = false;
+            $messages = 'Anda tidak mempunyai akses "Create Role"';
 		}
+        return response()->json([
+        	'ok' => $ok,
+        	'msg' => $messages
+        ]);
 	}
 
 	/**
@@ -124,7 +133,7 @@ class RolesController extends Controller
 					$crud_obj->accesses = Crud::getRoleAccess($crud_obj->id, $id)[0];
 					$cruds_access[] = $crud_obj;
 				}
-				return view('core.roles.show', [
+				return Theme::view('default::core.roles.show', [
 					'crud' => $crud,
 					'view_col' => $this->view_col,
 					'no_header' => true,
@@ -158,7 +167,7 @@ class RolesController extends Controller
 				
 				$crud->row = $role;
 				
-				return view('core.roles.edit', [
+				return Theme::view('default::core.roles.edit', [
 					'crud' => $crud,
 					'view_col' => $this->view_col,
 				])->with('role', $role);
@@ -247,9 +256,6 @@ class RolesController extends Controller
 				if($col == $this->view_col) {
 					$data->data[$i][$j] = '<a href="'.url(config('core.adminRoute') . '/roles/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
 				}
-				// else if($col == "author") {
-				//    $data->data[$i][$j];
-				// }
 			}
 			
 			if($this->show_action) {

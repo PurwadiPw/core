@@ -18,6 +18,8 @@ use Zizaco\Entrust\EntrustFacade as Entrust;
 use App\Models\Permission;
 use App\Models\Role;
 
+use Theme;
+
 class PermissionsController extends Controller
 {
 	public $show_action = true;
@@ -46,7 +48,7 @@ class PermissionsController extends Controller
 		$crud = Crud::get('Permissions');
 		
 		if(Crud::hasAccess($crud->id)) {
-			return View('core.permissions.index', [
+			return Theme::view('default::core.permissions.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => $this->listing_cols,
 				'crud' => $crud
@@ -81,16 +83,23 @@ class PermissionsController extends Controller
 			$validator = Validator::make($request->all(), $rules);
 			
 			if ($validator->fails()) {
-				return redirect()->back()->withErrors($validator)->withInput();
+            	$ok = false;
+            	$messages = $validator->messages();
 			}
 			
 			$insert_id = Crud::insert("Permissions", $request);
 			
-			return redirect()->route(config('core.adminRoute') . '.permissions.index');
+            $ok = true;
+            $messages = 'Berhasil';
 			
 		} else {
-			return redirect(config('core.adminRoute')."/");
+            $ok = false;
+            $messages = 'Anda tidak mempunyai akses "Create Permission"';
 		}
+        return response()->json([
+        	'ok' => $ok,
+        	'msg' => $messages
+        ]);
 	}
 
 	/**
@@ -110,7 +119,7 @@ class PermissionsController extends Controller
 				
 				$roles = Role::all();
 				
-				return view('core.permissions.show', [
+				return Theme::view('default::core.permissions.show', [
 					'crud' => $crud,
 					'view_col' => $this->view_col,
 					'no_header' => true,
@@ -142,7 +151,7 @@ class PermissionsController extends Controller
 				$crud = Crud::get('Permissions');
 				$crud->row = $permission;
 				
-				return view('core.permissions.edit', [
+				return Theme::view('default::core.permissions.edit', [
 					'crud' => $crud,
 					'view_col' => $this->view_col,
 				])->with('permission', $permission);

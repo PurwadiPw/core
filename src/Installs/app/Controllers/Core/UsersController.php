@@ -15,6 +15,8 @@ use Pw\Core\Models\CrudFields;
 
 use App\Models\User;
 
+use Theme;
+
 class UsersController extends Controller
 {
 	public $show_action = false;
@@ -43,7 +45,7 @@ class UsersController extends Controller
 		$crud = Crud::get('Users');
 		
 		if(Crud::hasAccess($crud->id)) {
-			return View('core.users.index', [
+			return Theme::view('default::core.users.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => $this->listing_cols,
 				'crud' => $crud

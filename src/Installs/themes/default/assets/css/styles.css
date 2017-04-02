@@ -1,0 +1,113 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+
+
+/* .dataTables_filter .input-group-addon {
+    width: 32px;
+    margin-top: 0;
+    float: left;
+    height: 32px;
+    padding-top: 8px;
+    display: inline-block;
+    z-index: 2;
+    position: relative;
+    top: 32px;
+}
+
+.add-clear-span > input.form-control {
+    text-indent: 22px;
+    height: 32px;
+}
+
+span.add-clear-x.form-control-feedback.glyphicon.glyphicon-remove-circle {
+    display: inline-block;
+    z-index: 3;
+}
+
+.input-group-btn {
+    left: -2px;
+}
+
+.firstbtn {
+    margin-left: -10px;
+}
+
+.secondbtn {
+    margin-left: -40px;
+}
+
+.thirdbtn {
+    margin-left: -20px;
+}
+
+hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    border: 0;
+    border-top: 1px solid black;
+}*/
+
+.table>thead:first-child>tr:first-child>th {
+    text-align: center;
+}
+
+.jarviswidget header:first-child .nav-tabs li a {
+    text-transform: uppercase;
+}
+
+.nav-tabs>li .close {
+    margin: 2px -5px 0px 10px;
+    font-size: 13px;
+}
+
+.table-striped>tbody>tr.selected {
+    background-color: #bdbdbd !important;
+}
+
+.panel.infolist .form-group {
+    border-bottom: 1px dashed #e2e4e8;
+    padding-bottom: 9px;
+    min-height: 35px;
+    display: block;
+    height: auto;
+    overflow-y: auto;
+}
+
+.panel.infolist .form-group label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.panel.infolist .form-group .fvalue {
+    padding: 0px 10px 5px 10px;
+}
+
+.panel.infolist .form-group:last-child {
+    border-bottom: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.panel.infolist .form-group:first-child {
+    margin-top: 10px;
+}

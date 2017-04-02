@@ -174,9 +174,13 @@ class CoreInstallCommand extends Command
                     mkdir($to."/storage/thumbnails");
                 }
 
-                // core-assets
-                $this->line('Menggenerate Core Public Assets...');
-                $this->replaceFolder($from."/core-assets", $to."/public/core-assets");
+                // themes
+                $this->line('Menggenerate Tema Default...');
+                if(!file_exists($to."/public/themes")) {
+                    $this->info("mkdir: (".$to."/public/themes)");
+                    mkdir($to."/public/themes");
+                }
+                $this->replaceFolder($from."/themes/default", $to."/public/themes/default");
 
                 // Ngecek CACHE_DRIVER apakah array atau bukan
                 // Ini diperlukan untuk Zizaco/Entrust
@@ -193,11 +197,6 @@ class CoreInstallCommand extends Command
 
                 $this->line('Mengcopy seeds...');
                 $this->copyFile($from."/seeds/DatabaseSeeder.php", $to."/database/seeds/DatabaseSeeder.php");
-
-                // Resources
-                $this->line('Menggenerate resources: assets + views...');
-                $this->copyFolder($from."/resources/assets", $to."/resources/assets");
-                $this->copyFolder($from."/resources/views", $to."/resources/views");
 
                 // Ngecek database
                 $this->line('Memeriksa konektivitas database...');
@@ -256,15 +255,6 @@ class CoreInstallCommand extends Command
                     //rename($to.'/tests/TestCase5.4.php', $to.'/tests/TestCase.php');
                 } else {
                     unlink($to.'/tests/TestCase5.4.php');
-                }
-
-                // Utilities
-                $this->line('Menggenerate Utilities...');
-                if (!file_exists($to.'/gulpfile.js')) {
-                    fopen('gulpfile.js', 'w');
-                }
-                if (CoreHelper::getLineWithString($to . "/gulpfile.js", "mix.less('admin-lte/AdminLTE.less', 'public/core-assets/css');") == -1) {
-                    $this->appendFile($from . "/gulpfile.js", $to . "/gulpfile.js");
                 }
 
                 // Membuat Super Admin User
