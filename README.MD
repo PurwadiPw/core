@@ -17,12 +17,14 @@ Jika proses diatas sudah selesai, tambahkan class Service Provider dan Facade ke
 
 ```php
 Pw\Core\CoreServiceProvider::class,
+Pw\Core\ThemesServiceProvider::class,
 ```
 
 #### Facade
 
 ```php
 'Module' => Pw\Core\Facades\Module::class,
+'Theme' => Pw\Core\Facades\Theme::class,
 ```
 
 Itu dia core siap di pakai, silahkan seruput sejenak kopi anda dan mulailah berkreasi.

@@ -263,7 +263,7 @@
     // Handle click on "Select all" control
     $('#select-all').on('click', function(){
         // Get all rows with search applied
-        var rows = table.rows({ 'search': 'applied' }).nodes();
+        var rows = $('#dt_ajax').DataTable().rows({ 'search': 'applied' }).nodes();
         // Check/uncheck checkboxes for all rows in the table
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
         checkChecked();
@@ -337,7 +337,7 @@
 
     $('input[name=icon]').iconpicker();
     $('#crud-btn-refresh').on('click', function(){
-        table.DataTable()._fnAjaxUpdate();
+        $('#dt_ajax').DataTable().draw();
     });
 
     $('#crud-form-add').on('submit', function(e){
@@ -351,7 +351,7 @@
             if (data.ok == true){
                 var status = 'Berhasil!!';
                 var color = "#659265";
-                table.DataTable()._fnAjaxUpdate();
+                $('#dt_ajax').DataTable().draw();
                 $('#addModal').modal('hide');
             }else{
                 var status = 'Gagal!!';
@@ -359,7 +359,7 @@
             }
             $.smallBox({
                 title: status,
-                content: "<i class='fa fa-clock-o'></i> <i>"+data.messages+"</i>",
+                content: "<i class='fa fa-clock-o'></i> <i>"+data.msg+"</i>",
                 color: color,
                 iconSmall: "fa fa-times fa-2x fadeInRight animated",
                 timeout: 4000

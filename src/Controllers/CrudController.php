@@ -92,9 +92,9 @@ class CrudController extends Controller
         $crud_id = Crud::generateBase($request->module, $request->name, $request->table, $request->icon);
         return response()->json([
             'ok' => true,
-            'data' => $crud_id
+            'data' => $crud_id,
+            'msg' => 'Crud berhasil ditambahkan'
         ]);
-        // return redirect()->route(config('core.adminRoute') . '.crud.show', [$crud_id]);
     }
 
     /**
