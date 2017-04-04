@@ -112,15 +112,6 @@ class CoreServiceProvider extends ServiceProvider
 
         /*
         |--------------------------------------------------------------------------
-        | Register the Controllers
-        |--------------------------------------------------------------------------
-        */
-        $this->app->make('Pw\Core\Controllers\CrudController');
-        $this->app->make('Pw\Core\Controllers\FieldController');
-        $this->app->make('Pw\Core\Controllers\MenuController');
-
-        /*
-        |--------------------------------------------------------------------------
         | Blade Directives
         |--------------------------------------------------------------------------
         */

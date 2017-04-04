@@ -30,10 +30,10 @@
                     <li>
                         <a href="{{ url(config('core.adminRoute').'/crud') }}" title="Crud"><span class="menu-item-parent">Crud</span></a>
                     </li>
-                    <!-- <li>
+                    <li>
                         <a href="{{ url(config('core.adminRoute').'/core_menus') }}" title="Menu"><span class="menu-item-parent">Menu</span></a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="{{ url(config('core.adminRoute').'/core_configs') }}" title="Pengaturan"><span class="menu-item-parent">Pengaturan</span></a>
                     </li> -->
                 </ul>

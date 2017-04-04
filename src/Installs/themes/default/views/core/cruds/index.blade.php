@@ -54,7 +54,7 @@
                         @yield('addButton')
                     @endif
 
-                    <div class="widget-toolbar" id="btn-dt_ajax">
+                    <div class="widget-toolbar" id="btn-dt_ajax" style="display: none;">
                         <a href="javascript:void(0);" class="btn btn-danger">
                             <i class="fa fa-trash"></i> Hapus Multiple
                         </a>

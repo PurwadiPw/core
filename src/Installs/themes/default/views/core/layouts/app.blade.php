@@ -98,7 +98,7 @@ Use search to find needed section.
     * 'smart-style-{SKIN#}'
     * 'smart-rtl'         - Switch theme mode to RTL
     * 'menu-on-top'       - Switch to top navigation (no DOM change required)
-    * 'no-menu'			  - Hides the menu completely
+    * 'no-menu'           - Hides the menu completely
     * 'hidden-menu'       - Hides the main menu but still accessable by hovering over left edge
     * 'fixed-header'      - Fixes the header
     * 'fixed-navigation'  - Fixes the main menu
@@ -151,9 +151,9 @@ Use search to find needed section.
 
             <!-- footer: refresh area -->
             <span> Last updated on: 12/12/2013 9:43AM
-						<button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
-							<i class="fa fa-refresh"></i>
-						</button> </span>
+                        <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
+                            <i class="fa fa-refresh"></i>
+                        </button> </span>
             <!-- end footer -->
 
         </div>
@@ -280,39 +280,13 @@ Use search to find needed section.
         <!-- multiple lang dropdown : find all flags in the flags page -->
         <ul class="header-dropdown-list hidden-xs">
             <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span> {{ CoreHelper::availableLang()[App::getLocale()] }} ({{ strtoupper(App::getLocale()) }})</span> <i class="fa fa-angle-down"></i> </a>
                 <ul class="dropdown-menu pull-right">
-                    <li class="active">
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-us" alt="United States"> English (US)</a>
+                    @foreach(CoreHelper::availableLang() as $locale => $lang)
+                    <li class="{{ App::getLocale() == $locale ? 'active' : ''}}">
+                        <a href="{{ url('language/'.$locale) }}">{{ $lang }}</a>
                     </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-fr" alt="France"> Français</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-es" alt="Spanish"> Español</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-de" alt="German"> Deutsch</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-jp" alt="Japan"> 日本語</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-cn" alt="China"> 中文</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-it" alt="Italy"> Italiano</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-pt" alt="Portugal"> Portugal</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-ru" alt="Russia"> Русский язык</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);"><img src="{{ Theme::asset('default::img/blank.gif') }}" class="flag flag-kr" alt="Korea"> 한국어</a>
-                    </li>
-
+                    @endforeach
                 </ul>
             </li>
         </ul>

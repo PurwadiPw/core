@@ -10,6 +10,7 @@
 <style>
     .profile2{
         margin-bottom: 15px;
+        margin-top: -14px;
     }
     .profile2 .profile-image {
         border-radius: 50%;
@@ -615,7 +616,7 @@
     showValuesTypes();
 
     function showValuesSection() {
-        console.log($("select[name='field_type']").val());
+        // console.log($("select[name='field_type']").val());
         var ft_val = $("select[name='field_type']").val();
         if(ft_val == 7 || ft_val == 15 || ft_val == 18 || ft_val == 20) {
             $(".values").show();
@@ -640,7 +641,7 @@
     }
 
     function showValuesTypes() {
-        console.log($("input[name='popup_value_type']:checked").val());
+        // console.log($("input[name='popup_value_type']:checked").val());
         if($("input[name='popup_value_type']:checked").val() == "list") {
             $("#popup_vals_list").show();
             $("#popup_vals_table").hide();
@@ -667,7 +668,7 @@
                 $fa.removeClass("fa-refresh");
                 $fa.removeClass("fa-spin");
                 $fa.addClass("fa-check");
-                console.log(data);
+                // console.log(data);
                 location.reload();
             }
         });
@@ -685,7 +686,7 @@
                 $fa.removeClass("fa-refresh");
                 $fa.removeClass("fa-spin");
                 $fa.addClass("fa-check");
-                console.log(data);
+                // console.log(data);
                 location.reload();
             }
         });
@@ -703,7 +704,7 @@
                 $fa.removeClass("fa-refresh");
                 $fa.removeClass("fa-spin");
                 $fa.addClass("fa-check");
-                console.log(data);
+                // console.log(data);
                 location.reload();
             }
         });
@@ -810,7 +811,7 @@
 
     var url = window.location.href;
     var activeTab = url.substring(url.indexOf("#") + 1);
-    console.log(activeTab);
+    // console.log(activeTab);
 
     if(!activeTab.includes("http") && activeTab.length > 1) {
         $('#widget-tab-1 a[href="#'+activeTab+'"]').tab('show');

@@ -19,9 +19,24 @@ return [
     | default_uploads_security: public / private
     | 
     */
+    
     'uploads' => [
         'private_uploads' => false,
         'default_public' => false,
         'allow_filename_change' => true
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Available Locales
+    |--------------------------------------------------------------------------
+    | 
+    | Modify this array with your desired locales.
+    |
+    */
+
+    'locales' => [
+        'en' => 'English',
+        'id' => 'Indonesia'
     ],
 ];

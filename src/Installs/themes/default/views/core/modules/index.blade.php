@@ -216,7 +216,7 @@
                     success: function (data) {
                         $.smallBox({
                             title: act + " Module",
-                            content: "<i>" + act + " Module telah berhasil... <br/> Sekarang, Module " + name + " telah " + data.messages + "</i>",
+                            content: "<i>" + act + " Module telah berhasil... <br/> Sekarang, Module " + name + " telah " + data.msg + "</i>",
                             color: "#659265",
                             iconSmall: "fa fa-check fa-2x fadeInRight animated",
                             timeout: 4000
@@ -262,7 +262,7 @@
             }
             $.smallBox({
                 title: "Ooops!!",
-                content: "<i class='fa fa-clock-o'></i> <i>"+data.messages+"</i>",
+                content: "<i class='fa fa-clock-o'></i> <i>"+data.msg+"</i>",
                 color: color,
                 iconSmall: "fa fa-times fa-2x fadeInRight animated",
                 timeout: 4000

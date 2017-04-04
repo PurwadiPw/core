@@ -46,8 +46,7 @@ class CoreInstallCommand extends Command
         try{
             $this->info('Memulai instalasi Core...');
 
-            //$from = base_path('vendor/pw/core/src/Installs');
-            $from = base_path('packages/pw/core/src/Installs');
+            $from = base_path('vendor/pw/core/src/Installs');
             $to = base_path();
 
             $this->info('dari: '.$from." ke: ".$to);
@@ -295,8 +294,11 @@ class CoreInstallCommand extends Command
                 } else {
                     $this->info("Super Admin User '".$user['name']."' sudah ada. ");
                 }
-                $role = \App\Models\Role::whereName('SUPER_ADMIN')->first();
-                $user->attachRole($role);
+                // $role = \App\Models\Role::whereName('SUPER_ADMIN')->first();
+                $role = \App\Models\Role::all();
+                foreach ($role as $row) {
+                    $user->attachRole($row);
+                }
                 $this->info("\nCore berhasil di install.");
                 $this->info("Sekarang anda bisa login lewat yourdomain.com/".config('core.adminRoute')." !!!\n");
             }else{

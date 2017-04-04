@@ -92,6 +92,7 @@ class CodeGenerator
         $md = str_replace("__singular_var__", $config->singularVar, $md);
         $md = str_replace("__singular_cap_var__", $config->singularCapitalVar, $md);
         $md = str_replace("__crud_name_2__", $config->crudName2, $md);
+        $md = str_replace("__module__", $config->crud->module, $md);
 
         // Listing columns
         $inputFields = "";

@@ -66,9 +66,30 @@ class DatabaseSeeder extends Seeder
 		$role->dept = $dept->id;
 		$role->save();
 		
+		// Create Super Admin Role
+		$role = new Role;
+		$role->name = "DEVELOPER";
+		$role->display_name = "Developer";
+		$role->description = "Developer Access Role";
+		$role->parent = 1;
+		$role->dept = $dept->id;
+		$role->save();
+		
+		// Create Super Admin Role
+		$role = new Role;
+		$role->name = "OPERATOR";
+		$role->display_name = "Operator";
+		$role->description = "Operator Access Role";
+		$role->parent = 1;
+		$role->dept = $dept->id;
+		$role->save();
+		
 		// Set Full Access For Super Admin Role
 		foreach ($modules as $module) {
-			Crud::setDefaultRoleAccess($module->id, $role->id, "full");
+			$roles = $role->all();
+			foreach ($roles as $row) {
+				Crud::setDefaultRoleAccess($module->id, $row->id, "full");
+			}
 		}
 		
 		// Create Admin Panel Permission
@@ -78,7 +99,10 @@ class DatabaseSeeder extends Seeder
 		$perm->description = "Admin Panel Permission";
 		$perm->save();
 		
-		$role->attachPermission($perm);
+		$roles = $role->all();
+		foreach ($roles as $row) {
+			$row->attachPermission($perm);
+		}
 		
 		// Generate Core Default Configurations
 		

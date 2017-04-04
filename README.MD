@@ -18,6 +18,7 @@ Jika proses diatas sudah selesai, tambahkan class Service Provider dan Facade ke
 ```php
 Pw\Core\CoreServiceProvider::class,
 Pw\Core\ThemesServiceProvider::class,
+Pw\Core\TranslatableServiceProvider::class,
 ```
 
 #### Facade
@@ -25,6 +26,19 @@ Pw\Core\ThemesServiceProvider::class,
 ```php
 'Module' => Pw\Core\Facades\Module::class,
 'Theme' => Pw\Core\Facades\Theme::class,
+```
+
+Tambahkan juga middleware pada file `app/Http/Kernel.php`
+
+#### Middleware
+
+```php
+protected $middlewareGroups = [
+    'web' => [
+        ...
+        \Pw\Core\Middleware\Language::class,
+    ],
+];
 ```
 
 Itu dia core siap di pakai, silahkan seruput sejenak kopi anda dan mulailah berkreasi.

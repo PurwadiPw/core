@@ -1,4 +1,4 @@
-{!! Form::open(['action' => '__controller_class_name__@store', 'class' => 'smart-form', 'id' => '__singular_var__-add-form']) !!}
+{!! Form::open(['route' => '__singular_var__.store', 'class' => 'smart-form', 'id' => '__singular_var__-add-form']) !!}
     <fieldset>
         <div class="row">
             <section class="col col-6">

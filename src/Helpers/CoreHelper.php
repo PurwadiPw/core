@@ -398,4 +398,11 @@ class CoreHelper
         $md = file_get_contents($from);
         return $md;
     }
+
+    // CoreHelper::availableLang()
+    public static function availableLang()
+    {
+        $langs = config('core.locales');
+        return $langs;
+    }
 }

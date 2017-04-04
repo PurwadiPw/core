@@ -56,10 +56,10 @@ class ModuleController extends Controller
             $messages = 'Maaf, Module Sudah ada';
         }else{
             $command = Artisan::call('make:module', ['slug' => $req['slug'], '--quick' => true]);
+            Artisan::call('module:optimize');
             if ($command == 0){
-                $module = Module::where('slug', $req['slug']);
                 $menu =  Menu::create([
-                    "name" => title_case(str_replace('_', ' ', snake_case($module['name']))),
+                    "name" => title_case(str_replace('_', ' ', snake_case($req['slug']))),
                     "url" => '#',
                     "icon" => "fa fa-cubes",
                     "type" => 'module',

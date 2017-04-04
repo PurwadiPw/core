@@ -9,21 +9,18 @@
 namespace Pw\Core\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use DB;
-
-use Pw\Core\Models\Menu;
-use Pw\Core\Models\Crud;
-use Pw\Core\Models\CrudFields;
-use Pw\Core\Models\CrudFieldTypes;
+use Illuminate\Support\Facades\Input;
 use Pw\Core\Helpers\CoreHelper;
+use Pw\Core\Models\Crud;
+use Pw\Core\Models\Menu;
+use Theme;
 
 class MenuController extends Controller
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         // for authentication (optional)
         $this->middleware('auth');
     }
@@ -33,14 +30,33 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cruds = Crud::all();
-        $menuItems = Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
+        $cruds    = Crud::all();
+        $menu     = new Menu;
+        $menuType = $menu->all()->groupBy('type');
 
-        return View('core.menus.index', [
-            'menus' => $menuItems,
-            'cruds' => $cruds
+        $type = (!is_null($request->input('type')) ? $request->input('type') : '');
+        if ($type == '') {
+            $menus = $menu->orderBy('hierarchy', 'asc')->get();
+        } else {
+            $menus = $menu->where('type', $type)->orderBy('hierarchy', 'asc')->get();
+        }
+
+        $id = (!is_null($request->input('id')) ? $request->input('id') : '');
+        if ($id != '') {
+            $menuedit = $menu->where('id', $id)->first();
+        } else {
+            $menuedit = '';
+        }
+
+        return Theme::view('default::core.menus.index', [
+            'menuType'  => $menuType,
+            'menuItems' => $menu->getHTML($type, $menus),
+            'menus'     => $menus,
+            'cruds'     => $cruds,
+            'menuedit'  => $menuedit,
+            'type'      => $type,
         ]);
     }
 
@@ -62,38 +78,50 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $name = Input::get('name');
-        $url = Input::get('url');
-        $icon = Input::get('icon');
-        $type = Input::get('type');
 
-        if($type == "crud") {
+        $parent = Input::get('parent');
+        $name   = Input::get('name');
+        $url    = Input::get('url');
+        $icon   = Input::get('icon');
+        $type   = Input::get('type');
+
+        $menu = new Menu;
+
+        if ($type == 'crud') {
             $crud_id = Input::get('crud_id');
-            $crud = Crud::find($crud_id);
-            if(isset($crud->id)) {
-                $name = $crud->name;
-                $url = $crud->name_db;
-                $icon = $crud->fa_icon;
+            $crud    = Crud::find($crud_id);
+            if (isset($crud->id)) {
+                $menu->icon   = $crud->fa_icon;
+                $menu->parent = 0;
             } else {
                 return response()->json([
-                    "status" => "failure",
-                    "message" => "Crud does not exists"
+                    "status"  => "failure",
+                    "message" => "Crud does not exists",
                 ], 200);
             }
+
+            foreach (array_keys(CoreHelper::availableLang()) as $locale) {
+                $menu->translateOrNew($locale)->name = $crud->name;
+                $menu->translateOrNew($locale)->url  = $crud->url;
+            }
+        } elseif ($type == 'front') {
+            $menu->parent = $parent;
+            $menu->icon   = $icon;
+            foreach (array_keys(CoreHelper::availableLang()) as $locale) {
+                foreach ($menu->translatedAttributes as $attr) {
+                    $menu->translateOrNew($locale)->{$attr} = $request->{$locale}[$attr];
+                }
+            }
         }
-        Menu::create([
-            "name" => $name,
-            "url" => $url,
-            "icon" => $icon,
-            "type" => $type,
-            "parent" => 0
-        ]);
-        if($type == "crud") {
+        $menu->type = $type;
+        $menu->save();
+
+        if ($type == 'crud') {
             return response()->json([
-                "status" => "success"
+                "status" => "success",
             ], 200);
-        } else {
-            return redirect(config('core.adminRoute').'/core_menus');
+        } elseif ($type == 'front') {
+            return redirect()->back();
         }
     }
 
@@ -125,17 +153,17 @@ class MenuController extends Controller
     public function update(Request $request, $id)
     {
         $name = Input::get('name');
-        $url = Input::get('url');
+        $url  = Input::get('url');
         $icon = Input::get('icon');
         $type = Input::get('type');
 
-        $menu = Menu::find($id);
+        $menu       = Menu::find($id);
         $menu->name = $name;
-        $menu->url = $url;
+        $menu->url  = $url;
         $menu->icon = $icon;
         $menu->save();
 
-        return redirect(config('core.adminRoute').'/core_menus');
+        return redirect(config('core.adminRoute') . '/core_menus');
     }
 
     /**
@@ -147,9 +175,7 @@ class MenuController extends Controller
     public function destroy($id)
     {
         Menu::find($id)->delete();
-
-        // Redirecting to index() method for Listing
-        return redirect()->route(config('core.adminRoute').'.core_menus.index');
+        return redirect()->route(config('core.adminRoute') . '.core_menus.index');
     }
 
     /**
@@ -159,27 +185,27 @@ class MenuController extends Controller
      */
     public function update_hierarchy()
     {
-        $parents = Input::get('jsonData');
+        $parents   = Input::get('jsonData');
         $parent_id = 0;
 
-        for ($i=0; $i < count($parents); $i++) {
-            $this->apply_hierarchy($parents[$i], $i+1, $parent_id);
+        for ($i = 0; $i < count($parents); $i++) {
+            $this->apply_hierarchy($parents[$i], $i + 1, $parent_id);
         }
 
         return $parents;
     }
 
-    function apply_hierarchy($menuItem, $num, $parent_id)
+    public function apply_hierarchy($menuItem, $num, $parent_id)
     {
         // echo "apply_hierarchy: ".json_encode($menuItem)." - ".$num." - ".$parent_id."  <br><br>\n\n";
-        $menu = Menu::find($menuItem['id']);
-        $menu->parent = $parent_id;
+        $menu            = Menu::find($menuItem['id']);
+        $menu->parent    = $parent_id;
         $menu->hierarchy = $num;
         $menu->save();
 
-        if(isset($menuItem['children'])) {
-            for ($i=0; $i < count($menuItem['children']); $i++) {
-                $this->apply_hierarchy($menuItem['children'][$i], $i+1, $menuItem['id']);
+        if (isset($menuItem['children'])) {
+            for ($i = 0; $i < count($menuItem['children']); $i++) {
+                $this->apply_hierarchy($menuItem['children'][$i], $i + 1, $menuItem['id']);
             }
         }
     }

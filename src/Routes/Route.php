@@ -6,6 +6,12 @@
  * Time: 11:32
  */
 
+
+/* ================== Change Language ================== */
+Route::group(['namespace'  => 'Pw\Core\Controllers', 'middleware' => 'web'], function(){
+    Route::get('language/{lang}', 'LangController@language')->where('lang', '[A-Za-z_-]+');
+});
+
 $as = config('core.adminRoute').'.';
 
 Route::group([
