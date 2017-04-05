@@ -97,6 +97,7 @@ class CoreInstallCommand extends Command
                 ."\n\t app/User.php"
                 ."\n\t config/auth.php"
                 ."\n\t database/migrations/2014_10_12_000000_create_users_table.php"
+                ."\n\t database/migrations/2014_10_12_100000_create_password_resets_table.php"
                 ."\n\t gulpfile.js"
                 ."\n\n Silahkan backup file tersebut atau menggunakan git. Apakah anda ingin melanjutkan?", true)) {
 
@@ -192,6 +193,12 @@ class CoreInstallCommand extends Command
 
                 // Migrations
                 $this->line('Menggenerate migrations...');
+                if (file_exists($to.'/database/migrations/2014_10_12_000000_create_users_table.php')){
+                    unlink($to.'/database/migrations/2014_10_12_000000_create_users_table.php');
+                }
+                if (file_exists($to.'/database/migrations/2014_10_12_100000_create_password_resets_table.php')){
+                    unlink($to.'/database/migrations/2014_10_12_100000_create_password_resets_table.php');
+                }
                 $this->copyFolder($from."/migrations", $to."/database/migrations");
 
                 $this->line('Mengcopy seeds...');

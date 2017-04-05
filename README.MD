@@ -41,4 +41,37 @@ protected $middlewareGroups = [
 ];
 ```
 
+Setelah menambahkan `Service Provider`, `Facade`, dan juga `Middleware` jalankan script.
+
+#### Publish Vendor Files
+
+```
+php artisan vendor:publish
+```
+
+Jika sudah sudah berhasil mem-publish file vendor, silahkan ubah namespace model Role dan Permission pada file `config/entrust.php`.
+
+#### Config
+
+```php
+'role' => 'App\Role',
+'permission' => 'App\Permission',
+``` 
+menjadi
+
+```php
+'role' => 'App\Models\Role',
+'permission' => 'App\Models\Permission',
+``` 
+
+Dan juga silahkan sesuaikan pengaturan yang lainnya.
+
+Jika selesai langkah diatas, selanjutnya install core. Eksekusi script dibawah dan ikuti langkah.
+
+#### Install Core
+
+```
+php artisan core:install
+```
+
 Itu dia core siap di pakai, silahkan seruput sejenak kopi anda dan mulailah berkreasi.

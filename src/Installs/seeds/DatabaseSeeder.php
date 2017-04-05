@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
 			"name" => "Team",
 			"url" => "#",
 			"icon" => "fa-group",
-			"type" => 'custom',
+			"type" => 'module',
 			"parent" => 0,
 			"hierarchy" => 1
 		]);
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
 					"name" => $module->name,
 					"url" => $module->name_db,
 					"icon" => $module->fa_icon,
-					"type" => 'module',
+					"type" => 'crud',
 					"parent" => $parent
 				]);
 			}
