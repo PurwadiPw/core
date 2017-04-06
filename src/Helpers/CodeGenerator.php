@@ -236,21 +236,27 @@ class CodeGenerator
     public static function addMenu($config, $comm = null) {
 
         CoreHelper::log("info", "Appending Menu...", $comm);
-        if(Menu::where("url", $config->singularVar)->count() == 0) {
+        $menu = Menu::whereTranslation('url', $config->singularVar)->first();
+        if(count($menu) == 0) {
             $module = Module::where('slug', $config->crud->module);
-            $moduleMenu = Menu::where('name', title_case(str_replace('_', ' ', snake_case($module['name']))))->first();
+            $moduleMenu = Menu::whereTranslation('name', title_case(str_replace('_', ' ', snake_case($module['name']))))->first();
             if ($moduleMenu) {
                 $id = $moduleMenu->id;
             }else{
                 $id = 0;
             }
-            Menu::create([
-                "name" => title_case(str_replace('_', ' ', snake_case($config->crudName))),
-                "url" => $config->singularVar,
-                "icon" => "fa ".$config->fa_icon,
-                "type" => 'crud',
-                "parent" => $id
-            ]);
+
+            $newMenu = new Menu;
+            $newMenu->icon = 'fa '.$config->fa_icon;
+            $newMenu->type = 'crud';
+            $newMenu->parent = $id;
+
+            foreach (array_keys(CoreHelper::availableLang()) as $locale) {
+                $newMenu->translateOrNew($locale)->name = title_case(str_replace('_', ' ', snake_case($config->crudName)));
+                $newMenu->translateOrNew($locale)->url  = $config->singularVar;
+            }
+
+            $newMenu->save();
         }
 
     }

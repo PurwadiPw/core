@@ -25,6 +25,11 @@ class Menu extends Model
 
     public $translatedAttributes = ['name', 'url'];
 
+    public function trans()
+    {
+        return $this->hasMany('Pw\Core\Models\MenuTranslation');
+    }
+
     public function buildMenu($type, $menu, $parentid = 0)
     {
         $result = null;

@@ -16,6 +16,7 @@ use Yajra\Datatables\Datatables;
 use Pw\Core\Models\Menu;
 use Pw\Core\Models\Crud;
 use Pw\Core\Facades\Module;
+use Pw\Core\Helpers\CoreHelper;
 use Theme;
 
 class ModuleController extends Controller
@@ -58,14 +59,17 @@ class ModuleController extends Controller
             $command = Artisan::call('make:module', ['slug' => $req['slug'], '--quick' => true]);
             Artisan::call('module:optimize');
             if ($command == 0){
-                $menu =  Menu::create([
-                    "name" => title_case(str_replace('_', ' ', snake_case($req['slug']))),
-                    "url" => '#',
-                    "icon" => "fa fa-cubes",
-                    "type" => 'module',
-                    "parent" => 0
-                ]);
-                if ($menu) {
+                $menu = new Menu;
+
+                $menu->icon = "fa fa-cubes";
+                $menu->type = "module";
+                $menu->parent = 0;
+
+                foreach (array_keys(CoreHelper::availableLang()) as $locale) {
+                    $menu->translateOrNew($locale)->name = title_case(str_replace('_', ' ', snake_case($req['slug'])));
+                    $menu->translateOrNew($locale)->url  = '#';
+                }
+                if ($menu->save()) {
                     $ok = true;
                     $messages = 'Module berhasil di generate';
                 }

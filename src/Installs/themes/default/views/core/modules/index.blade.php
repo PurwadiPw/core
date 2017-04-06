@@ -18,7 +18,7 @@
 
     <div id="content">
 
-        @include('default::core.layouts.partials.page-title')
+        {{-- @include('default::core.layouts.partials.page-title')-- }}
 
         <section id="widget-grid" class="">
             <!-- Widget ID (each widget will need unique ID)-->

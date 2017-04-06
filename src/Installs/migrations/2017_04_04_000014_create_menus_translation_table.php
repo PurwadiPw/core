@@ -18,8 +18,8 @@ class CreateMenusTranslationTable extends Migration
             $table->integer('menu_id')->unsigned();
             $table->string('locale')->index();
 
-            $table->string('name', 50);
-            $table->string('url', 256);
+            $table->string('name', 50)->nullable();
+            $table->string('url', 256)->nullable();
 
             $table->unique(['menu_id','locale']);
             $table->foreign('menu_id')->references('id')->on('core_menus')->onDelete('cascade');
