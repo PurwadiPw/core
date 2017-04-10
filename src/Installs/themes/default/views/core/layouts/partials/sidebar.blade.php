@@ -33,9 +33,12 @@
                     <li>
                         <a href="{{ url(config('core.adminRoute').'/core_menus') }}" title="Menu"><span class="menu-item-parent">Menu</span></a>
                     </li>
-                    <!-- <li>
+                    <li>
+                        <a href="{{ url(config('core.adminRoute').'/core_pages') }}" title="Pages"><span class="menu-item-parent">Pages</span></a>
+                    </li>
+                    <li>
                         <a href="{{ url(config('core.adminRoute').'/core_configs') }}" title="Pengaturan"><span class="menu-item-parent">Pengaturan</span></a>
-                    </li> -->
+                    </li>
                 </ul>
             </li>
             <li>
@@ -52,6 +55,25 @@
                     </li>
                 </ul>
             </li>
+            <?php
+            $menuItems = Pw\Core\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
+            ?>
+            @foreach ($menuItems as $menu)
+                @if($menu->type == "crud")
+                    <?php
+                    $temp_crud_obj = Crud::get($menu->id);
+                    ?>
+                    @core_access($temp_crud_obj->id)
+                        @if(isset($crud->id) && $crud->name == $menu->name)
+                            <?php //echo CoreHelper::print_menu($menu ,true); ?>
+                        @else
+                            <?php //echo CoreHelper::print_menu($menu); ?>
+                        @endif
+                    @endcore_access
+                @else
+                    <?php //echo CoreHelper::print_menu($menu); ?>
+                @endif
+            @endforeach
         </ul>
     </nav>
 

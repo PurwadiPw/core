@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Core;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Pw\Core\Models\CoreConfigs;
+use Pw\Core\Helpers\CoreHelper;
+use Theme;
 
 class CoreConfigController extends Controller
 {
@@ -34,8 +36,7 @@ class CoreConfigController extends Controller
 	public function index()
 	{
 		$configs = CoreConfigs::getAll();
-		
-		return View('core.core_configs.index', [
+		return Theme::view('core.configs.index', [
 			'configs' => $configs,
 			'skins' => $this->skin_array,
 			'layouts' => $this->layout_array
@@ -50,17 +51,29 @@ class CoreConfigController extends Controller
 	 */
 	public function store(Request $request) {
 		$all = $request->all();
-		foreach(['sidebar_search', 'show_messages', 'show_notifications', 'show_tasks', 'show_rightsidebar'] as $key) {
+		/*foreach(['sidebar_search', 'show_messages', 'show_notifications', 'show_tasks', 'show_rightsidebar'] as $key) {
 			if(!isset($all[$key])) {
 				$all[$key] = 0;
 			} else {
 				$all[$key] = 1;
 			}
+		}*/
+		foreach (CoreHelper::availableLang() as $locale => $lang) {
+			foreach($request->{$locale} as $key => $value) {
+				$save = CoreConfigs::where('key', $key)->update(['value_'.$locale => $value]);
+				if ($save == 0) {
+					$ok = true;
+					$msg = 'Berhasil Disimpan!!';
+				}else{
+					$ok = false;
+					$msg = 'Gagal Disimpan!!';
+				}
+			}
 		}
-		foreach($all as $key => $value) {
-			CoreConfigs::where('key', $key)->update(['value' => $value]);
-		}
-		
-		return redirect(config('core.adminRoute')."/core_configs");
+
+		return response()->json([
+			'ok' => $ok,
+			'msg' => $msg
+		]);
 	}	
 }

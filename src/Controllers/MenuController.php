@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Input;
 use Pw\Core\Helpers\CoreHelper;
 use Pw\Core\Models\Crud;
 use Pw\Core\Models\Menu;
+use Pw\Core\Models\Page;
 use Theme;
 
 class MenuController extends Controller
@@ -34,13 +35,13 @@ class MenuController extends Controller
     {
         $cruds    = Crud::all();
         $menu     = new Menu;
-        $menuType = $menu->all()->groupBy('type');
+        $pages = Page::with('trans')->get();
 
         $type = (!is_null($request->input('type')) ? $request->input('type') : '');
-        if ($type == '') {
-            $menus = $menu->orderBy('hierarchy', 'asc')->get();
+        if ($type == 'backend') {
+            $menus = $menu->where('is_backend', 1)->orderBy('hierarchy', 'asc')->get();
         } else {
-            $menus = $menu->where('type', $type)->orderBy('hierarchy', 'asc')->get();
+            $menus = $menu->where('is_backend', 0)->orderBy('hierarchy', 'asc')->get();
         }
 
         $id = (!is_null($request->input('id')) ? $request->input('id') : '');
@@ -51,7 +52,7 @@ class MenuController extends Controller
         }
 
         return Theme::view('default::core.menus.index', [
-            'menuType'  => $menuType,
+            'pages'  => $pages,
             'menuItems' => $menu->getHTML($type, $menus),
             'menus'     => $menus,
             'cruds'     => $cruds,
@@ -104,7 +105,8 @@ class MenuController extends Controller
                 $menu->translateOrNew($locale)->name = $crud->name;
                 $menu->translateOrNew($locale)->url  = $crud->url;
             }
-        } elseif ($type == 'front') {
+        } elseif (($type == 'front') || ($type == 'front-submenu')) {
+            $menu->is_backend = 0;
             $menu->parent = $parent;
             $menu->icon   = $icon;
             foreach (array_keys(CoreHelper::availableLang()) as $locale) {
@@ -120,7 +122,7 @@ class MenuController extends Controller
             return response()->json([
                 "status" => "success",
             ], 200);
-        } elseif ($type == 'front') {
+        } elseif (($type == 'front') || ($type == 'front-submenu')) {
             return redirect()->back();
         }
     }

@@ -19,23 +19,15 @@
 
     <div id="content">
 
-        {{-- @include('default::core.layouts.partials.page-title')-- }}
+        @include('default::core.layouts.partials.page-title')
 
         <div class="row m-bottom20">
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                 <select class="form-control" id="menu_type">
                     <option value="0">-- Menu Type --</option>
                     <option value="all">All Menu Type</option>
-                    @foreach($menuType as $menuTipe)
-                        <?php  
-                        if ($menuTipe[0]['type'] == $type) {
-                            $sltType = 'selected="selected"';
-                        }else{
-                            $sltType = '';
-                        }
-                        ?>
-                        <option value="{{ $menuTipe[0]['type'] }}" {{ $sltType }}>{{ ucfirst($menuTipe[0]['type']) }}</option>
-                    @endforeach
+                    <option value="backend">Backend</option>
+                    <option value="frontend">Frontend</option>
                 </select>
             </article>
         </div>
@@ -84,6 +76,7 @@
                                                 <option value="module">Module</option>
                                                 <option value="crud">Crud</option>
                                                 <option value="front">Front</option>
+                                                <option value="front-submenu">Front Sub Menu</option>
                                             </select>
                                         </label>
                                     </section>
@@ -111,10 +104,34 @@
                                             <label id="parent-error" class="error" for="parent">{{ $errors->first('parent') }}</label>
                                         @endif
                                     </section>
+
+                                    <section id="page">
+                                        <label class="label">Page Content</label>
+                                        <label class="select">
+                                            <select name="page">
+                                                <option value="0">-- Page Content --</option>
+                                                @foreach($pages as $page)
+                                                    <?php  
+                                                    $slPage = !empty($menuedit) ? $menuedit->page : '';
+                                                    if ($slPage == $page->id) {
+                                                        $sltPage = 'selected="selected"';
+                                                    }else{
+                                                        $sltPage = '';
+                                                    }
+                                                    ?>
+                                                    <option value="{{ $page->id }}" {{ $sltPage }}>{{ $page->title }}</option>
+                                                @endforeach
+                                            </select> 
+                                            <i></i> 
+                                        </label>
+                                        @if ($errors->has('page'))
+                                            <label id="page-error" class="error" for="page">{{ $errors->first('parent') }}</label>
+                                        @endif
+                                    </section>
                                     
                                     <section>
                                         <label class="input"> 
-                                            <label>Icon Menu</label>
+                                            <label class="label">Icon Menu</label>
                                             <input id="icon" type="text" placeholder="Icon menu" name="icon" value="{{ !empty($menuedit) ? $menuedit->icon : old('icon') }}">
                                             <b class="tooltip tooltip-bottom-right">Contoh: fa-home</b>
                                         </label>

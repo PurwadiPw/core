@@ -17,7 +17,8 @@ class CreateCoreConfigsTable extends Migration
             $table->increments('id');
             $table->string('key', 50);
 			$table->string('section', 100)->default("");
-            $table->string('value', 255);
+            $table->string('value_id', 255);
+            $table->string('value_en', 255);
             $table->timestamps();
         });
     }

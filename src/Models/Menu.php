@@ -36,7 +36,7 @@ class Menu extends Model
         foreach ($menu as $item) {
             if ($item->parent == $parentid) {
             	$delete = '';
-            	if ($item->type != 'front') {
+            	if ($item->is_backend == 1) {
             		$delete = 'style="display: none;"';
             	}
                 $result .= '<li class="dd-item" data-id="'.$item->id.'">

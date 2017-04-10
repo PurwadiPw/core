@@ -25,8 +25,9 @@ class CoreConfigs extends Model
 	// CoreConfigs::getByKey('sitename');
 	public static function getByKey($key) {
 		$row = CoreConfigs::where('key',$key)->first();
-		if(isset($row->value)) {
-			return $row->value;
+		$row_lang = 'value_'.app()->getLocale();
+		if(isset($row->{$row_lang})) {
+			return $row->{$row_lang};
 		} else {
 			return false;
 		}
@@ -37,7 +38,10 @@ class CoreConfigs extends Model
 		$configs = array();
 		$configs_db = CoreConfigs::all();
 		foreach ($configs_db as $row) {
-			$configs[$row->key] = $row->value;
+			foreach (CoreHelper::availableLang() as $locale => $lang) {
+				$row_lang = 'value_'.$locale;
+				$configs[$locale][$row->key] = $row->{$row_lang};
+			}
 		}
 		return (object) $configs;
 	}

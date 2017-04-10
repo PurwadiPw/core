@@ -17,6 +17,7 @@ class CreateMenusTable extends Migration
             $table->increments('id');
             $table->string('icon', 50)->default("fa-cube");
             $table->string('type', 20)->default("module");
+            $table->integer('is_backend')->unsigned()->default(1);
             $table->integer('parent')->unsigned()->default(0);
             $table->integer('hierarchy')->unsigned()->default(0);
             $table->softDeletes();
