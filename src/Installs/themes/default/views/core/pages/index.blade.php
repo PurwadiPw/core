@@ -14,6 +14,15 @@
     </div>
 @endsection
 
+@push('styles')
+<link rel="stylesheet" type="text/css" media="screen" href="{{ Theme::asset('default::css/codemirror.css') }}">
+<link rel="stylesheet" type="text/css" media="screen" href="{{ Theme::asset('default::js/plugin/codemirror/theme/monokai.css') }}">
+.CodeMirror {
+    border: 1px solid black; 
+    font-size:13px;
+}
+@endpush
+
 @section("content")
 
     <div id="content">
@@ -182,6 +191,18 @@
 @push('scripts')
 <!-- PAGE RELATED PLUGIN(S) -->
 <script src="{{ Theme::asset('default::js/plugin/summernote/summernote.min.js') }}"></script>
+
+<script src="{{ Theme::asset('default::js/plugin/codemirror/lib/codemirror.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/addon/selection/selection-pointer.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/addon/edit/matchbrackets.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/addon/display/autorefresh.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/mode/xml/xml.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/mode/javascript/javascript.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/mode/css/css.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/mode/vbscript/vbscript.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/mode/htmlmixed/htmlmixed.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/mode/clike/clike.js') }}"></script>
+<script src="{{ Theme::asset('default::js/plugin/codemirror/mode/php/php.js') }}"></script>
 
 <script src="{{ Theme::asset('default::js/plugin/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ Theme::asset('default::js/plugin/datatables/dataTables.colVis.min.js') }}"></script>

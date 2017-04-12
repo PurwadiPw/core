@@ -37,6 +37,9 @@
                         <a href="{{ url(config('core.adminRoute').'/core_pages') }}" title="Pages"><span class="menu-item-parent">Pages</span></a>
                     </li>
                     <li>
+                        <a href="{{ url(config('core.adminRoute').'/core_pages_contents') }}" title="Page Contens"><span class="menu-item-parent">Pages Contents</span></a>
+                    </li>
+                    <li>
                         <a href="{{ url(config('core.adminRoute').'/core_configs') }}" title="Pengaturan"><span class="menu-item-parent">Pengaturan</span></a>
                     </li>
                 </ul>

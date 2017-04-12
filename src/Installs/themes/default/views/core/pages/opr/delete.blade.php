@@ -57,14 +57,14 @@
             	{{ $page->meta_description }}
             </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label class="col-md-2">
                 Body :
             </label>
             <div class="col-md-10 fvalue">
             	{!! $page->body !!}
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

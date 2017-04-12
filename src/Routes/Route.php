@@ -47,6 +47,12 @@ Route::group([
     Route::get(config('core.adminRoute') . '/core_pages_dt_ajax', 'PageController@dtajax');
     Route::post(config('core.adminRoute') . '/core_pages/openTab', 'PageController@openTab');
 
+    /* ================== Page Content Editor ================== */
+    Route::resource(config('core.adminRoute') . '/core_pages_contents', 'PageContentController');
+    Route::get(config('core.adminRoute') . '/core_pages_contents_dt_ajax', 'PageContentController@dtajax');
+    Route::get(config('core.adminRoute') . '/core_pages_contents_page_ajax', 'PageContentController@pageajax');
+    Route::post(config('core.adminRoute') . '/core_pages_contents/openTab', 'PageContentController@openTab');
+
     /* ================== Configuration ================== */
     Route::resource(config('core.adminRoute') . '/core_configs', '\App\Http\Controllers\Core\CoreConfigController');
 

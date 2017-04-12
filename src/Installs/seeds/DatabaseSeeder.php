@@ -108,71 +108,84 @@ class DatabaseSeeder extends Seeder
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "sitename";
-		$laconfig->value = "Core 1.0";
+		$laconfig->value_id = "Core 1.0";
+		$laconfig->value_en = "Core 1.0";
 		$laconfig->save();
 
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "sitename_part1";
-		$laconfig->value = "Lara";
+		$laconfig->value_id = "Lara";
+		$laconfig->value_en = "Lara";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "sitename_part2";
-		$laconfig->value = "Admin 1.0";
+		$laconfig->value_id = "Admin 1.0";
+		$laconfig->value_en = "Admin 1.0";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "sitename_short";
-		$laconfig->value = "LA";
+		$laconfig->value_id = "LA";
+		$laconfig->value_en = "LA";
 		$laconfig->save();
 
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "site_description";
-		$laconfig->value = "Core is a open-source Laravel Admin Panel for quick-start Admin based applications and boilerplate for CRM or CMS systems.";
+		$laconfig->value_id = "Core is a open-source Laravel Admin Panel for quick-start Admin based applications and boilerplate for CRM or CMS systems.";
+		$laconfig->value_en = "Core is a open-source Laravel Admin Panel for quick-start Admin based applications and boilerplate for CRM or CMS systems.";
 		$laconfig->save();
 
 		// Display Configurations
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "sidebar_search";
-		$laconfig->value = "1";
+		$laconfig->value_id = "1";
+		$laconfig->value_en = "1";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "show_messages";
-		$laconfig->value = "1";
+		$laconfig->value_id = "1";
+		$laconfig->value_en = "1";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "show_notifications";
-		$laconfig->value = "1";
+		$laconfig->value_id = "1";
+		$laconfig->value_en = "1";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "show_tasks";
-		$laconfig->value = "1";
+		$laconfig->value_id = "1";
+		$laconfig->value_en = "1";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "show_rightsidebar";
-		$laconfig->value = "1";
+		$laconfig->value_id = "1";
+		$laconfig->value_en = "1";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "skin";
-		$laconfig->value = "skin-white";
+		$laconfig->value_id = "skin-white";
+		$laconfig->value_en = "skin-white";
 		$laconfig->save();
 		
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "layout";
-		$laconfig->value = "fixed";
+		$laconfig->value_id = "fixed";
+		$laconfig->value_en = "fixed";
 		$laconfig->save();
 
 		// Admin Configurations
 
 		$laconfig = new CoreConfigs;
 		$laconfig->key = "default_email";
-		$laconfig->value = "test@example.com";
+		$laconfig->value_id = "test@example.com";
+		$laconfig->value_en = "test@example.com";
 		$laconfig->save();
 		
 		$modules = Crud::all();

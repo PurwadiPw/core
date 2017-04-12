@@ -77,9 +77,10 @@
                 <section>
                     <label class="input"> 
                         <label>Body</label>
-                        <textarea class="form-control summernote" name="{{ $locale }}[body]">
-                        	{{ !empty($pageedit) ? $pageedit->translate($locale)->body : old('body') }}
-                        </textarea>
+<textarea id="code_update_{{ $locale }}" class="form-control">
+{{ !empty($pageedit) ? $pageedit->translate($locale)->body : old('body') }}
+</textarea>
+<input type="hidden" id="code_val_update_{{ $locale }}" name="{{ $locale }}[body]" value="{{ !empty($pageedit) ? $pageedit->translate($locale)->body : old('body') }}">
                     </label>
                 </section>
 
@@ -134,19 +135,37 @@
 	</footer>
 {!! Form::close() !!}
 
+
 <script type="text/javascript">
-    $('.summernote').summernote({
-        height: 200,
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'hr']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-    });
+    /*CODEMIRROR*/
+    var mixedMode = {
+        name: "htmlmixed",
+        scriptTypes: [{
+            matches: /\/x-handlebars-template|\/x-mustache/i,
+            mode: null
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "vbscript"
+        }]
+    };
+
+    var editor = [];
+    @foreach(CoreHelper::availableLang() as $locale => $lang)
+        editor['{{$locale}}'] = CodeMirror.fromTextArea(document.getElementById("code_update_{{ $locale }}"), {
+            mode: mixedMode,
+            selectionPointer: true,
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            theme: 'monokai',
+            indentUnit: 4,
+            indentWithTabs: true,
+            autoRefresh: true,
+        });
+        editor['{{$locale}}'].on('blur', function(){
+            var value = editor['{{$locale}}'].getValue();
+            $('#code_val_update_{{ $locale }}').val(value);
+        });
+    @endforeach
+    /*END CODEMIRROR*/
 </script>

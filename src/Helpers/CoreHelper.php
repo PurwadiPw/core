@@ -410,4 +410,16 @@ class CoreHelper
         $langs = config('core.locales');
         return $langs;
     }
+
+    // CoreHelper::stringBetween()
+    public static function stringBetween($string, $start, $end){
+        $re = '/\{{(.*?)\}}/';
+        preg_match_all($re, $string, $matches, PREG_SET_ORDER, 0);
+        
+        $arr = [];
+        for ($i=0; $i < count($matches); $i++) { 
+            $arr[] = $matches[$i][1];
+        }
+        return $arr;
+    }
 }
