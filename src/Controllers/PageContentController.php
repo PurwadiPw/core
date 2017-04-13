@@ -22,7 +22,7 @@ class PageContentController extends Controller
 {
     public $show_action = true;
 
-    public $listing_cols = ['id', 'page_id', 'variable', 'title', 'content'];
+    public $listing_cols = ['id', 'page_id', 'variable', /*'title',*/ 'content'];
 
     public function __construct()
     {
@@ -162,9 +162,6 @@ class PageContentController extends Controller
     {
 
         $page = PageContents::find($id);
-
-        $page->template = '';
-        $page->active = $req->active;
 
         foreach (array_keys(CoreHelper::availableLang()) as $locale) {
             foreach ($page->translatedAttributes as $attr) {
