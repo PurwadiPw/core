@@ -20,7 +20,7 @@
 
     <div id="content">
 
-        @include('default::core.layouts.partials.page-title')
+        <!-- @include('default::core.layouts.partials.page-title') -->
 
         <section id="widget-grid" class="">
             <!-- Widget ID (each widget will need unique ID)-->
@@ -194,6 +194,9 @@
             "sSwfPath": "{{ Theme::asset('default::js/plugin/datatables/swf/copy_csv_xls_pdf.swf') }}"
         },
         "autoWidth" : true,
+        "columnDefs": [
+            {"className": "text-center", "targets": [0,5]}
+        ],
         "preDrawCallback" : function() {
             // Initialize the responsive datatables helper once.
             if (!responsiveHelper_dt_ajax) {

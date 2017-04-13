@@ -1,5 +1,5 @@
 {!! Form::model($pageedit, ['route' => [config('core.adminRoute').'.core_pages.update', $pageedit->id ], 'method'=>'PUT', 'id' => 'pages-edit-form', 'class' => 'smart-form', 'novalidate' => 'novalidate']) !!}
-    <fieldset>
+	<fieldset>
         <div class="row">
             <section class="col col-6">
                 <label class="label">Menu</label>
@@ -137,9 +137,9 @@
         </div>
     </fieldset>
 
-    <footer>
-        {!! Form::submit( 'Update', ['class'=>'btn btn-primary', 'id' => 'btn-update']) !!}
-    </footer>
+	<footer>
+		{!! Form::submit( 'Update', ['class'=>'btn btn-primary', 'id' => 'btn-update']) !!}
+	</footer>
 {!! Form::close() !!}
 
 

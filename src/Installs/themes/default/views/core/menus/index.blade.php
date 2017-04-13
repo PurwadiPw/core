@@ -19,7 +19,7 @@
 
     <div id="content">
 
-        @include('default::core.layouts.partials.page-title')
+        <!-- @include('default::core.layouts.partials.page-title') -->
 
         <div class="row m-bottom20">
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">

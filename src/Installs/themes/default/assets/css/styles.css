@@ -111,3 +111,232 @@ hr {
 .panel.infolist .form-group:first-child {
     margin-top: 10px;
 }
+
+.profile2{
+    margin-bottom: 15px;
+    margin-top: -14px;
+}
+.profile2 .profile-image {
+    border-radius: 50%;
+    margin-top: 20px;
+    width: 70px;
+    height: 70px;
+    float: left;
+}
+.profile2 .profile-icon {
+    border-radius: 50%;
+    margin-top: 15px;
+    width: 70px;
+    height: 70px;
+    float: left;
+    background: #FFF;
+    text-align: center;
+    text-shadow: 1px 1px 6px #48b0f7;
+}
+.profile2 .profile-icon i {
+    font-size: 42px;
+    margin-top: 14px;
+    text-align: center;
+}
+.profile2 .name {
+    display: block;
+    width: 100%;
+    margin-top: 9px;
+    font-weight: bold;
+}
+.profile2 .desc {
+    margin-top: 6px;
+}
+.profile2 .row.stats {
+    display: block;
+}
+.profile2 .row.stats .stat {
+    font-size: 18px;
+}
+.profile2 .row.stats .stat i {
+    font-size: 18px;
+    width: 15px;
+    text-align: center;
+    margin-right: 3px;
+}
+.profile2 .dats1 {
+    padding: 7px 10px;
+    font-size: 13px;
+}
+.profile2 .dats1 i.fa {
+    width: 20px;
+    text-align: center;
+    margin-right: 3px;
+}
+.profile2 .label2 {
+    display: inline-block;
+    padding: 0px 7px 1px 7px;
+    background: #FFF;
+    color: #7D7D7D;
+    font-size: 14px;
+    border-radius: 3px;
+    margin-left: 3px;
+    cursor: pointer;
+}
+.profile2 .label2.danger {
+    background: #f55753;
+    color: #FFF;
+}
+.profile2 .label2.success {
+    background: #10cfbd;
+    color: #FFF;
+}
+.profile2 .teamview {
+    display: block;
+    text-align: center;
+    padding: 9px;
+}
+.profile2 .teamview .face {
+    display: inline-block;
+    max-height: 40px;
+}
+.profile2 .teamview .face img {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    margin-right: 3px;
+    margin-bottom: 7px;
+    border: 1px solid #FFF;
+}
+.profile2 .teamview .face i.status-online {
+    width: 12px;
+    height: 12px;
+    display: block;
+    position: absolute;
+    margin-top: -21px;
+    margin-left: 27px;
+    background: #10c469;
+    border: solid 1px #FFF;
+    border-radius: 50%;
+}
+.profile2 .dats1.pb {
+    padding: 3px 10px;
+}
+.profile2 .dats1.pb .progress {
+    margin-bottom: 0px;
+}
+.profile2 .dats1.pb .clearfix span,
+.profile2 .dats1.pb .content span {
+    font-size: 12px;
+}
+.profile2 .actions {
+    text-align: center;
+    margin-top: 15px;
+    padding: 0;
+}
+.profile2 .actions .btn {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    padding-top: 3px;
+    text-align: center;
+    margin-bottom: 5px;
+    border: 0px;
+    transition: all .3s ease;
+}
+.profile2 .actions .btn.btn-edit {
+    color: #48B0F7;
+}
+.profile2 .actions .btn.btn-edit:hover {
+    background: #48B0F7;
+    color: #FFF;
+}
+.profile2 .actions .btn.btn-delete {
+    padding-top: 1px;
+    color: #f55753;
+    font-size: 17px;
+    margin-left: 0;
+    padding-left: 4px;
+}
+.profile2 .actions .btn.btn-delete:hover {
+    background: #f55753;
+    color: #FFF;
+}
+.btn-default {
+    border-color: #D6D3D3
+}
+.slider .tooltip {
+    display: none !important;
+}
+.slider.gray .slider-handle {
+    background-color: #888;
+}
+.slider.orange .slider-handle {
+    background-color: #FF9800;
+}
+.slider.green .slider-handle {
+    background-color: #8BC34A;
+}
+.guide1 {
+    padding: 15px 15px 10px;
+    font-size: 12px;
+}
+.guide1 .fa {
+    font-size: 22px;
+    vertical-align: bottom;
+    margin-left: 17px;
+}
+.guide1 .fa.gray {
+    color: #888;
+}
+.guide1 .fa.orange {
+    color: #FF9800;
+}
+.guide1 .fa.green {
+    color: #8BC34A;
+}
+.table-access {
+    border: 1px solid #CCC;
+}
+.table-access thead tr {
+    background-color: #DDD;
+}
+.table-access thead tr th {
+    border-bottom: 1px solid #CCC;
+    padding: 10px 10px;
+    text-align: center;
+}
+.table-access thead tr th:first-child {
+    text-align: left;
+}
+.table-access input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: text-top;
+}
+.table-access > tbody > tr > td {
+    border-bottom: 1px solid #EEE !important;
+    padding: 10px 10px;
+    text-align: center;
+}
+.table-access > tbody > tr > td:first-child {
+    text-align: left;
+}
+.table-access .tr-access-adv {
+    background: #b9b9b9;
+}
+.table-access .tr-access-adv .table {
+    margin: 0px;
+}
+.table-access .tr-access-adv > td {
+    padding: 7px 6px;
+}
+.table-access .tr-access-adv .table-bordered td {
+    padding: 10px;
+}
+.hide{
+    display: none !important;
+}
+.ui-field {
+    list-style: none;
+    padding: 3px 7px;
+    border: solid 1px #cccccc;
+    border-radius: 3px;
+    background: #f5f5f5;
+    margin-bottom: 4px;
+}
