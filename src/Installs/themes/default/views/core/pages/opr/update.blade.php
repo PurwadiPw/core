@@ -1,18 +1,25 @@
 {!! Form::model($pageedit, ['route' => [config('core.adminRoute').'.core_pages.update', $pageedit->id ], 'method'=>'PUT', 'id' => 'pages-edit-form', 'class' => 'smart-form', 'novalidate' => 'novalidate']) !!}
-	<fieldset>
+    <fieldset>
         <div class="row">
-            <!-- <section class="col col-6">
-                <label class="label">Template</label>
+            <section class="col col-6">
+                <label class="label">Menu</label>
                 <label class="select">
-                    <select name="template">
-                        <option value="0">Choose name</option>
-                        <option value="1">Alexandra</option>
-                        <option value="2">Alice</option>
-                        <option value="3">Anastasia</option>
-                        <option value="4">Avelina</option>
+                    <select name="menu">
+                        <option>-- Select Menu --</option>
+                        @foreach($menus as $menu)
+                        <?php  
+                        $slInduk = !empty($pageedit) ? $pageedit->core_menus_id : '';
+                        if ($slInduk == $menu->id) {
+                            $sltInduk = 'selected="selected"';
+                        }else{
+                            $sltInduk = '';
+                        }
+                        ?>
+                        <option value="{{ $menu->id }}" {{ $sltInduk }}>{{ $menu->name }}</option>
+                        @endforeach
                     </select> <i></i> 
                 </label>
-            </section> -->
+            </section>
             <section class="col col-6">
                 <label class="label">Active</label>
                 <?php  
@@ -130,9 +137,9 @@
         </div>
     </fieldset>
 
-	<footer>
-		{!! Form::submit( 'Update', ['class'=>'btn btn-primary', 'id' => 'btn-update']) !!}
-	</footer>
+    <footer>
+        {!! Form::submit( 'Update', ['class'=>'btn btn-primary', 'id' => 'btn-update']) !!}
+    </footer>
 {!! Form::close() !!}
 
 

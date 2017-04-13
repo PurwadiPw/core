@@ -22,7 +22,7 @@ class PageContentController extends Controller
 {
     public $show_action = true;
 
-    public $listing_cols = ['id', 'variable', 'title', 'content'];
+    public $listing_cols = ['id', 'page_id', 'variable', 'title', 'content'];
 
     public function __construct()
     {
@@ -257,7 +257,10 @@ class PageContentController extends Controller
         for ($i = 0; $i < count($data->data); $i++) {
             for ($j = 0; $j < count($this->listing_cols); $j++) {
                 $col = $this->listing_cols[$j];
-                if ($col == 'variable') {
+                if ($col == 'page_id') {
+                    $page = Page::where('id', $values[$i][$col])->first();
+                    $data->data[$i][$j] = $page->title;
+                }elseif ($col == 'variable') {
                     $data->data[$i][$j] = '<span class="label label-success">'.$values[$i][$col].'</span>';
                 }elseif ($col == 'content') {
                     $data->data[$i][$j] = str_limit($values[$i][$col], 100);
@@ -275,7 +278,7 @@ class PageContentController extends Controller
     {
         $pageId = $req->option;
         $page = Page::where('id', $pageId)->first();
-        $variable = CoreHelper::stringBetween($page->body, '{{', '}}');
+        $variable = CoreHelper::stringBetween($page->body, '<?=', '?>');
         return response()->json([
             'ok' => true,
             'msg' => 'Page Variable',

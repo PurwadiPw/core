@@ -15,8 +15,10 @@ class CreatePagesTable extends Migration
     {
         Schema::create('core_pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('template', 50)->nullable();
+            $table->string('template', 50);
             $table->tinyInteger('active')->default(1);
+            $table->integer('core_menus_id')->unsigned();
+            $table->foreign('core_menus_id')->references('id')->on('core_menus')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

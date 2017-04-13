@@ -79,6 +79,7 @@
         $.get("{{ url(config('core.adminRoute').'/core_pages_contents_page_ajax')}}", {
             option: $(this).val()
         }, function(data) {
+            console.log(data.data);
             var variable = $('#variable');
             variable.empty();
             for (var i = 0; i < data.data.length; i++) {

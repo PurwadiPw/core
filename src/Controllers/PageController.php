@@ -14,6 +14,7 @@ use Yajra\Datatables\Datatables;
 use Pw\Core\Helpers\CoreHelper;
 use Pw\Core\Models\Crud;
 use Pw\Core\Models\Page;
+use Pw\Core\Models\Menu;
 use Theme;
 use DB;
 
@@ -48,7 +49,10 @@ class PageController extends Controller
      */
     public function create()
     {
-        $returnHTML = Theme::view('default::core.pages.opr.create')->render();
+        $menus = Menu::where('type', 'front')->where('parent', 0)->where('is_backend', 0)->get();
+        $returnHTML = Theme::view('default::core.pages.opr.create', [
+            'menus' => $menus
+        ])->render();
 
         return response()->json([
             'success'  => true,
@@ -68,6 +72,7 @@ class PageController extends Controller
         $page = new Page;
 
         $page->template = '';
+        $page->core_menus_id = $req->menu;
         $page->active = $req->active;
 
         foreach (array_keys(CoreHelper::availableLang()) as $locale) {
@@ -126,9 +131,11 @@ class PageController extends Controller
     public function edit($id)
     {
         $pageedit = Page::where('id',$id)->first();
+        $menus = Menu::where('type', 'front')->where('parent', 0)->where('is_backend', 0)->get();
         if (isset($pageedit->id)) {
             $returnHTML = Theme::view('default::core.pages.opr.update', [
                 'pageedit' => $pageedit,
+                'menus' => $menus
             ])->render();
 
             return response()->json([

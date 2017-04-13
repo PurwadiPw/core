@@ -4,6 +4,7 @@
         <thead>
             <tr class="success">
                 <th>#ID</th>
+                <th>Page</th>
                 <th>Variable</th>
                 <th>Title</th>
                 <th>Content</th>

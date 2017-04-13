@@ -1,18 +1,17 @@
 {!! Form::open(['route' => config('core.adminRoute').'.core_pages.store', 'class' => 'smart-form', 'id' => 'pages-add-form']) !!}
     <fieldset>
         <div class="row">
-            <!-- <section class="col col-6">
-                <label class="label">Template</label>
+            <section class="col col-6">
+                <label class="label">Menu</label>
                 <label class="select">
-                    <select name="template">
-                        <option value="0">Choose name</option>
-                        <option value="1">Alexandra</option>
-                        <option value="2">Alice</option>
-                        <option value="3">Anastasia</option>
-                        <option value="4">Avelina</option>
+                    <select name="menu">
+                        <option>-- Select Menu --</option>
+                        @foreach($menus as $menu)
+                        <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                        @endforeach
                     </select> <i></i> 
                 </label>
-            </section> -->
+            </section>
             <section class="col col-6">
                 <label class="label">Active</label>
                 <div class="inline-group">

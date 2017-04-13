@@ -413,13 +413,24 @@ class CoreHelper
 
     // CoreHelper::stringBetween()
     public static function stringBetween($string, $start, $end){
-        $re = '/\{{(.*?)\}}/';
+        $re = '/\<?= (.*?)\?>/';
         preg_match_all($re, $string, $matches, PREG_SET_ORDER, 0);
-        
         $arr = [];
         for ($i=0; $i < count($matches); $i++) { 
             $arr[] = $matches[$i][1];
         }
         return $arr;
+    }
+
+    // CoreHelper::uniqueArr()
+    public static function uniqueArr($array) {
+        foreach($array as $key => $value) {
+            foreach($array as $key2 => $value2) {
+                if($key != $key2 && $value === $value2) {
+                    unset($array[$key]);
+                }
+            }
+        }
+        return $array;
     }
 }
