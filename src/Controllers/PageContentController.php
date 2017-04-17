@@ -255,14 +255,14 @@ class PageContentController extends Controller
             for ($j = 0; $j < count($this->listing_cols); $j++) {
                 $col = $this->listing_cols[$j];
                 if ($col == 'page_id') {
-                    $page = Page::where('id', $values[$i][$col])->first();
+                    $page = Page::where('id', $data->data[$i][$j])->first();
                     $data->data[$i][$j] = $page->title;
-                }elseif ($col == 'variable') {
-                    $data->data[$i][$j] = '<span class="label label-success">'.$values[$i][$col].'</span>';
-                }elseif ($col == 'content') {
+                }
+                if ($col == 'variable') {
+                    $data->data[$i][$j] = '<span class="label label-success">'.$data->data[$i][$j].'</span>';
+                }
+                if ($col == 'content') {
                     $data->data[$i][$j] = str_limit($values[$i][$col], 100);
-                }else{
-                    $data->data[$i][$j] = $values[$i][$col];
                 }
             }
         }
