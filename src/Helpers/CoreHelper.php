@@ -12,6 +12,7 @@ use DB;
 use Log;
 
 use Pw\Core\Models\Crud;
+use Collective\Html\HtmlBuilder;
 
 class CoreHelper
 {
@@ -197,11 +198,22 @@ class CoreHelper
         return $password;
     }
 
-    // CoreHelper::img($upload_id);
-    public static function img($upload_id) {
-        $upload = \App\Upload::find($upload_id);
+    // CoreHelper::img($upload_name);
+    public static function img($upload_name) {
+        $upload = \App\Models\Upload::where('name', $upload_name)->first();
         if(isset($upload->id)) {
             return url("files/".$upload->hash.DIRECTORY_SEPARATOR.$upload->name);
+        } else {
+            return "";
+        }
+    }
+
+    // CoreHelper::imgSrc($upload_name);
+    public static function imgSrc($upload_name, $class = false) {
+        $upload = \App\Models\Upload::where('name', $upload_name)->first();
+        if(isset($upload->id)) {
+            $file = url("files/".$upload->hash.DIRECTORY_SEPARATOR.$upload->name);
+            return '<img src="'.$file.'" alt="'.$upload->caption.'" class="'.$class.'">';
         } else {
             return "";
         }
@@ -434,5 +446,17 @@ class CoreHelper
             }
         }
         return $array;
+    }
+
+    // CoreHelper::fileName('PREFIX', 'EXTENSION')
+    public static function fileName($prefix, $ext) { 
+        $s = strtoupper(md5(uniqid(rand(),true))); 
+        $guidText = 
+            substr($s,0,8) . '-' . 
+            substr($s,8,4) . '-' . 
+            substr($s,12,4). '-' . 
+            substr($s,16,4). '-' . 
+            substr($s,20); 
+        return $prefix.'-'.$guidText.'.'.$ext;
     }
 }
