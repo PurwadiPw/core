@@ -877,7 +877,7 @@ class Crud extends Model
 
         if (isset($crud)) {
             $model_name = ucfirst(str_singular($crud_name));
-            if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission") {
+            if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission" || $model_name == "Employee") {
                 $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
             } else {
                 $model = "App\\Modules\\" . $module['name'] . "\\Models\\" . ucfirst(str_singular($crud_name));
@@ -915,8 +915,8 @@ class Crud extends Model
 
         if (isset($crud)) {
             $model_name = ucfirst(str_singular($crud_name));
-            if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission") {
-                $model = "App\\Modules\\".$module['name']."\\Models\\" . $crud_name;
+            if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission" || $model_name == "Employee") {
+                $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
             } else {
                 $model = "App\\Modules\\".$module['name']."\\Models\\" . $crud_name;
             }

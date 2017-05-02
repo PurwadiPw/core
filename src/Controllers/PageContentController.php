@@ -247,7 +247,7 @@ class PageContentController extends Controller
      */
     public function dtajax()
     {
-        $values = PageContents::with('trans')->get();
+        $values = PageContents::get();
         $out    = Datatables::of($values)->make();
         $data   = $out->getData();
 
@@ -262,7 +262,7 @@ class PageContentController extends Controller
                     $data->data[$i][$j] = '<span class="label label-success">'.$data->data[$i][$j].'</span>';
                 }
                 if ($col == 'content') {
-                    $data->data[$i][$j] = str_limit($values[$i][$col], 100);
+                    $data->data[$i][$j] = str_limit($data->data[$i][8], 100);
                 }
             }
         }
