@@ -29,31 +29,8 @@
             <li>
                 <a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
             </li>
-            <li>
-                <a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-desktop"></i> <span class="menu-item-parent">Developer</span></a>
-                <ul>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/module') }}" title="Module"><span class="menu-item-parent">Module</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/crud') }}" title="Crud"><span class="menu-item-parent">Crud</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/core_menus') }}" title="Menu"><span class="menu-item-parent">Menu</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/core_pages') }}" title="Pages"><span class="menu-item-parent">Pages</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/core_pages_contents') }}" title="Page Contens"><span class="menu-item-parent">Pages Contents</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/core_configs') }}" title="Pengaturan"><span class="menu-item-parent">Pengaturan</span></a>
-                    </li>
-                </ul>
-            </li>
             <?php
-            $menuItems = Pw\Core\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
+            $menuItems = Pw\Core\Models\Menu::where("parent", 0)->where("is_backend", 1)->where("active", 1)->orderBy('hierarchy', 'asc')->get();
             ?>
             @foreach ($menuItems as $menu)
                 @if($menu->type == "crud")

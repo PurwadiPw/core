@@ -67,7 +67,7 @@
             <header>
 
                 <div class="widget-toolbar pull-left">
-                    <a href="{{ url(config('core.adminRoute').'/crud') }}" class="btn btn-primary">
+                    <a href="{{ url('developer/crud') }}" class="btn btn-primary">
                         <i class="fa fa-arrow-left"></i> Kembali
                     </a>
                 </div>
@@ -143,10 +143,10 @@
                                             <td>@if($field['required']) <span class="text-danger">True</span>@endif </td>
                                             <td><?php echo CoreHelper::parseValues($field['popup_vals']) ?></td>
                                             <td class="text-center">
-                                                <a href="{{ url(config('core.adminRoute') . '/crud_fields/'.$field['id'].'/edit') }}" class="btn btn-edit-field btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="edit_{{ $field['colname'] }}"><i class="fa fa-edit"></i></a>
-                                                <a href="{{ url(config('core.adminRoute') . '/crud_fields/'.$field['id'].'/delete') }}" class="btn btn-edit-field btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="delete_{{ $field['colname'] }}"><i class="fa fa-trash"></i></a>
+                                                <a href="{{ url('developer/crud_fields/'.$field['id'].'/edit') }}" class="btn btn-edit-field btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="edit_{{ $field['colname'] }}"><i class="fa fa-edit"></i></a>
+                                                <a href="{{ url('developer/crud_fields/'.$field['id'].'/delete') }}" class="btn btn-edit-field btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="delete_{{ $field['colname'] }}"><i class="fa fa-trash"></i></a>
                                                 @if($field['colname'] != $crud->view_col)
-                                                    <a href="{{ url(config('core.adminRoute') . '/crud/'.$crud->id.'/set_view_col/'.$field['colname']) }}" class="btn btn-edit-field btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="view_col_{{ $field['colname'] }}"><i class="fa fa-eye"></i></a>
+                                                    <a href="{{ url('developer/cruds/'.$crud->id.'/set_view_col/'.$field['colname']) }}" class="btn btn-edit-field btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;" id="view_col_{{ $field['colname'] }}"><i class="fa fa-eye"></i></a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -195,7 +195,7 @@
                                 </div>  
                                 <!-- <i class="fa fa-circle gray"></i> Invisible <i class="fa fa-circle orange"></i> Read-Only <i class="fa fa-circle green"></i> Write -->
                             </div>
-                            <form action="{{ url(config('core.adminRoute') . '/save_role_crud_permissions/'.$crud->id) }}" method="post">
+                            <form action="{{ url('developer/save_role_crud_permissions/'.$crud->id) }}" method="post">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <table class="table table-bordered dataTable no-footer table-access">
                                     <thead>
@@ -276,7 +276,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Tambah field pada CRUD {{ $crud->model }}</h4>
                 </div>
-                {!! Form::open(['route' => config('core.adminRoute') . '.crud_fields.store', 'id' => 'field-form']) !!}
+                {!! Form::open(['route' => 'developer.crud_fields.store', 'id' => 'field-form']) !!}
                 {{ Form::hidden("crud_id", $crud->id) }}
                 <div class="modal-body">
                     <div class="box-body">
@@ -429,7 +429,7 @@
         $fa.addClass("fa-refresh");
         $fa.addClass("fa-spin");
         $.ajax({
-            url: "{{ url(config('core.adminRoute') . '/crud_generate_migr_crud') }}/"+{{ $crud->id }},
+            url: "{{ url('developer/crud_generate_migr_crud') }}/"+{{ $crud->id }},
             method: 'GET',
             success: function( data ) {
                 $fa.removeClass("fa-refresh");
@@ -447,7 +447,7 @@
         $fa.addClass("fa-refresh");
         $fa.addClass("fa-spin");
         $.ajax({
-            url: "{{ url(config('core.adminRoute') . '/crud_generate_migr') }}/"+{{ $crud->id }},
+            url: "{{ url('developer/crud_generate_migr') }}/"+{{ $crud->id }},
             method: 'GET',
             success: function( data ) {
                 $fa.removeClass("fa-refresh");
@@ -465,7 +465,7 @@
         $fa.addClass("fa-refresh");
         $fa.addClass("fa-spin");
         $.ajax({
-            url: "{{ url(config('core.adminRoute') . '/crud_generate_update') }}/"+{{ $crud->id }},
+            url: "{{ url('developer/crud_generate_update') }}/"+{{ $crud->id }},
             method: 'GET',
             success: function( data ) {
                 $fa.removeClass("fa-refresh");

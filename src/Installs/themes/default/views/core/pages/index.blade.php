@@ -251,7 +251,7 @@
     var table = $('#dt_ajax').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ url(config('core.adminRoute').'/core_pages_dt_ajax') }}",
+        "ajax": "{{ url('developer/pages_dt_ajax') }}",
         "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>"+
         "t"+
         "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
@@ -325,7 +325,7 @@
             var data = {
                 '_token': "{{ csrf_token() }}",
                 'id': id,
-                'url': "{{ route(config('core.adminRoute').'.core_pages.destroy', "+id+") }}",
+                'url': "{{ route('developer.pages.destroy', "+id+") }}",
                 'count': row.length,
                 'tbl': '#dt_ajax'
             };
@@ -339,7 +339,7 @@
         var data = {
             'token': "{{ csrf_token() }}",
             'dataId': id,
-            'url': "{{ url(config('core.adminRoute').'/core_pages/openTab') }}",
+            'url': "{{ url('developer/pages/openTab') }}",
         };
         openTab(act, id, data);
         // console.log(act+'---'+id+'---'+data);

@@ -46,13 +46,13 @@ class Menu extends Model
                                 <div class="dd3-content">
                                     '.$item->name.'
                                     <span class="pull-right">
-                                        <form novalidate="novalidate" method="POST" action="'.route(config('core.adminRoute').'.core_menus.destroy', $item->id).'">
+                                        <form novalidate="novalidate" method="POST" action="'.route('developer.menus.destroy', $item->id).'">
                                             <input type="hidden" value="DELETE" name="_method">
                                             '.csrf_field().'
                                             <button '.$delete.' type="submit" data-original-title="Hapus" data-placement="left" title="" rel="tooltip" class="btn btn-xs btn-danger">
                                             	<i class="fa fa-trash txt-color-white"></i>
                                             </button>
-                                            <a href="'.url(config('core.adminRoute')."/core_menus?type=".$item->type."&id=".$item->id).'" data-original-title="Edit" data-placement="left" title="" rel="tooltip" class="btn btn-xs btn-warning">
+                                            <a href="'.url("developer/menus?type=".$item->type."&id=".$item->id).'" data-original-title="Edit" data-placement="left" title="" rel="tooltip" class="btn btn-xs btn-warning">
                                                 <i class="fa fa-pencil txt-color-white"></i>
                                             </a>
                                         </form>

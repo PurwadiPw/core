@@ -62,7 +62,7 @@
                         </div>
                     </div>
 
-                    {!! Form::open(['route' => config('core.adminRoute').'.core_configs.store', 'class' => 'smart-form', 'id' => 'configs-add-form']) !!}
+                    {!! Form::open(['route' => 'developer.configs.store', 'class' => 'smart-form', 'id' => 'configs-add-form']) !!}
                     <ul id="myTab1" class="nav nav-tabs bordered">
                         @foreach(CoreHelper::availableLang() as $locale => $lang)
                         <li class="{{ App::getLocale() == $locale ? 'active' : ''}}">

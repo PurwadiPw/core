@@ -6,7 +6,7 @@
  * Time: 10:49
  */
 
-namespace Pw\Core\Controllers;
+namespace App\Modules\Developer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -37,18 +37,20 @@ class MenuController extends Controller
         $menu     = new Menu;
         $pages = Page::with('trans')->get();
 
-        $type = (!is_null($request->input('type')) ? $request->input('type') : '');
-        if ($type == 'backend') {
+        $type = (!is_null($request->input('type')) ? $request->input('type') : 'crud');
+        if ($type == 'crud') {
             $menus = $menu->where('is_backend', 1)->orderBy('hierarchy', 'asc')->get();
         } else {
-            $menus = $menu->where('is_backend', 0)->orderBy('hierarchy', 'asc')->get();
+            $menus = $menu->where('type', $type)->orderBy('hierarchy', 'asc')->get();
         }
 
         $id = (!is_null($request->input('id')) ? $request->input('id') : '');
         if ($id != '') {
             $menuedit = $menu->where('id', $id)->first();
+            $crudedit = Crud::where('id', $menuedit->crud_id)->first();
         } else {
             $menuedit = '';
+            $crudedit = '';
         }
 
         return Theme::view('default::core.menus.index', [
@@ -57,6 +59,7 @@ class MenuController extends Controller
             'menus'     => $menus,
             'cruds'     => $cruds,
             'menuedit'  => $menuedit,
+            'crudedit'  => $crudedit,
             'type'      => $type,
         ]);
     }
@@ -79,21 +82,23 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-
         $parent = Input::get('parent');
         $name   = Input::get('name');
         $url    = Input::get('url');
         $icon   = Input::get('icon');
         $type   = Input::get('type');
+        $status = Input::get('status');
 
         $menu = new Menu;
 
         if ($type == 'crud') {
             $crud_id = Input::get('crud_id');
             $crud    = Crud::find($crud_id);
+
             if (isset($crud->id)) {
                 $menu->icon   = $crud->fa_icon;
-                $menu->parent = 0;
+                $menu->parent = $parent;
+                $menu->crud_id = $crud->id;
             } else {
                 return response()->json([
                     "status"  => "failure",
@@ -102,8 +107,8 @@ class MenuController extends Controller
             }
 
             foreach (array_keys(CoreHelper::availableLang()) as $locale) {
-                $menu->translateOrNew($locale)->name = $crud->name;
-                $menu->translateOrNew($locale)->url  = $crud->url;
+                $menu->translateOrNew($locale)->name = title_case(str_replace('_', ' ', snake_case($crud->name)));
+                $menu->translateOrNew($locale)->url  = strtolower(snake_case($crud->name));
             }
         } elseif (($type == 'front') || ($type == 'front-submenu')) {
             $menu->is_backend = 0;
@@ -116,13 +121,15 @@ class MenuController extends Controller
             }
         }
         $menu->type = $type;
+        $menu->active = $status;
         $menu->save();
 
         if ($type == 'crud') {
-            return response()->json([
+            /*return response()->json([
                 "status" => "success",
-            ], 200);
-        } elseif (($type == 'front') || ($type == 'front-submenu')) {
+            ], 200);*/
+            return redirect('developer/menus/?type='.$type);
+        } elseif (($type == 'front') || ($type == 'front-submenu')) {   
             return redirect()->back();
         }
     }
@@ -154,18 +161,56 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $name = Input::get('name');
-        $url  = Input::get('url');
-        $icon = Input::get('icon');
-        $type = Input::get('type');
+        $parent = Input::get('parent');
+        $name   = Input::get('name');
+        $url    = Input::get('url');
+        $icon   = Input::get('icon');
+        $type   = Input::get('type');
+        $status = Input::get('status');
 
-        $menu       = Menu::find($id);
-        $menu->name = $name;
-        $menu->url  = $url;
-        $menu->icon = $icon;
+        $menu = Menu::find($id);
+
+        if ($type == 'crud') {
+            $crud_id = Input::get('crud_id');
+            $crud    = Crud::find($crud_id);
+
+            if (isset($crud->id)) {
+                $menu->icon   = $crud->fa_icon;
+                $menu->parent = $parent;
+                $menu->crud_id = $crud->id;
+            } else {
+                return response()->json([
+                    "status"  => "failure",
+                    "message" => "Crud does not exists",
+                ], 200);
+            }
+
+            foreach (array_keys(CoreHelper::availableLang()) as $locale) {
+                $menu->translateOrNew($locale)->name = title_case(str_replace('_', ' ', snake_case($crud->name)));
+                $menu->translateOrNew($locale)->url  = strtolower(snake_case($crud->name));
+            }
+        } elseif (($type == 'front') || ($type == 'front-submenu')) {
+            $menu->is_backend = 0;
+            $menu->parent = $parent;
+            $menu->icon   = $icon;
+            foreach (array_keys(CoreHelper::availableLang()) as $locale) {
+                foreach ($menu->translatedAttributes as $attr) {
+                    $menu->translateOrNew($locale)->{$attr} = $request->{$locale}[$attr];
+                }
+            }
+        } else {
+            $menu->icon = $icon;
+            foreach (array_keys(CoreHelper::availableLang()) as $locale) {
+                foreach ($menu->translatedAttributes as $attr) {
+                    $menu->translateOrNew($locale)->{$attr} = $request->{$locale}[$attr];
+                }
+            }
+        }
+        $menu->type = $type;
+        $menu->active = $status;
         $menu->save();
 
-        return redirect(config('core.adminRoute') . '/core_menus');
+        return redirect('developer/menus');
     }
 
     /**
@@ -177,7 +222,7 @@ class MenuController extends Controller
     public function destroy($id)
     {
         Menu::find($id)->delete();
-        return redirect()->route(config('core.adminRoute') . '.core_menus.index');
+        return redirect()->route('developer.menus.index');
     }
 
     /**

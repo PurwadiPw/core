@@ -76,7 +76,7 @@
                     <div class="widget-body no-padding">
 
                         <div class="custom-scroll table-responsive">
-                            <form action="{{ url(config('core.adminRoute').'/crud') }}" method="post" id="frm-dt_ajax">
+                            <form action="{{ url('developer./crud') }}" method="post" id="frm-dt_ajax">
                                 <table id="dt_ajax" class="table table-striped table-bordered table-hover" width="100%">
                                     <thead>
                                     <tr>
@@ -114,7 +114,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">@hasSection('section') Tambah @yield('section') @endif()</h4>
                 </div>
-                {!! Form::open(['route' => config('core.adminRoute') . '.crud.store', 'id' => 'crud-form-add']) !!}
+                {!! Form::open(['route' => 'developer.cruds.store', 'id' => 'crud-form-add']) !!}
                 <div class="modal-body">
                     <div class="box-body">
 
@@ -170,7 +170,7 @@
                     <p class="text-danger">Catatan: File migration tidak akan dihapus tetapi diubah.</p>
                 </div>
                 <div class="modal-footer">
-                    {{ Form::open(['route' => [config('core.adminRoute') . '.crud.destroy', 0], 'id' => 'crud-form-del', 'method' => 'delete', 'style'=>'display:inline']) }}
+                    {{ Form::open(['route' => ['developer.cruds.destroy', 0], 'id' => 'crud-form-del', 'method' => 'delete', 'style'=>'display:inline']) }}
                     <button class="btn btn-danger btn-delete pull-left" type="submit">Yes</button>
                     {{ Form::close() }}
                     <a data-dismiss="modal" class="btn btn-default pull-right" >No</a>
@@ -202,7 +202,7 @@
     var table = $('#dt_ajax').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ route(config('core.adminRoute').'.crud.index') }}",
+        "ajax": "{{ route('developer.cruds.index') }}",
         "columns": [
             {data: 'id', name: 'id', className: 'text-center'},
             {data: 'id', name: 'id', className: 'text-center'},
@@ -315,7 +315,7 @@
         $("#crud-form-del").attr("action", $url.replace("/0", "/" + crud_id));
         $("#delModal").modal('show');
         $.ajax({
-            url: "{{ url(config('core.adminRoute') . '/get_crud_files/') }}/" + crud_id,
+            url: "{{ url('developer/get_crud_files/') }}/" + crud_id,
             type: "POST",
             beforeSend: function() {
                 $("#crudDeleteFiles").html('<center><i class="fa fa-refresh fa-spin"></i></center>');

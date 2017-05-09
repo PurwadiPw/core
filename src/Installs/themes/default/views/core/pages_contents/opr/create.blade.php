@@ -1,4 +1,4 @@
-{!! Form::open(['route' => config('core.adminRoute').'.core_pages_contents.store', 'class' => 'smart-form', 'id' => 'pages-add-form']) !!}
+{!! Form::open(['route' => 'content.pages_contents.store', 'class' => 'smart-form', 'id' => 'pages-add-form']) !!}
     <fieldset>
         <div class="row">
             <section class="col col-6">
@@ -76,7 +76,7 @@
         ]
     });
     $('#page').change(function() {
-        $.get("{{ url(config('core.adminRoute').'/core_pages_contents_page_ajax')}}", {
+        $.get("{{ url('content/pages_contents_page_ajax')}}", {
             option: $(this).val()
         }, function(data) {
             console.log(data.data);

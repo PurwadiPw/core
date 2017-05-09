@@ -6,7 +6,7 @@
  * Time: 10:51
  */
 
-namespace Pw\Core\Controllers;
+namespace App\Modules\Developer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class CrudController extends Controller
         if ($req->ajax()){
             return Datatables::of($cruds)
                 ->addColumn('name', function ($crud){
-                    return '<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'">'.$crud->name.'</a>';
+                    return '<a href="'.url('developer/cruds/'.$crud->id).'">'.$crud->name.'</a>';
                 })
                 ->addColumn('module', function($crud){
                     $module = Module::where('slug', $crud->module);
@@ -57,9 +57,9 @@ class CrudController extends Controller
                 })
                 ->addColumn('action', function($crud){
                     return '
-						<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'#fields" class="btn btn-primary btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>
-						<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'#access" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-key"></i></a>
-						<a href="'.url(config('core.adminRoute') . '/crud/'.$crud->id).'#sort" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-sort"></i></a>
+						<a href="'.url('developer/cruds/'.$crud->id).'#fields" class="btn btn-primary btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>
+						<a href="'.url('developer/cruds/'.$crud->id).'#access" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-key"></i></a>
+						<a href="'.url('developer/cruds/'.$crud->id).'#sort" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-sort"></i></a>
 						<a class="btn btn-danger btn-xs" onClick="actCrud('.kutip().$crud->id.kutip().', '.kutip().$crud->name.kutip().')" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>
                     ';
                 })
@@ -222,7 +222,7 @@ class CrudController extends Controller
         $crud->delete();
 
         $cruds = Crud::all();
-        return redirect()->route(config('core.adminRoute') . '.crud.index', ['cruds' => $cruds]);
+        return redirect()->route('developer.cruds.index', ['cruds' => $cruds]);
     }
 
     /**
@@ -341,7 +341,7 @@ class CrudController extends Controller
         $crud->view_col=$column_name;
         $crud->save();
 
-        return redirect()->route(config('core.adminRoute') . '.crud.show', [$crud_id]);
+        return redirect()->route('developer.cruds.show', [$crud_id]);
     }
 
     public function save_role_crud_permissions(Request $request, $id)
@@ -415,7 +415,7 @@ class CrudController extends Controller
                 }
             }
         }
-        return redirect(config('core.adminRoute') . '/crud/'.$id."#access");
+        return redirect('developer/cruds/'.$id."#access");
     }
 
     public function save_crud_field_sort(Request $request, $id)

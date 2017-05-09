@@ -26,8 +26,10 @@
                 <select class="form-control" id="menu_type">
                     <option value="0">-- Menu Type --</option>
                     <option value="all">All Menu Type</option>
-                    <option value="backend">Backend</option>
-                    <option value="frontend">Frontend</option>
+                    <option value="module">Module</option>
+                    <option value="crud">Crud</option>
+                    <option value="front">Front</option>
+                    <option value="front-submenu">Front Sub Menu</option>
                 </select>
             </article>
         </div>
@@ -61,9 +63,9 @@
                     <div>
                         <div class="widget-body no-padding">
                             @if(!empty($menuedit))
-                            {!! Form::open(['route' => [config('core.adminRoute').'.core_menus.update', $menuedit->id], 'method'=>'PUT', 'class' => 'smart-form', 'novalidate' => 'novalidate', 'role' => 'form']) !!}
+                            {!! Form::open(['route' => ['developer.menus.update', $menuedit->id], 'method'=>'PUT', 'class' => 'smart-form', 'novalidate' => 'novalidate', 'role' => 'form']) !!}
                             @else
-                            {!! Form::open(['action' => '\Pw\Core\Controllers\MenuController@store', 'method'=>'POST', 'class' => 'smart-form', 'novalidate' => 'novalidte', 'role' => 'form']) !!}
+                            {!! Form::open(['action' => '\App\Modules\Developer\Http\Controllers\MenuController@store', 'method'=>'POST', 'class' => 'smart-form', 'novalidate' => 'novalidte', 'role' => 'form']) !!}
                             @endif
                                 {{ csrf_field() }}
 
@@ -77,6 +79,26 @@
                                                 <option value="crud">Crud</option>
                                                 <option value="front">Front</option>
                                                 <option value="front-submenu">Front Sub Menu</option>
+                                            </select>
+                                        </label>
+                                    </section>
+
+                                    <section id="crud_id" style="display: none;">
+                                        <label class="label">Crud</label>
+                                        <label class="select">
+                                            <select name="crud_id">
+                                                <option value="0">-- Crud --</option>
+                                                @foreach($cruds as $crud)
+                                                    <?php  
+                                                    $slInduk = !empty($crudedit) ? $crudedit->crud_id : '';
+                                                    if ($slInduk == $crud->id) {
+                                                        $sltInduk = 'selected="selected"';
+                                                    }else{
+                                                        $sltInduk = '';
+                                                    }
+                                                    ?>
+                                                    <option value="{{ $crud->id }}" {{ $sltInduk }}>{{ $crud->name }}</option>
+                                                @endforeach
                                             </select>
                                         </label>
                                     </section>
@@ -105,7 +127,7 @@
                                         @endif
                                     </section>
 
-                                    <section id="page">
+                                    <section id="page" style="display: none;">
                                         <label class="label">Page Content</label>
                                         <label class="select">
                                             <select name="page">
@@ -170,41 +192,43 @@
                                         </div>
                                     </section>
 
-                                    <ul id="myTab1" class="nav nav-tabs bordered">
-                                        @foreach(CoreHelper::availableLang() as $locale => $lang)
-                                        <li class="{{ App::getLocale() == $locale ? 'active' : ''}}">
-                                            <a href="#{{ $locale }}" data-toggle="tab">{{ $lang }}</a>
-                                        </li>
-                                        @endforeach
-                                    </ul>
-            
-                                    <div id="myTabContent1" class="tab-content padding-10">
-                                        @foreach(CoreHelper::availableLang() as $locale => $lang)
-                                        <div class="tab-pane fade in {{ App::getLocale() == $locale ? 'active' : ''}}" id="{{ $locale }}">
-                                            <section>
-                                                <label class="input"> 
-                                                    <label>Nama Menu</label>
-                                                    <input id="name" type="text" placeholder="Menu nama ({{ $lang }})" name="{{ $locale }}[name]" value="{{ !empty($menuedit) ? $menuedit->name : old('name') }}">
-                                                    <b class="tooltip tooltip-bottom-right">Nama Menu yang akan di tampilkan</b>
-                                                </label>
-                                                @if ($errors->has('name'))
-                                                    <label id="name-error" class="error" for="name">{{ $errors->first('name') }}</label>
-                                                @endif
-                                            </section>
-                                            
-                                            <section>
-                                                <label class="input"> 
-                                                    <label>Link halaman</label>
-                                                    <input id="url" type="text" placeholder="Link halaman ({{ $lang }})" name="{{ $locale }}[url]" value="{{ !empty($menuedit) ? $menuedit->url : old('url') }}">
-                                                    <b class="tooltip tooltip-bottom-right">Contoh: tentang/visi-misi</b>
-                                                </label>
-                                                @if ($errors->has('url'))
-                                                    <label id="url-error" class="error" for="url">{{ $errors->first('url') }}</label>
-                                                @endif
-                                            </section>
+                                    <section id="menuTitle">
+                                        <ul id="myTab1" class="nav nav-tabs bordered">
+                                            @foreach(CoreHelper::availableLang() as $locale => $lang)
+                                            <li class="{{ App::getLocale() == $locale ? 'active' : ''}}">
+                                                <a href="#{{ $locale }}" data-toggle="tab">{{ $lang }}</a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                
+                                        <div id="myTabContent1" class="tab-content padding-10">
+                                            @foreach(CoreHelper::availableLang() as $locale => $lang)
+                                            <div class="tab-pane fade in {{ App::getLocale() == $locale ? 'active' : ''}}" id="{{ $locale }}">
+                                                <section>
+                                                    <label class="input"> 
+                                                        <label>Nama Menu</label>
+                                                        <input id="name" type="text" placeholder="Menu nama ({{ $lang }})" name="{{ $locale }}[name]" value="{{ !empty($menuedit) ? $menuedit->name : old('name') }}">
+                                                        <b class="tooltip tooltip-bottom-right">Nama Menu yang akan di tampilkan</b>
+                                                    </label>
+                                                    @if ($errors->has('name'))
+                                                        <label id="name-error" class="error" for="name">{{ $errors->first('name') }}</label>
+                                                    @endif
+                                                </section>
+                                                
+                                                <section>
+                                                    <label class="input"> 
+                                                        <label>Link halaman</label>
+                                                        <input id="url" type="text" placeholder="Link halaman ({{ $lang }})" name="{{ $locale }}[url]" value="{{ !empty($menuedit) ? $menuedit->url : old('url') }}">
+                                                        <b class="tooltip tooltip-bottom-right">Contoh: tentang/visi-misi</b>
+                                                    </label>
+                                                    @if ($errors->has('url'))
+                                                        <label id="url-error" class="error" for="url">{{ $errors->first('url') }}</label>
+                                                    @endif
+                                                </section>
+                                            </div>
+                                            @endforeach
                                         </div>
-                                        @endforeach
-                                    </div>
+                                    </section>
 
                                 </fieldset>
                                 <footer>
@@ -226,12 +250,24 @@
 <script src="{{ Theme::asset('default::js/plugin/jquery-nestable/jquery.nestable.min.js') }}"></script>
 <script type="text/javascript">
     $('input[name=icon]').iconpicker();
+
     $('#menu_type').on('change', function() {
         var type = $(this).val();
         if (type == 'all') {
-            window.location.href = "{{ route(config('core.adminRoute').'.core_menus.index') }}";
+            window.location.href = "{{ route('developer.menus.index') }}";
         }else{
-            window.location.href = "{{ route(config('core.adminRoute').'.core_menus.index') }}/?type="+type;
+            window.location.href = "{{ route('developer.menus.index') }}/?type="+type;
+        }
+    });
+
+    $('#type').on('change', function() {
+        var type = $(this).val();
+        if (type == 'crud') {
+            $('#crud_id').show();
+            $('#menuTitle').hide();
+        }else{
+            $('#crud_id').hide();
+            $('#menuTitle').show();
         }
     });
 
@@ -245,7 +281,7 @@
         var data = $('.dd').nestable('serialize');
         $.ajax({
             type: 'POST',
-            url: "{{ url(config('core.adminRoute') . '/core_menus/update_hierarchy') }}",
+            url: "{{ url('developer/menus/update_hierarchy') }}",
             data: {
                 'jsonData': data,
                 '_token': '{{ csrf_token() }}'

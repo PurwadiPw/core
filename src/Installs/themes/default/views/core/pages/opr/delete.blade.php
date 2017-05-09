@@ -1,6 +1,6 @@
 
 <div class="alert alert-warning fade in">
-	{{ Form::open(['route' => [config('core.adminRoute').'.core_pages.destroy', $page->id], 'method' => 'delete', 'class' => 'pull-right', 'id' => 'pages-delete-form', 'style'=>'display:inline']) }}
+	{{ Form::open(['route' => ['developer.pages.destroy', $page->id], 'method' => 'delete', 'class' => 'pull-right', 'id' => 'pages-delete-form', 'style'=>'display:inline']) }}
 		<button class="btn btn-danger btn-xs" id="btn-delete" type="submit">YA</button>
 	{{ Form::close() }}
 	<i class="fa-fw fa fa-warning"></i>

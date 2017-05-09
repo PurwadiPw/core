@@ -1,4 +1,4 @@
-{!! Form::open(['route' => config('core.adminRoute').'.core_pages.store', 'class' => 'smart-form', 'id' => 'pages-add-form']) !!}
+{!! Form::open(['route' => 'developer.pages.store', 'class' => 'smart-form', 'id' => 'pages-add-form']) !!}
     <fieldset>
         <div class="row">
             <section class="col col-6">

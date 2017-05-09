@@ -4,6 +4,12 @@ $module = 'content';
 
 Route::group(['as' => $module.'.', 'prefix' => $module, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], function () {
 
+    /* ================== Page Content Editor ================== */
+    Route::resource('pages_contents', 'PageContentController');
+    Route::get('pages_contents_dt_ajax', 'PageContentController@dtajax');
+    Route::get('pages_contents_page_ajax', 'PageContentController@pageajax');
+    Route::post('pages_contents/openTab', 'PageContentController@openTab');
+
 	/* ================== Uploads ================== */
 	Route::resource('uploads', 'UploadsController');
 	Route::post('upload_files', 'UploadsController@upload_files');

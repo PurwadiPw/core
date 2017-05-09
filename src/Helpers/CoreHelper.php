@@ -263,7 +263,7 @@ class CoreHelper
 
     // CoreHelper::print_menu_editor($menu)
     public static function print_menu_editor($menu) {
-        $editing = \Collective\Html\FormFacade::open(['route' => [config('core.adminRoute').'.core_menus.destroy', $menu->id], 'method' => 'delete', 'style'=>'display:inline']);
+        $editing = \Collective\Html\FormFacade::open(['route' => [config('core.adminRoute').'.menus.destroy', $menu->id], 'method' => 'delete', 'style'=>'display:inline']);
         $editing .= '<button class="btn btn-xs btn-danger pull-right"><i class="fa fa-times"></i></button>';
         $editing .= \Collective\Html\FormFacade::close();
         if($menu->type != "crud") {
@@ -315,7 +315,7 @@ class CoreHelper
             $crud_module = \Pw\Core\Models\Crud::where('name', $crud_name)->first();
             $url = url($crud_module->module . '/' . $menu->url );
         }
-        $str = '<li'.$treeview.' '.$active_str.'><a href="'.$url.'"><i class="fa '.$menu->icon.'"></i> <span>'.CoreHelper::real_crud_name($menu->name).'</span> '.$subviewSign.'</a>';
+        $str = '<li'.$treeview.' '.$active_str.'><a href="'.$url.'"><i class="fa fa-lg fa-fw '.$menu->icon.'"></i> <span>'.CoreHelper::real_crud_name($menu->name).'</span> '.$subviewSign.'</a>';
 
         if(count($childrens)) {
             $str .= '<ul class="treeview-menu">';

@@ -1,4 +1,4 @@
-{!! Form::model($pageedit, ['route' => [config('core.adminRoute').'.core_pages_contents.update', $pageedit->id ], 'method'=>'PUT', 'id' => 'pages-edit-form', 'class' => 'smart-form', 'novalidate' => 'novalidate']) !!}
+{!! Form::model($pageedit, ['route' => ['content.pages_contents.update', $pageedit->id ], 'method'=>'PUT', 'id' => 'pages-edit-form', 'class' => 'smart-form', 'novalidate' => 'novalidate']) !!}
 	<fieldset>
 
         <div class="row">
@@ -88,7 +88,7 @@
         ]
     });
     $('#page').change(function() {
-        $.get("{{ url(config('core.adminRoute').'/core_pages_contents_page_ajax')}}", {
+        $.get("{{ url(config('core.adminRoute').'/pages_contents_page_ajax')}}", {
             option: $(this).val()
         }, function(data) {
             var variable = $('#variable');

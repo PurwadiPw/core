@@ -1,4 +1,4 @@
-{!! Form::model($pageedit, ['route' => [config('core.adminRoute').'.core_pages.update', $pageedit->id ], 'method'=>'PUT', 'id' => 'pages-edit-form', 'class' => 'smart-form', 'novalidate' => 'novalidate']) !!}
+{!! Form::model($pageedit, ['route' => ['developer.pages.update', $pageedit->id ], 'method'=>'PUT', 'id' => 'pages-edit-form', 'class' => 'smart-form', 'novalidate' => 'novalidate']) !!}
 	<fieldset>
         <div class="row">
             <section class="col col-6">

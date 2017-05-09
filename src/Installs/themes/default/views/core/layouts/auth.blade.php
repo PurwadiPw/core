@@ -56,13 +56,9 @@
 <body class="animated fadeInDown">
 
 <header id="header">
-
     <div id="logo-group">
         <span id="logo"> <img src="{{ Theme::asset('default::img/logo.png') }}" alt="SmartAdmin"> </span>
     </div>
-
-    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a href="{{ url('/register') }}" class="btn btn-danger">Create account</a> </span>
-
 </header>
 
 <div id="main" role="main">

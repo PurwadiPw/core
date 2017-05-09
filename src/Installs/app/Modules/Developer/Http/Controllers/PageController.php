@@ -6,7 +6,7 @@
  * Time: 10:49
  */
 
-namespace Pw\Core\Controllers;
+namespace App\Modules\Developer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

@@ -104,7 +104,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::open(['route' => config('core.adminRoute') . '.module.store', 'id' => 'module-add-form', 'class' => 'smart-form']) !!}
+                            {!! Form::open(['route' => 'developer.modules.store', 'id' => 'module-add-form', 'class' => 'smart-form']) !!}
                                 <section>
                                     <label class="label">Module slug</label>
                                     <label class="input"> <i class="icon-append fa fa-cube"></i>
@@ -148,7 +148,7 @@
     $('#dt_ajax').dataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ route(config('core.adminRoute').'.module.index') }}",
+        "ajax": "{{ route('developer.modules.index') }}",
         "columns": [
             {data: 'id', name: 'id', className: 'text-center'},
             {data: 'name', name: 'name'},
@@ -208,7 +208,7 @@
         }, function (ButtonPressed) {
             if (ButtonPressed === "Yes") {
                 $.ajax({
-                    url: "{{ url(config('core.adminRoute') . '/act_module/') }}/" + act + "/" + slug,
+                    url: "{{ url('developer/act_module/') }}/" + act + "/" + slug,
                     type: "POST",
                     headers: {
                         'X-CSRF-Token': '{{ csrf_token() }}'
