@@ -808,13 +808,14 @@ class Crud extends Model
     public static function getDDArray($crud_name)
     {
         $crud = Crud::where('name', $crud_name)->first();
+        $module = Module::where('slug', $crud->module);
         if (isset($crud)) {
-            $model_name = ucfirst(str_singular($crud_name));
+            /*$model_name = ucfirst(str_singular($crud_name));
             if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission") {
                 $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
             } else {
-                $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
-            }
+            }*/
+            $model = "App\\Modules\\" . $module['name'] . "\\Models\\" . ucfirst(str_singular($crud_name));
 
             $result = $model::all();
             $out    = array();
@@ -876,12 +877,12 @@ class Crud extends Model
         $module = Module::where('slug', $crud->module);
 
         if (isset($crud)) {
-            $model_name = ucfirst(str_singular($crud_name));
+            /*$model_name = ucfirst(str_singular($crud_name));
             if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission" || $model_name == "Employee") {
                 $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
             } else {
-                $model = "App\\Modules\\" . $module['name'] . "\\Models\\" . ucfirst(str_singular($crud_name));
-            }
+            }*/
+            $model = "App\\Modules\\" . $module['name'] . "\\Models\\" . ucfirst(str_singular($crud_name));
 
             // Delete if unique rows available which are deleted
             $old_row      = null;
@@ -914,12 +915,12 @@ class Crud extends Model
         $module = Module::where('slug', $crud->module);
 
         if (isset($crud)) {
-            $model_name = ucfirst(str_singular($crud_name));
+            /*$model_name = ucfirst(str_singular($crud_name));
             if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission" || $model_name == "Employee") {
                 $model = "App\\Models\\" . ucfirst(str_singular($crud_name));
             } else {
-                $model = "App\\Modules\\".$module['name']."\\Models\\" . $crud_name;
-            }
+            }*/
+            $model = "App\\Modules\\".$module['name']."\\Models\\" . ucfirst(str_singular($crud_name));
             //$row = new $crud_path;
             $row = $model::find($id);
             $row = Crud::processDBRow($crud, $request, $row);
@@ -994,8 +995,9 @@ class Crud extends Model
     public static function itemCount($crud_name)
     {
         $crud = Crud::get($crud_name);
+        $module = Module::where('slug', $crud->module);
         if (isset($crud)) {
-            $model_name = ucfirst(str_singular($crud_name));
+            /*$model_name = ucfirst(str_singular($crud_name));
             if ($model_name == "User" || $model_name == "Role" || $model_name == "Permission") {
                 if (file_exists(base_path('app/Models/' . $model_name . ".php"))) {
                     $model = "App\\Models\\" . $model_name;
@@ -1010,7 +1012,8 @@ class Crud extends Model
                 } else {
                     return "Tidak ada model";
                 }
-            }
+            }*/
+            $model = "App\\Modules\\" . $module['name'] . "\\Models\\" . ucfirst(str_singular($crud_name));
 
         } else {
             return 0;

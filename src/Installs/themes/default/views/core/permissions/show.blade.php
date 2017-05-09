@@ -38,11 +38,11 @@
 
                 <div class="col-md-1 actions">
                     @core_access("Permissions", "edit")
-                        <a href="{{ url(config('core.adminRoute') . '/permissions/'.$permission->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+                        <a href="{{ url('authorization/permissions/'.$permission->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
                     @endcore_access
                     
                     @core_access("Permissions", "delete")
-                        {{ Form::open(['route' => [config('core.adminRoute') . '.permissions.destroy', $permission->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+                        {{ Form::open(['route' => ['authorization.permissions.destroy', $permission->id], 'method' => 'delete', 'style'=>'display:inline']) }}
                             <button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
                         {{ Form::close() }}
                     @endcore_access

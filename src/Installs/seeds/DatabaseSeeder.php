@@ -8,9 +8,9 @@ use Pw\Core\Models\CrudFieldTypes;
 use Pw\Core\Models\Menu;
 use Pw\Core\Models\CoreConfigs;
 
-use App\Models\Role;
-use App\Models\Permission;
-use App\Models\Department;
+use App\Modules\Authorization\Models\Role;
+use App\Modules\Authorization\Models\Permission;
+use App\Modules\Personel\Models\Department;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,20 +26,40 @@ class DatabaseSeeder extends Seeder
 		
 		// Generating Module Menus
 		$modules = Crud::all();
-		$teamMenu = Menu::create([
-			"name" => "Team",
+		Menu::create([
+			"name" => "Authorization",
+			"url" => "#",
+			"icon" => "fa-shield",
+			"type" => 'module',
+			"parent" => 0,
+			"hierarchy" => 1
+		]);
+		Menu::create([
+			"name" => "Personel",
 			"url" => "#",
 			"icon" => "fa-group",
 			"type" => 'module',
 			"parent" => 0,
 			"hierarchy" => 1
 		]);
+        Menu::create([
+            "name" => "Content",
+            "url" => "#",
+            "icon" => "fa-pencil-square-o",
+            "type" => 'module',
+            "parent" => 0,
+            "hierarchy" => 1
+        ]);
 		foreach ($modules as $module) {
 			$parent = 0;
 			if($module->name != "Backups") {
-				if(in_array($module->name, ["Users", "Departments", "Employees", "Roles", "Permissions"])) {
-					$parent = $teamMenu->id;
-				}
+				if ($module->name == 'Users' || $module->name == 'Roles' || $module->name == 'Permissions') {
+					$parent = 1;
+				}elseif ($module->name == 'Uploads'){
+					$parent = 3;
+				}else{
+				    $parent = 2;
+                }
 				Menu::create([
 					"name" => $module->name,
 					"url" => $module->name_db,

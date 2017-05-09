@@ -14,7 +14,7 @@ class CreateDepartmentsTable extends Migration
      */
     public function up()
     {
-        Crud::generate("authorization", "Departments", 'departments', 'name', 'fa-tags', [
+        Crud::generate("personel", "Departments", 'departments', 'name', 'fa-tags', [
             ["name", "Name", "Name", true, "", 1, 250, true],
             ["tags", "Tags", "Taginput", false, [], 0, 0, false],
             ["color", "Color", "String", false, "", 0, 50, true],

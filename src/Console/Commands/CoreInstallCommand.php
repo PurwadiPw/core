@@ -11,6 +11,7 @@ namespace Pw\Core\Console\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 use Pw\Core\Helpers\CoreHelper;
 use Eloquent;
 use DB;
@@ -34,7 +35,8 @@ class CoreInstallCommand extends Command
     protected $from;
     protected $to;
 
-    var $modelsInstalled = ["User", "Role", "Permission", "Employee", "Department", "Upload", "Organization", "Backup"];
+    var $modelsInstalled = ["Upload", "Backup"];
+    var $moduleInstalled = ["authorization", "personel", "content"];
 
     /**
      * Execute the console command.
@@ -101,6 +103,21 @@ class CoreInstallCommand extends Command
                 ."\n\t gulpfile.js"
                 ."\n\n Silahkan backup file tersebut atau menggunakan git. Apakah anda ingin melanjutkan?", true)) {
 
+                // Modules
+                $this->line("\n".'Menggenerate Modules...');
+                foreach ($this->moduleInstalled as $module) {
+                    if (!file_exists($to."/app/Modules/".ucfirst($module))) {
+                        $command = Artisan::call('make:module', ['slug' => $module, '--quick' => true]);
+                        if ($command == 0) {
+                            $this->line("\n".'Module '.ucfirst($module).' berhasi di generate...');    
+                        }else{
+                            $this->line("\n".'Module '.ucfirst($module).' gagal di generate...');
+                        }
+                    }
+                }
+                Artisan::call('module:optimize');
+                $this->replaceFolder($from."/app/Modules", $to."/app/Modules");
+
                 // Controllers
                 $this->line("\n".'Menggenerate Controllers...');
                 $this->copyFolder($from."/app/Controllers/Auth", $to."/app/Http/Controllers/Auth");
@@ -150,7 +167,8 @@ class CoreInstallCommand extends Command
                     if (file_exists($to.'/app/User.php')){
                         unlink($to.'/app/User.php');
                     }
-                    if($model == "User") {
+                    $this->copyFile($from."/app/Models/".$model.".php", $to."/app/Models/".$model.".php");
+                    /*if($model == "User") {
                         if(CoreHelper::laravel_ver() == 5.4) {
                             $this->copyFile($from."/app/Models/".$model."5.4.php", $to."/app/Models/".$model.".php");
                         } else {
@@ -160,7 +178,7 @@ class CoreInstallCommand extends Command
                         $this->copyFile($from."/app/Models/".$model.".php", $to."/app/Models/".$model.".php");
                     } else {
                         $this->copyFile($from."/app/Models/".$model.".php", $to."/app/Models/".$model.".php");
-                    }
+                    }*/
                 }
 
                 // Menggenerate Uploads / Thumbnails folders di /storage
@@ -264,7 +282,7 @@ class CoreInstallCommand extends Command
                 }
 
                 // Membuat Super Admin User
-                $user = \App\Models\User::where('context_id', "1")->first();
+                $user = \App\Modules\Authorization\Models\User::where('context_id', "1")->first();
                 if(!isset($user['id'])) {
 
                     $this->line('Membuat Super Admin User...');
@@ -275,12 +293,12 @@ class CoreInstallCommand extends Command
                     $data['password'] = bcrypt($this->secret('Super Admin password'));
                     $data['context_id']  = "1";
                     $data['type']  = "Employee";
-                    $user = \App\Models\User::create($data);
+                    $user = \App\Modules\Authorization\Models\User::create($data);
 
                     // TODO: This is Not Standard. Need to find alternative
                     Eloquent::unguard();
 
-                    \App\Models\Employee::create([
+                    \App\Modules\Personel\Models\Employee::create([
                         'name' => $data['name'],
                         'designation' => "Super Admin",
                         'mobile' => "8888888888",
@@ -301,8 +319,8 @@ class CoreInstallCommand extends Command
                 } else {
                     $this->info("Super Admin User '".$user['name']."' sudah ada. ");
                 }
-                // $role = \App\Models\Role::whereName('SUPER_ADMIN')->first();
-                $role = \App\Models\Role::all();
+                // $role = \App\Modules\Authorization\Models\Role::whereName('SUPER_ADMIN')->first();
+                $role = \App\Modules\Authorization\Models\Role::all();
                 foreach ($role as $row) {
                     $user->attachRole($row);
                 }

@@ -20,7 +20,7 @@ use File;
 use Validator;
 use Datatables;
 
-use App\Models\Upload;
+use App\Modules\Content\Models\Upload;
 
 class UploadsController extends Controller
 {

@@ -60,8 +60,8 @@ Jika sudah sudah berhasil mem-publish file vendor, silahkan ubah namespace model
 menjadi
 
 ```php
-'role' => 'App\Models\Role',
-'permission' => 'App\Models\Permission',
+'role' => 'App\Modules\Authorization\Models\Role',
+'permission' => 'App\Modules\Authorization\Models\Permission',
 ``` 
 
 Dan juga silahkan sesuaikan pengaturan yang lainnya.

@@ -107,7 +107,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::open(['action' => '\App\Http\Controllers\Core\PermissionsController@store', 'id' => 'permission-add-form', 'class' => 'smart-form']) !!}
+                            {!! Form::open(['action' => 'PermissionsController@store', 'id' => 'permission-add-form', 'class' => 'smart-form']) !!}
                                 <section>
                                     <label class="input">
                                        @core_input($crud, 'name')
@@ -158,7 +158,7 @@
     $('#dt_ajax').dataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ url(config('core.adminRoute') . '/permission_dt_ajax') }}",
+        "ajax": "{{ url('authorization/permission_dt_ajax') }}",
         "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>"+
         "t"+
         "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",

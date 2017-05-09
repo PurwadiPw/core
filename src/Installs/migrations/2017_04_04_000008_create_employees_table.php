@@ -14,7 +14,7 @@ class CreateEmployeesTable extends Migration
      */
     public function up()
     {
-        Crud::generate("authorization", "Employees", 'employees', 'name', 'fa-group', [
+        Crud::generate("personel", "Employees", 'employees', 'name', 'fa-group', [
             ["name", "Name", "Name", false, "", 5, 250, true],
             ["designation", "Designation", "String", false, "", 0, 50, true],
             ["gender", "Gender", "Radio", false, "Male", 0, 0, true, ["Male","Female"]],

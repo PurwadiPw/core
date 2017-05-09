@@ -53,7 +53,7 @@
                     <!-- widget content -->
                     <div class="widget-body">
                         <div class="col-md-8 col-md-offset-2">
-                            {!! Form::model($permission, ['route' => [config('core.adminRoute') . '.permissions.update', $permission->id ], 'method'=>'PUT', 'id' => 'permission-edit-form']) !!}
+                            {!! Form::model($permission, ['route' => ['authorization.permissions.update', $permission->id ], 'method'=>'PUT', 'id' => 'permission-edit-form']) !!}
                                 @core_form($crud)
                                 
                                 {{--

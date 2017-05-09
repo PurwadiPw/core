@@ -200,7 +200,7 @@ class CoreHelper
 
     // CoreHelper::img($upload_name);
     public static function img($upload_name) {
-        $upload = \App\Models\Upload::where('name', $upload_name)->first();
+        $upload = \App\Modules\Content\Models\Upload::where('name', $upload_name)->first();
         if(isset($upload->id)) {
             return url("files/".$upload->hash.DIRECTORY_SEPARATOR.$upload->name);
         } else {
@@ -210,7 +210,7 @@ class CoreHelper
 
     // CoreHelper::imgSrc($upload_name);
     public static function imgSrc($upload_name, $class = false) {
-        $upload = \App\Models\Upload::where('name', $upload_name)->first();
+        $upload = \App\Modules\Content\Models\Upload::where('name', $upload_name)->first();
         if(isset($upload->id)) {
             $file = url("files/".$upload->hash.DIRECTORY_SEPARATOR.$upload->name);
             return '<img src="'.$file.'" alt="'.$upload->caption.'" class="'.$class.'">';
@@ -311,7 +311,9 @@ class CoreHelper
         if ($menu->url == '#') {
             $url = 'javascript:void(0);';
         }else{
-            $url = url(config("core.adminRoute") . '/' . $menu->url );
+            $crud_name = studly_case($menu->url);
+            $crud_module = \Pw\Core\Models\Crud::where('name', $crud_name)->first();
+            $url = url($crud_module->module . '/' . $menu->url );
         }
         $str = '<li'.$treeview.' '.$active_str.'><a href="'.$url.'"><i class="fa '.$menu->icon.'"></i> <span>'.CoreHelper::real_crud_name($menu->name).'</span> '.$subviewSign.'</a>';
 

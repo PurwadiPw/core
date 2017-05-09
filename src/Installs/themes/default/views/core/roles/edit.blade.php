@@ -55,7 +55,7 @@
 
                         
                         <div class="col-md-8 col-md-offset-2">
-                            {!! Form::model($role, ['route' => [config('core.adminRoute') . '.roles.update', $role->id ], 'method'=>'PUT', 'id' => 'role-edit-form']) !!}
+                            {!! Form::model($role, ['route' => ['authorization.roles.update', $role->id ], 'method'=>'PUT', 'id' => 'role-edit-form']) !!}
                                 @core_input($crud, 'name', null, null, "form-control text-uppercase", ["placeholder" => "Role Name in CAPITAL LETTERS with '_' to JOIN e.g. 'SUPER_ADMIN'"])
                                 @core_input($crud, 'display_name')
                                 @core_input($crud, 'description')

@@ -38,11 +38,11 @@
 
                 <div class="col-md-1 actions">
                     @core_access("Roles", "edit")
-                        <a href="{{ url(config('core.adminRoute') . '/roles/'.$role->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+                        <a href="{{ url('authorization/roles/'.$role->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
                     @endcore_access
                     
                     @core_access("Roles", "delete")
-                        {{ Form::open(['route' => [config('core.adminRoute') . '.roles.destroy', $role->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+                        {{ Form::open(['route' => ['authorization.roles.destroy', $role->id], 'method' => 'delete', 'style'=>'display:inline']) }}
                             <button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
                         {{ Form::close() }}
                     @endcore_access
@@ -182,7 +182,7 @@
                                 </div>  
                                 <!-- <i class="fa fa-circle gray"></i> Invisible <i class="fa fa-circle orange"></i> Read-Only <i class="fa fa-circle green"></i> Write -->
                             </div>
-                            <form action="{{ url(config('core.adminRoute') . '/save_crud_role_permissions/'.$role->id) }}" method="post">
+                            <form action="{{ url('authorization/save_crud_role_permissions/'.$role->id) }}" method="post">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <table class="table table-bordered dataTable no-footer table-access">
                                     <thead>

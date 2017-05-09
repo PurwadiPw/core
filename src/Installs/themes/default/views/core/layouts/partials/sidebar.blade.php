@@ -2,16 +2,24 @@
 
     <!-- User info -->
     <div class="login-info">
-        <span> <!-- User image size is adjusted inside CSS, it should stay as it -->
-
-            <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
-                <img src="{{ Theme::asset('default::img/avatars/sunny.png') }}" alt="me" class="online" />
-                <span>
-                    john.doe
-                </span>
-                <i class="fa fa-angle-down"></i>
-            </a>
-
+        <span>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);" aria-expanded="false">
+                    <img src="{{ Theme::asset('default::img/avatars/sunny.png') }}" alt="{{ Auth::user()->name }}" class="online" />
+                    <span>
+                        {{ Auth::user()->name }} 
+                    </span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ url(config('core.adminRoute').'/employees/'.Auth::user()->id.'#general-info') }}">Profil</a>
+                    </li>
+                    <li>
+                        <a href="{{ url(config('core.adminRoute').'/employees/'.Auth::user()->id.'#setting') }}">Edit Password</a>
+                    </li>
+                </ul>
+            </li>
         </span>
     </div>
     <!-- end user info -->
@@ -44,20 +52,6 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="#" title="Dashboard"><i class="fa fa-lg fa-fw fa-shield"></i> <span class="menu-item-parent">Authorization</span></a>
-                <ul>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/users') }}" title="Users"><span class="menu-item-parent">Users</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/roles') }}" title="Roles"><span class="menu-item-parent">Roles</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url(config('core.adminRoute').'/permissions') }}" title="Permissions"><span class="menu-item-parent">Permissions</span></a>
-                    </li>
-                </ul>
-            </li>
             <?php
             $menuItems = Pw\Core\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
             ?>
@@ -68,13 +62,13 @@
                     ?>
                     @core_access($temp_crud_obj->id)
                         @if(isset($crud->id) && $crud->name == $menu->name)
-                            <?php //echo CoreHelper::print_menu($menu ,true); ?>
+                            <?php echo CoreHelper::print_menu($menu ,true); ?>
                         @else
-                            <?php //echo CoreHelper::print_menu($menu); ?>
+                            <?php echo CoreHelper::print_menu($menu); ?>
                         @endif
                     @endcore_access
                 @else
-                    <?php //echo CoreHelper::print_menu($menu); ?>
+                    <?php echo CoreHelper::print_menu($menu); ?>
                 @endif
             @endforeach
         </ul>
