@@ -233,7 +233,7 @@ class CodeGenerator
         file_put_contents($routesFile, $md, FILE_APPEND);
     }
 
-    public static function addMenu($config, $comm = null) {
+    public static function addMenu($config, $comm = null, $crud_id = null) {
 
         CoreHelper::log("info", "Appending Menu...", $comm);
         $menu = Menu::whereTranslation('url', $config->singularVar)->first();
@@ -247,6 +247,14 @@ class CodeGenerator
             }
 
             $newMenu = new Menu;
+
+            $crud = Crud::find($crud_id);
+            if (isset($crud->id)) {
+                $newMenu->crud_id = $crud->id;
+            } else {
+                $newMenu->crud_id = 0;
+            }
+            
             $newMenu->icon = 'fa '.$config->fa_icon;
             $newMenu->type = 'crud';
             $newMenu->parent = $id;

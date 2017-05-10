@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $roleCount = \App\Models\Role::count();
+        $roleCount = \App\Modules\Authorization\Models\Role::count();
 		if($roleCount != 0) {
 			if($roleCount != 0) {
 				return Theme::view('home');

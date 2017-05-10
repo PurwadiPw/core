@@ -19,7 +19,7 @@ use Pw\Core\Models\Crud;
 use Pw\Core\Models\CrudFields;
 use Pw\Core\Models\CrudFieldTypes;
 use Pw\Core\Helpers\CodeGenerator;
-use App\Models\Role;
+use App\Modules\Authorization\Models\Role;
 use Schema;
 use Pw\Core\Models\Menu;
 

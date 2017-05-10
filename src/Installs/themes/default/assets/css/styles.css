@@ -85,7 +85,12 @@ hr {
 .table-striped>tbody>tr.selected {
     background-color: #bdbdbd !important;
 }
-
+.form-group {
+  margin-bottom: 15px;
+}
+.panel {
+  margin-bottom: 0;
+}
 .panel.infolist .form-group {
     border-bottom: 1px dashed #e2e4e8;
     padding-bottom: 9px;

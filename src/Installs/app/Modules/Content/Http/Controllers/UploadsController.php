@@ -165,7 +165,7 @@ class UploadsController extends Controller
 				// print_r($file);
 				
 				$folder = storage_path('uploads');
-				$filename = $file->getClientOriginalName();
+				$filename = CoreHelper::fileName('IMG', $file->getClientOriginalExtension());
 	
 				$date_append = date("Y-m-d-His-");
 				$upload_success = Input::file('file')->move($folder, $date_append.$filename);

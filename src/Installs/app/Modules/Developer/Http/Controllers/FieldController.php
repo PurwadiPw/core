@@ -6,7 +6,7 @@
  * Time: 10:56
  */
 
-namespace Pw\Core\Controllers;
+namespace App\Modules\Developer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,6 +18,7 @@ use Pw\Core\Models\Crud;
 use Pw\Core\Models\CrudFields;
 use Pw\Core\Models\CrudFieldTypes;
 use Pw\Core\Helpers\CoreHelper;
+use Theme;
 
 class FieldController extends Controller
 {
@@ -61,14 +62,14 @@ class FieldController extends Controller
         $field_id = CrudFields::createField($request);
 
         // Give Default Full Access to Super Admin
-        $role = \App\Models\Role::where("name", "SUPER_ADMIN")->first();
+        $role = \App\Modules\Authorization\Models\Role::where("name", "SUPER_ADMIN")->first();
         Crud::setDefaultFieldRoleAccess($field_id, $role->id, "full");
         return response()->json([
             'ok' => true,
             'msg' => 'Berhasil'
         ]);
 
-        // return redirect()->route(config('core.adminRoute') . '.cruds.show', [$crud_id]);
+        // return redirect()->route('developer.cruds.show', [$crud_id]);
     }
 
     /**
@@ -104,7 +105,7 @@ class FieldController extends Controller
 
         $tables = CoreHelper::getDBTables([]);
 
-        return view('core.cruds.field_edit', [
+        return Theme::view('default::core.cruds.field_edit', [
             'crud' => $crud,
             'ftypes' => $ftypes,
             'tables' => $tables
@@ -124,7 +125,7 @@ class FieldController extends Controller
 
         CrudFields::updateField($id, $request);
 
-        return redirect()->route(config('core.adminRoute') . '.cruds.show', [$crud_id]);
+        return redirect()->route('developer.cruds.show', [$crud_id]);
     }
 
     /**
@@ -146,7 +147,7 @@ class FieldController extends Controller
 
         // Delete Context
         $field->delete();
-        return redirect()->route(config('core.adminRoute') . '.cruds.show', [$crud->id]);
+        return redirect()->route('developer.cruds.show', [$crud->id]);
     }
 
     /**

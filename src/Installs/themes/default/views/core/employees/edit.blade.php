@@ -68,7 +68,7 @@
                                 <div class="form-group">
                                     <label for="role">Role* :</label>
                                     <select class="form-control" required="1" data-placeholder="Select Role" rel="select2" name="role">
-                                        <?php $roles = App\Models\Role::all(); ?>
+                                        <?php $roles = App\Modules\Authorization\Models\Role::all(); ?>
                                         @foreach($roles as $role)
                                             @if($role->id != 1 || Entrust::hasRole("SUPER_ADMIN"))
                                                 @if($user->hasRole($role->name))

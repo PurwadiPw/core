@@ -295,7 +295,7 @@ class CoreHelper
 
     // CoreHelper::print_menu($menu)
     public static function print_menu($menu, $active = false) {
-        $childrens = \Pw\Core\Models\Menu::where("parent", $menu->id)->orderBy('hierarchy', 'asc')->get();
+        $childrens = \Pw\Core\Models\Menu::where("parent", $menu->id)->where("is_backend", 1)->where("active", 1)->orderBy('hierarchy', 'asc')->get();
 
         $treeview = "";
         $subviewSign = "";

@@ -577,7 +577,7 @@ class CoreFormMaker
 
             // Get Module / Table Name
             $json = str_ireplace("@", "", $json);
-            $table_name = strtolower(str_plural($json));
+            $table_name = strtolower($json);
 
             // Search Module
             $crud = Crud::getByTable($table_name);
@@ -586,8 +586,12 @@ class CoreFormMaker
             } else {
                 // Search Table if no crud found
                 if (Schema::hasTable($table_name)) {
-                    $model = "App\\".ucfirst(str_singular($table_name));
-                    $result = $model::all();
+                    if(file_exists(resource_path('app/Models/' . ucfirst(str_singular($table_name) . ".php")))) {
+                        $model = "App\\Models\\" . ucfirst(str_singular($table_name));
+                        $result = $model::all();
+                    } else {
+                        $result = \DB::table($table_name)->get();
+                    }
                     // find view column name
                     $view_col = "";
                     // Check if atleast one record exists
